@@ -1,5 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, FlatList, StyleSheet, View, type ListViewToken } from 'react-native';
+import {
+  AppState,
+  FlatList,
+  Platform,
+  StyleSheet,
+  View,
+  type ListViewToken,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+} from 'react-native';
 
 import { FeedCard } from '@/components/feed-card';
 import { StoryCard } from '@/components/story-card';
@@ -59,7 +68,15 @@ export default function FeedScreen() {
     const first: Page | undefined = viewableItems[0]?.item;
     if (!first) return;
     setActiveId(first.id);
+    // react-native-web has no momentum events, but there viewability only changes once scroll snap settles.
+    if (Platform.OS === 'web' && first.kind === 'card') setSwipedIn(true);
   }).current;
+  // The hint goes once the list settles on a card, so a half swipe that snaps back keeps it.
+  // A slow drag released right on a page boundary has no momentum, so check drag end too.
+  const settle = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const page = e.nativeEvent.contentOffset.y / height;
+    if (page >= 0.99 && Math.abs(page - Math.round(page)) < 0.01) setSwipedIn(true);
+  };
 
   return (
     <View
@@ -96,10 +113,8 @@ export default function FeedScreen() {
           extraData={[activeId, savedIds, answers, revealedIds, swipedIn]}
           viewabilityConfig={viewability}
           onViewableItemsChanged={onViewable}
-          // Only once the list settles on a card, so a half swipe that snaps back keeps the hint.
-          onMomentumScrollEnd={(e) => {
-            if (Math.round(e.nativeEvent.contentOffset.y / height) >= 1) setSwipedIn(true);
-          }}
+          onScrollEndDrag={settle}
+          onMomentumScrollEnd={settle}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
           // stops a hard fling on Android from skipping past the next card.
           pagingEnabled
