@@ -68,7 +68,8 @@ export default function FeedScreen() {
     const first: Page | undefined = viewableItems[0]?.item;
     if (!first) return;
     setActiveId(first.id);
-    // react-native-web has no momentum events, but there viewability only changes once scroll snap settles.
+    // react-native-web has no momentum events, so fall back to viewability there. A half swipe that
+    // snaps back can hide the hint early on web, which is fine since web isn't a launch target.
     if (Platform.OS === 'web' && first.kind === 'card') setSwipedIn(true);
   }).current;
   // The hint goes once the list settles on a card, so a half swipe that snaps back keeps it.
