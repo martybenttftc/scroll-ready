@@ -193,19 +193,22 @@ export function loadCatalog(files: ContentFile[]): Catalog {
   return { skills, cards, problems };
 }
 
-// The feed takes one card from each track in turn, so a big track doesn't bury the rest.
-// Within a skill, cards stay in file order.
+// The feed takes one skill from each track in turn, so a big track doesn't bury the rest.
+// A skill's cards play back to back in file order, so its progress segments fill up one
+// card at a time instead of jumping to another skill after each card.
 export function feedOrder(cards: Card[]): Card[] {
-  const byTrack = new Map<TrackId, Card[]>();
+  const byTrack = new Map<TrackId, Card[][]>();
   for (const card of cards) {
-    const list = byTrack.get(card.track) ?? [];
-    list.push(card);
-    byTrack.set(card.track, list);
+    const skills = byTrack.get(card.track) ?? [];
+    const last = skills[skills.length - 1];
+    if (last && last[0].skill === card.skill) last.push(card);
+    else skills.push([card]);
+    byTrack.set(card.track, skills);
   }
   const queues = [...byTrack.values()];
   const out: Card[] = [];
   for (let i = 0; out.length < cards.length; i++) {
-    for (const q of queues) if (i < q.length) out.push(q[i]);
+    for (const q of queues) if (i < q.length) out.push(...q[i]);
   }
   return out;
 }

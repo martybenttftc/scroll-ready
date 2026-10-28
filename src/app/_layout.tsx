@@ -9,13 +9,15 @@ import {
 import { DarkTheme, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import { Appearance, Platform } from 'react-native';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import AppTabs from '@/components/app-tabs';
 import { AppScheme, Colors } from '@/constants/theme';
 
 SplashScreen.preventAutoHideAsync();
+// A short fade from the plain night-pine splash into the feed.
+SplashScreen.setOptions({ duration: 250, fade: true });
 // Native chrome (tab bar, alerts, share sheet) follows the app's single dark scheme.
 // react-native-web has no setColorScheme.
 if (Platform.OS !== 'web') Appearance.setColorScheme(AppScheme);
@@ -41,12 +43,15 @@ export default function TabLayout() {
     Inter_600SemiBold,
     Inter_700Bold,
   });
-  if (!fontsLoaded && !fontError) return null;
+  const ready = fontsLoaded || fontError !== null;
+  useEffect(() => {
+    if (ready) SplashScreen.hide();
+  }, [ready]);
+  if (!ready) return null;
 
   return (
     <ThemeProvider value={navTheme}>
       <StatusBar style="light" />
-      <AnimatedSplashOverlay />
       <AppTabs />
     </ThemeProvider>
   );
