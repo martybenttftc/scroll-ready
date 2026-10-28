@@ -1,7 +1,7 @@
 import type { Card, Skill, Track } from './types';
 
 // Placeholder seed content so the feed renders. Every card here is a DRAFT:
-// expert-tier cards have no reviewer yet and must not ship until signed off.
+// none has 3 verified sources yet, so none can ship (see ADR 0002).
 
 export const tracks: Track[] = [
   { id: 'fire', title: 'Fire', blurb: 'Light it, keep it, put it out.' },

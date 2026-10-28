@@ -56,14 +56,14 @@ export type Card = {
   seasons?: ('spring' | 'summer' | 'fall' | 'winter')[];
   difficulty: 1 | 2 | 3;
   riskTier: RiskTier;
-  reviewedBy?: string; // "Name, credential". Required before an expert card ships.
-  reviewedOn?: string; // ISO date
+  verifiedOn?: string; // ISO date a reviewer confirmed 3+ sources agree. See ADR 0002.
   sources: Source[];
   isFree: boolean;
   offlineCore: boolean; // always bundled in the app binary
 };
 
+export const MIN_SOURCES_TO_SHIP = 3;
+
 export function isShippable(card: Card): boolean {
-  if (card.riskTier === 'expert') return Boolean(card.reviewedBy && card.reviewedOn);
-  return card.sources.length > 0;
+  return card.sources.length >= MIN_SOURCES_TO_SHIP && Boolean(card.verifiedOn);
 }
