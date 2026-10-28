@@ -97,7 +97,7 @@ export function StoryCard({
             size={14}
             tintColor={Palette.stone}
           />
-          <Text style={styles.hintText}>Swipe up for skills</Text>
+          <Text style={styles.hintText}>{Platform.OS === 'web' ? 'Scroll down for skills' : 'Swipe up for skills'}</Text>
         </View>
       </View>
 
