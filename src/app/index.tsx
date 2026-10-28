@@ -11,9 +11,13 @@ export default function FeedScreen() {
   const theme = useTheme();
   const [height, setHeight] = useState(0);
   const [activeId, setActiveId] = useState(feed[0]?.id);
-  // Lives above the list so a save survives FlatList unmounting off-screen rows.
-  // Not persisted yet: backlog item 8 stores saves on the device.
+  // Per-card state lives above the list so it survives FlatList unmounting
+  // off-screen rows. Not persisted yet: backlog item 8 stores it on the device.
   const [savedIds, setSavedIds] = useState<ReadonlySet<string>>(new Set());
+  const [answers, setAnswers] = useState<Readonly<Record<string, number>>>({});
+  const [revealedIds, setRevealedIds] = useState<ReadonlySet<string>>(new Set());
+  const pick = (id: string, choice: number) => setAnswers((prev) => ({ ...prev, [id]: choice }));
+  const reveal = (id: string) => setRevealedIds((prev) => new Set(prev).add(id));
   const toggleSave = (id: string) =>
     setSavedIds((prev) => {
       const next = new Set(prev);
@@ -44,9 +48,13 @@ export default function FeedScreen() {
               active={item.id === activeId}
               saved={savedIds.has(item.id)}
               onToggleSave={toggleSave}
+              picked={answers[item.id] ?? null}
+              onPick={pick}
+              revealed={revealedIds.has(item.id)}
+              onReveal={reveal}
             />
           )}
-          extraData={[activeId, savedIds]}
+          extraData={[activeId, savedIds, answers, revealedIds]}
           viewabilityConfig={viewability}
           onViewableItemsChanged={onViewable}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
