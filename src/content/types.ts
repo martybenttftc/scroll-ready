@@ -18,7 +18,7 @@ export type TrackId =
 export type CardType = 'tip' | 'step' | 'myth' | 'quiz' | 'scenario' | 'gear' | 'checklist';
 
 // standard: general knowledge. caution: can cause harm if done wrong.
-// expert: must be signed off by a credentialed reviewer before it ships.
+// expert: can seriously hurt someone. Any disagreement between sources blocks it (ADR 0002).
 export type RiskTier = 'standard' | 'caution' | 'expert';
 
 export type Track = {
