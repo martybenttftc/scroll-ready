@@ -42,8 +42,8 @@
     "lint": "expo lint",
     "check:content": "tsx scripts/check-content.ts",
     "typecheck": "tsc --noEmit",
-    "update:preview": "npx eas-cli@latest update --branch preview --environment preview --auto",
-    "update:production": "npm run check:content -- --release && npx eas-cli@latest update --branch production --environment production --auto",
+    "update:preview": "npx eas-cli@26 update --branch preview --environment preview --auto",
+    "update:production": "npm run check:content -- --release && npx eas-cli@26 update --branch production --environment production --auto",
     "eas-build-post-install": "case \"$EAS_BUILD_PROFILE\" in preview|development) ;; *) npm run check:content -- --release ;; esac"
   },
   "private": true
