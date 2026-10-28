@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Rise } from '@/components/rise';
@@ -82,11 +82,15 @@ export function StoryCard({
         </View>
         {/* The story is a new user's first screen, so say that the feed continues below until they've
             swiped in. The row stays mounted and only goes transparent, so the story doesn't jump mid-swipe.
-            Screen readers get their own wording, since they scroll the list with a three-finger swipe. */}
+            Screen readers get their own wording, since VoiceOver scrolls with three fingers and TalkBack with two. */}
         <View
           style={[styles.hint, !showHint && styles.hintGone]}
           accessible={showHint}
-          accessibilityLabel="More skills below. Swipe up with three fingers to continue."
+          accessibilityLabel={Platform.select({
+            ios: 'More skills below. Swipe up with three fingers to continue.',
+            android: 'More skills below. Swipe up with two fingers to continue.',
+            default: 'More skills below.',
+          })}
           accessibilityElementsHidden={!showHint}
           importantForAccessibility={showHint ? 'yes' : 'no-hide-descendants'}>
           <SymbolView

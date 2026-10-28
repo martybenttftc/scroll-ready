@@ -24,7 +24,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 10. **One-question welcome** (if LAUNCH.md decision 5 goes as recommended; otherwise the onboarding quiz). "What do you want to be ready for?" offers 4 to 6 choices, which pick the first tracks. No account.
 11. **Kind streak and daily reminder.** One card counts as a day. A free repair. A quiet note on days 3 and 7. Ask for notification permission after the first save or finished skill. One daily notice that names the day's card, with rotating copy and no loss framing.
 12. **Crash reporting and analytics.** Sentry, plus PostHog without the advertising ID, disclosed, with an opt-out.
-13. **VoiceOver moves between cards.** Accessible next and previous actions on the feed, so the app can claim VoiceOver support on Apple's accessibility labels. The story's swipe hint already tells screen reader users to swipe up with three fingers.
+13. **VoiceOver moves between cards.** Accessible next and previous actions on the feed, so the app can claim VoiceOver support on Apple's accessibility labels. The story's swipe hint already tells VoiceOver and TalkBack users how to scroll on.
 14. **Lint in CI.** Fix the 4 React Compiler errors `expo lint` reports, then add lint to CI.
 15. **Feed polish.** Swiping right inside a skill moves to the next step (from the original backlog). Test with 5 people whether anyone taps the progress segments. If they do, make a tap advance the card or switch to a small "2 of 5".
 
