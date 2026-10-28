@@ -15,7 +15,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 8. Saves and streaks (stored on the device)
 9. Daily notification
 10. Offline core pack
-11. **Blocker for the first production update.** Publish production OTA updates only from CI, after `check:content -- --release`, and keep production-capable `EXPO_TOKEN`s out of local shells. Until then, the gate is the `update:production` script by convention (ADR 0002). The job should also run `eas fingerprint:compare` against the latest production build so an update can't target a runtime no build has. Must land before the first production update.
+11. **Blocker for the first production update.** Publish production OTA updates only from CI, after `check:content -- --release`, and keep production-capable `EXPO_TOKEN`s out of local shells. Until then, the gate is the `update:production` script by convention (ADR 0002). The job should also run `eas fingerprint:compare` against the latest production build so an update can't target a runtime no build has. Publishing from a fresh checkout also keeps gitignored `.env*.local` files out of the bundle. Must land before the first production update.
 
 ## Later
 Widget, share as image, plans, Supabase sync, rating prompt, Android release.
