@@ -66,7 +66,7 @@ Rules are in ADR 0004. In short:
   }
   ```
 - Use federal photos and footage first, then Wikimedia Commons (CC0, CC BY, CC BY-SA), then our own. `sourceUrl` must be the page that states the license. Never use frames from YouTube or stock photos marked editorial only.
-- The picture must show exactly what the card says. AI-generated media (`"aiGenerated": true`) only goes on standard cards outside first aid, wild food, and power.
+- The picture must show exactly what the card says. The verifier sets `media.verifiedBy` (never the drafter), and anyone who swaps the media removes it. AI-generated media (`"aiGenerated": true`) only goes on standard cards outside first aid, wild food, and power.
 - `gearIds` point to items in `src/content/gear.ts`. Wild food cards never link to gear.
 
 ## Commands

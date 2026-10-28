@@ -118,6 +118,9 @@ export type Media = {
   credit: string; // who made it, as the license asks to credit them
   sourceUrl: string; // the page that states the license
   aiGenerated?: boolean; // never on caution or expert cards
+  // Who checked that it shows what the card says and that the license holds. Must differ from
+  // the card's draftedBy, and a card with unchecked media can't ship. Swapping media clears it.
+  verifiedBy?: string;
 };
 
 export type Card = {
@@ -171,6 +174,8 @@ export function shipBlockers(card: Card): string[] {
   if (!card.verifiedOn || !isIsoDate(card.verifiedOn)) blockers.push('no valid verifiedOn date');
   if (!card.verifiedBy) blockers.push('no verifiedBy');
   else if (card.verifiedBy === card.draftedBy) blockers.push('verified by its own drafter');
+  if (card.media && !card.media.verifiedBy) blockers.push('media not verified');
+  else if (card.media && card.media.verifiedBy === card.draftedBy) blockers.push('media verified by its drafter');
   return blockers;
 }
 

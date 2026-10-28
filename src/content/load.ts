@@ -42,7 +42,8 @@ function parseMedia(v: unknown): Media | null {
   if (!isOneOf(MEDIA_LICENSES, v.license) || !isStr(v.credit) || !isHttps(v.sourceUrl)) return null;
   if (v.poster !== undefined && (v.kind !== 'video' || !isHttps(v.poster))) return null;
   if (v.aiGenerated !== undefined && typeof v.aiGenerated !== 'boolean') return null;
-  const known = ['kind', 'url', 'alt', 'poster', 'license', 'credit', 'sourceUrl', 'aiGenerated'];
+  if (v.verifiedBy !== undefined && !isStr(v.verifiedBy)) return null;
+  const known = ['kind', 'url', 'alt', 'poster', 'license', 'credit', 'sourceUrl', 'aiGenerated', 'verifiedBy'];
   if (Object.keys(v).some((k) => !known.includes(k))) return null;
   return {
     kind: v.kind,
@@ -53,6 +54,7 @@ function parseMedia(v: unknown): Media | null {
     sourceUrl: v.sourceUrl,
     ...(isStr(v.poster) && { poster: v.poster }),
     ...(v.aiGenerated === true && { aiGenerated: true }),
+    ...(isStr(v.verifiedBy) && { verifiedBy: v.verifiedBy }),
   };
 }
 

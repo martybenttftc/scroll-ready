@@ -1,3 +1,4 @@
+import { useEvent } from 'expo';
 import { Image } from 'expo-image';
 import { SymbolView } from 'expo-symbols';
 import { useVideoPlayer, VideoView, type VideoPlayer } from 'expo-video';
@@ -9,31 +10,55 @@ import { Palette, Spacing, Type } from '@/constants/theme';
 import { AFFILIATE_DISCLOSURE, gearById } from '@/content/gear';
 import type { Media } from '@/content/types';
 
-// A card's photo or video, with its credit. Video plays inside the app, muted until tapped,
-// and only while its card is on screen. ADR 0004.
-export function CardMedia({ media, active, maxHeight }: { media: Media; active: boolean; maxHeight: number }) {
+// Below this, a picture is too small to teach anything, so the card shows text only.
+const MIN_FRAME_HEIGHT = 120;
+// The slot's margins and up to two credit lines.
+const CHROME_HEIGHT = 2 * Spacing.three + Spacing.one + 2 * 15;
+
+// A card's photo or video, with its credit. It fills whatever height the card's text leaves
+// (a flex slot whose size doesn't depend on what's in it), and hides when that's too small or
+// the file won't load (offline, or a dead link), so the card reads as plain text. ADR 0004.
+export function CardMedia({ media, active }: { media: Media; active: boolean }) {
+  const [slotHeight, setSlotHeight] = useState(0);
+  const [failed, setFailed] = useState(false);
+  const fits = slotHeight >= MIN_FRAME_HEIGHT + CHROME_HEIGHT;
   return (
-    <View style={styles.wrap}>
-      <View style={[styles.frame, { maxHeight }]}>
-        {media.kind === 'video' ? (
-          <CardVideo media={media} active={active} />
-        ) : (
-          <Image
-            source={media.url}
-            accessibilityLabel={media.alt}
-            contentFit="cover"
-            transition={200}
-            style={StyleSheet.absoluteFill}
-          />
-        )}
-      </View>
-      <Text
-        accessibilityRole="link"
-        onPress={() => Linking.openURL(media.sourceUrl).catch(() => {})}
-        style={styles.credit}
-        numberOfLines={1}>
-        {media.aiGenerated ? 'Illustration (AI-generated)' : media.kind === 'video' ? 'Video' : 'Photo'}: {media.credit}
-      </Text>
+    <View style={styles.slot} onLayout={(e) => setSlotHeight(e.nativeEvent.layout.height)}>
+      {fits && !failed && (
+        <View style={styles.fill}>
+          <View style={styles.frame}>
+            {media.kind === 'photo' ? (
+              <Image
+                source={media.url}
+                accessible
+                accessibilityRole="image"
+                accessibilityLabel={media.alt}
+                contentFit="cover"
+                transition={200}
+                onError={() => setFailed(true)}
+                style={StyleSheet.absoluteFill}
+              />
+            ) : active ? (
+              // Mounted only on the card on screen, so off-screen clips don't buffer, and sound
+              // and play choices reset when the person scrolls away.
+              <CardVideo media={media} onError={() => setFailed(true)} />
+            ) : (
+              media.poster && (
+                <Image source={media.poster} contentFit="cover" style={StyleSheet.absoluteFill} accessible={false} />
+              )
+            )}
+          </View>
+          <Pressable
+            accessibilityRole="link"
+            onPress={() => Linking.openURL(media.sourceUrl).catch(() => {})}
+            hitSlop={{ top: 14, bottom: 14 }}>
+            <Text style={styles.credit} numberOfLines={2}>
+              {media.aiGenerated ? 'Illustration (AI-generated)' : media.kind === 'video' ? 'Video' : 'Photo'}:{' '}
+              {media.credit}
+            </Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
@@ -44,7 +69,7 @@ const setPlayerMuted = (player: VideoPlayer, muted: boolean) => {
   player.muted = muted;
 };
 
-function CardVideo({ media, active }: { media: Media; active: boolean }) {
+function CardVideo({ media, onError }: { media: Media; onError: () => void }) {
   const reduceMotion = useReducedMotion();
   const [muted, setMuted] = useState(true);
   const [started, setStarted] = useState(false);
@@ -53,8 +78,13 @@ function CardVideo({ media, active }: { media: Media; active: boolean }) {
     p.muted = true;
   });
 
+  const { status } = useEvent(player, 'statusChange', { status: player.status });
+  useEffect(() => {
+    if (status === 'error') onError();
+  }, [status, onError]);
+
   // With reduce motion on, nothing moves until the person taps play.
-  const playing = active && (started || !reduceMotion);
+  const playing = started || !reduceMotion;
   useEffect(() => {
     if (playing) player.play();
     else player.pause();
@@ -122,18 +152,27 @@ export function GearLinks({ gearIds }: { gearIds: string[] }) {
           />
         </Pressable>
       ))}
-      {items.some((i) => i.affiliate) && <Text style={styles.credit}>{AFFILIATE_DISCLOSURE}</Text>}
+      {items.some((i) => i.affiliate) && <Text style={styles.disclosure}>{AFFILIATE_DISCLOSURE}</Text>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: {
+  slot: {
+    flex: 1,
+    minHeight: 0,
+    justifyContent: 'center',
+  },
+  fill: {
+    flex: 1,
+    maxHeight: 420,
     gap: Spacing.one,
+    marginVertical: Spacing.three,
   },
   frame: {
+    flex: 1,
+    minHeight: 0,
     width: '100%',
-    aspectRatio: 4 / 3,
     borderRadius: 16,
     overflow: 'hidden',
     backgroundColor: 'rgba(242,236,225,0.06)',
@@ -157,6 +196,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 15,
     color: Palette.ash,
+  },
+  disclosure: {
+    fontFamily: Type.body,
+    fontSize: 13,
+    lineHeight: 18,
+    color: Palette.boneSoft,
   },
   gear: {
     gap: Spacing.two,

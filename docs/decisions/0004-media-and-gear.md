@@ -18,12 +18,12 @@ Text cards teach facts but not technique. A 20-second clip of a bow drill or a p
 - `license` is one of `public-domain`, `cc0`, `cc-by`, `cc-by-sa`, `licensed`, `own`. `sourceUrl` is the page that states the license, so a reviewer can re-check it. The card shows the credit under the media and links to `sourceUrl`.
 - Sources, in order: US federal works (USDA, NPS, Fish and Wildlife, FEMA, NOAA, CDC), Wikimedia Commons under CC0, CC BY, or CC BY-SA, then our own photos and clips, then paid licenses. No stock sites with "editorial only" terms, and no frames grabbed from YouTube.
 - AI-generated media is allowed only on `standard` cards outside the expert tracks, and the credit says it's AI-generated. `npm run check:content` enforces this.
-- The verifier checks media like a claim: the picture shows what the card says, and the license page says what `license` says. On wild food cards a photo is never the basis for eating anything, and the card text still says so.
+- The verifier checks media like a claim: the picture shows what the card says, and the license page says what `license` says. They record it in `media.verifiedBy`, which must differ from the card's `draftedBy`. A card with unchecked media fails `--release`, and whoever swaps a card's media removes `verifiedBy`. On wild food cards a photo is never the basis for eating anything, and the card text still says so.
 
 ### Video plays in the app
-- `expo-video` (included in Expo Go) plays `.mp4` or HLS `.m3u8`. A clip plays muted and looped only while its card is on screen, and a tap turns sound on. With reduce motion on, nothing plays until tapped.
+- `expo-video` (included in Expo Go) plays `.mp4` or HLS `.m3u8`. The player mounts only on the card on screen, so off-screen clips don't download. A clip plays muted and looped, a tap turns sound on, and scrolling away resets both. With reduce motion on, nothing plays until tapped.
 - Clips are hosted on Cloudflare Stream: $5 per month per 1,000 minutes stored and $1 per 1,000 minutes watched, with no bandwidth fees. 200 one-minute clips watched 100,000 times a month is about $101 a month. Mux is the fallback if we need its analytics.
-- Media loads over the network and expo-image caches photos on disk. Offline-core cards must still make sense with no media, because a card with no signal shows only its text.
+- Media loads over the network and expo-image caches photos on disk. Media that fails to load, or doesn't fit the space the text leaves, is hidden, so offline-core cards must make sense with no media.
 
 ### Gear links
 - Gear lives in `src/content/gear.ts` (`id`, `name`, `why`, `url`, `affiliate`), and cards point to it with `gearIds`. The check fails on an unknown id, and wild food cards never link to gear.
