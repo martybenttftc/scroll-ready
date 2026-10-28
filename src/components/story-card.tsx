@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Rise } from '@/components/rise';
@@ -10,7 +10,17 @@ import { kindLabel, type Story } from '@/content/stories';
 import { independentSourceCount, isShippable } from '@/content/types';
 
 // The first page of the feed: today's story, with a tap to read it in full. ADR 0005.
-export function StoryCard({ story, height, active }: { story: Story; height: number; active: boolean }) {
+export function StoryCard({
+  story,
+  height,
+  active,
+  showHint,
+}: {
+  story: Story;
+  height: number;
+  active: boolean;
+  showHint: boolean;
+}) {
   const insets = useSafeAreaInsets();
   const [reading, setReading] = useState(false);
   const verified = isShippable(story);
@@ -69,6 +79,25 @@ export function StoryCard({ story, height, active }: { story: Story; height: num
               ? `Checked against ${sourceCount} independent sources`
               : `Draft · ${sourceCount} ${sourceCount === 1 ? 'source' : 'sources'}`}
           </Text>
+        </View>
+        {/* The story is a new user's first screen, so say that the feed continues below until they've
+            swiped in. The row stays mounted and only goes transparent, so the story doesn't jump mid-swipe.
+            Screen readers get their own wording, since VoiceOver scrolls with three fingers and TalkBack with two.
+            Web reads the visible text, which says scroll down instead of swipe up. */}
+        <View
+          style={[styles.hint, !showHint && styles.hintGone]}
+          accessible={Platform.OS !== 'web' && showHint}
+          accessibilityLabel={Platform.select({
+            ios: 'More skills below. Swipe up with three fingers to continue.',
+            android: 'More skills below. Swipe up with two fingers to continue.',
+          })}
+          aria-hidden={!showHint}>
+          <SymbolView
+            name={{ ios: 'chevron.up', android: 'keyboard_arrow_up', web: 'keyboard_arrow_down' }}
+            size={14}
+            tintColor={Palette.stone}
+          />
+          <Text style={styles.hintText}>{Platform.OS === 'web' ? 'Scroll down for skills' : 'Swipe up for skills'}</Text>
         </View>
       </View>
 
@@ -134,6 +163,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.two,
     minHeight: 44,
+  },
+  hint: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.one,
+  },
+  hintGone: {
+    opacity: 0,
+  },
+  hintText: {
+    fontFamily: Type.bodyMedium,
+    fontSize: 13,
+    color: Palette.stone,
   },
   trustText: {
     fontFamily: Type.bodyMedium,

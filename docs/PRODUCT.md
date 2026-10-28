@@ -16,6 +16,8 @@ Stop doomscrolling. Start skill-scrolling. Learn one survival skill a day in two
 Theme → Track → Skill → Card. Types are in `src/content/types.ts`, themes and tracks in `src/content/taxonomy.ts`, and cards in `content/<track>/<skill>.json`. There are 9 themes and 48 tracks. The target is about 1,000 verified cards at launch and about 5,000 in the first year (ADR 0003).
 
 ## MVP (v1.0)
+The launch plan in `docs/LAUNCH.md` proposes a smaller v1.0: free, with no account and a one-question welcome, while the subscription, Go Deeper, and the Readiness Score move to v1.1. Marcus hasn't decided yet. Until he does, this list stands, and `docs/BACKLOG.md` follows the recommendations only provisionally.
+
 - Onboarding quiz, Readiness Score, and a paywall with a close button (RevenueCat)
 - Feed with all 7 card types, plus the Go Deeper sheet
 - Learn: 12 tracks and 4 plans

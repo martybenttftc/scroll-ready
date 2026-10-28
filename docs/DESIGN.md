@@ -66,5 +66,5 @@ Values live in `Motion` in `src/constants/theme.ts`.
 
 ## Next
 - App icon and splash in the new palette (needs a logo direction for Marcus).
-- Streak and daily goal ring once saves and streaks land (backlog item 8). The mockup shows the target.
+- Streak and daily goal ring once saves and streaks land (the "Saves that last" and "Kind streak" backlog items). The mockup shows the target.
 - Onboarding quiz and Readiness Score screens, researched first by the UX researcher.

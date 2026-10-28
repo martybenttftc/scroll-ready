@@ -25,6 +25,9 @@ export default function FeedScreen() {
     return story ? [{ kind: 'story', id: 'story-of-the-day', story }, ...cardPages] : cardPages;
   }, [day]);
   const [activeId, setActiveId] = useState(pages[0]?.id);
+  // The story's swipe hint goes away once someone has swiped into the feed. Session only
+  // until saves land on the device (the "Saves that last" backlog item), which should remember it too.
+  const [swipedIn, setSwipedIn] = useState(false);
   useEffect(() => {
     // Only after a real trip to the background: iOS also goes inactive and back for
     // Control Center, Face ID, and call banners, and that shouldn't swap the story.
@@ -36,7 +39,7 @@ export default function FeedScreen() {
     return () => sub.remove();
   }, []);
   // Saves, quiz answers, and reveals live above the list so they survive FlatList
-  // unmounting off-screen rows. Not persisted yet: backlog item 8 stores them on the device.
+  // unmounting off-screen rows. Not persisted yet: the "Saves that last" backlog item stores them on the device.
   const [savedIds, setSavedIds] = useState<ReadonlySet<string>>(new Set());
   const [answers, setAnswers] = useState<Readonly<Record<string, number>>>({});
   const [revealedIds, setRevealedIds] = useState<ReadonlySet<string>>(new Set());
@@ -54,7 +57,11 @@ export default function FeedScreen() {
   const viewability = useRef({ itemVisiblePercentThreshold: 60 }).current;
   const onViewable = useRef(({ viewableItems }: { viewableItems: ListViewToken[] }) => {
     const first: Page | undefined = viewableItems[0]?.item;
-    if (first) setActiveId(first.id);
+    if (!first) return;
+    setActiveId(first.id);
+    // Viewability fires for every kind of scroll, including VoiceOver and TalkBack page scrolls and web.
+    // A card past 60% snaps in anyway; only a drag pulled back before release hides the hint early.
+    if (first.kind === 'card') setSwipedIn(true);
   }).current;
 
   return (
@@ -68,7 +75,13 @@ export default function FeedScreen() {
           renderItem={({ item }) =>
             item.kind === 'story' ? (
               // Keyed by story, so a new day's story mounts fresh: any open reader closes and the entrance replays.
-              <StoryCard key={item.story.id} story={item.story} height={height} active={item.id === activeId} />
+              <StoryCard
+                key={item.story.id}
+                story={item.story}
+                height={height}
+                active={item.id === activeId}
+                showHint={!swipedIn}
+              />
             ) : (
               <FeedCard
                 card={item.card}
@@ -83,7 +96,7 @@ export default function FeedScreen() {
               />
             )
           }
-          extraData={[activeId, savedIds, answers, revealedIds]}
+          extraData={[activeId, savedIds, answers, revealedIds, swipedIn]}
           viewabilityConfig={viewability}
           onViewableItemsChanged={onViewable}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
