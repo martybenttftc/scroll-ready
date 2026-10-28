@@ -19,7 +19,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
             Review this pull request as the code-reviewer agent described in .claude/agents/code-reviewer.md.
-            If it changes anything in src/content/, also review it as .claude/agents/content-safety.md.
+            If it changes anything in content/ or src/content/, also review every changed card as .claude/agents/content-safety.md, re-checking its claims against its sources.
             Follow CLAUDE.md and docs/decisions/. Post findings as inline comments, ranked by severity, and a short summary comment.
           # Without allowed tools the review runs but can't post anything.
           claude_args: >-
