@@ -1,0 +1,30 @@
+{
+  "title": "Store a water supply",
+  "cards": [
+    {
+      "id": "water-per-person",
+      "type": "quiz",
+      "headline": "How much water per person per day?",
+      "body": "Plan for drinking and basic sanitation for at least 3 days.",
+      "quiz": {
+        "choices": [
+          "1 quart",
+          "1 gallon",
+          "3 gallons"
+        ],
+        "answerIndex": 1
+      },
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "Ready.gov (FEMA)",
+          "url": "https://www.ready.gov/kit"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

@@ -4,17 +4,17 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BottomTabInset, MaxContentWidth, Palette, Spacing, Type } from '@/constants/theme';
 import { trackStyle } from '@/constants/track-style';
-import { cards, tracks } from '@/content/seed';
+import { cards, themes, tracks } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
 
 // Learn tab: browse tracks like chapters. Skills and plans come next.
 export default function LearnScreen() {
-  const theme = useTheme();
+  const colors = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
     <ScrollView
-      style={{ backgroundColor: theme.background }}
+      style={{ backgroundColor: colors.background }}
       contentContainerStyle={[
         styles.content,
         { paddingTop: insets.top + Spacing.four, paddingBottom: insets.bottom + BottomTabInset + Spacing.four },
@@ -22,39 +22,51 @@ export default function LearnScreen() {
       <Text style={styles.title} accessibilityRole="header">
         Learn
       </Text>
-      <Text style={styles.section}>Tracks</Text>
-      <View style={styles.grid}>
-        {tracks.map((track) => {
-          const look = trackStyle(track.id);
-          const count = cards.filter((c) => c.track === track.id).length;
-          return (
-            <View
-              key={track.id}
-              accessible
-              accessibilityLabel={`${track.title}. ${track.blurb} ${count} ${count === 1 ? 'card' : 'cards'}.`}
-              style={[
-                styles.tile,
-                {
-                  backgroundColor: look.tint,
-                  backgroundImage: `radial-gradient(90% 90% at 100% 0%, ${look.hue}55 0%, ${look.hue}00 70%)`,
-                },
-              ]}>
-              <SymbolView name={look.icon} size={26} tintColor={look.hue} />
-              <View style={styles.tileText}>
-                <Text style={styles.tileTitle} numberOfLines={2}>
-                  {track.title}
-                </Text>
-                <Text style={styles.tileMeta} numberOfLines={2}>
-                  {track.blurb}
-                </Text>
-                <Text style={[styles.tileCount, { color: look.hue }]}>
-                  {count} {count === 1 ? 'card' : 'cards'}
-                </Text>
-              </View>
-            </View>
-          );
-        })}
-      </View>
+      {themes.map((theme) => (
+        <View key={theme.id} style={styles.themeBlock}>
+          <View style={styles.themeHeader}>
+            <Text style={styles.themeTitle} accessibilityRole="header">
+              {theme.title}
+            </Text>
+            <Text style={styles.themeBlurb}>{theme.blurb}</Text>
+          </View>
+          <View style={styles.grid}>
+            {tracks
+              .filter((track) => track.theme === theme.id)
+              .map((track) => {
+                const look = trackStyle(track.id);
+                const count = cards.filter((c) => c.track === track.id).length;
+                const countLabel = count === 0 ? 'Coming soon' : `${count} ${count === 1 ? 'card' : 'cards'}`;
+                return (
+                  <View
+                    key={track.id}
+                    accessible
+                    accessibilityLabel={`${track.title}. ${track.blurb} ${countLabel}.`}
+                    style={[
+                      styles.tile,
+                      {
+                        backgroundColor: look.tint,
+                        backgroundImage: `radial-gradient(90% 90% at 100% 0%, ${look.hue}55 0%, ${look.hue}00 70%)`,
+                      },
+                    ]}>
+                    <SymbolView name={look.icon} size={26} tintColor={look.hue} />
+                    <View style={styles.tileText}>
+                      <Text style={styles.tileTitle} numberOfLines={2}>
+                        {track.title}
+                      </Text>
+                      <Text style={styles.tileMeta} numberOfLines={2}>
+                        {track.blurb}
+                      </Text>
+                      <Text style={[styles.tileCount, { color: count === 0 ? Palette.ash : look.hue }]}>
+                        {countLabel}
+                      </Text>
+                    </View>
+                  </View>
+                );
+              })}
+          </View>
+        </View>
+      ))}
     </ScrollView>
   );
 }
@@ -74,11 +86,23 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     color: Palette.bone,
   },
-  section: {
-    fontFamily: Type.bodyBold,
-    fontSize: 12,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
+  themeBlock: {
+    gap: Spacing.three,
+    marginTop: Spacing.three,
+  },
+  themeHeader: {
+    gap: 2,
+  },
+  themeTitle: {
+    fontFamily: Type.display,
+    fontSize: 22,
+    lineHeight: 28,
+    color: Palette.bone,
+  },
+  themeBlurb: {
+    fontFamily: Type.body,
+    fontSize: 14,
+    lineHeight: 20,
     color: Palette.ash,
   },
   grid: {

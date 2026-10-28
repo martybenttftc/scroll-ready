@@ -29,7 +29,7 @@ Tokens live in `src/constants/theme.ts`. The app runs dark for now so the tab ba
 | Blaze | #FF7A3D | The one accent: primary actions, selected tab, streak |
 | Sage | #5CC9A8 | Right answers, verified badge |
 
-Each track has a hue used for its background glow, chip, and progress (`src/constants/track-style.ts`). Hues are similar in lightness so no track shouts louder than another. Right and wrong answers are never shown by color alone; they always carry a label.
+Each theme has a hue, and a few signature tracks (Fire, Fishing) get their own. The hue drives a track's background glow, chip, icon, and progress, and every track has its own icon (`src/constants/track-style.ts`). Hues are similar in lightness so no track shouts louder than another. Right and wrong answers are never shown by color alone; they always carry a label.
 
 ## Type
 - **Fraunces SemiBold** for headlines, 32 to 36 pt. A soft serif reads as a field journal, not a warning sign.

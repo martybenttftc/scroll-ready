@@ -9,7 +9,7 @@ import { BottomTabInset, Motion, Palette, Spacing, Type } from '@/constants/them
 import { trackGlow, trackStyle } from '@/constants/track-style';
 import type { Card } from '@/content/types';
 import { independentSourceCount, isShippable } from '@/content/types';
-import { skills, tracks } from '@/content/seed';
+import { skills, tracks } from '@/content/catalog';
 
 const typeLabel: Record<Card['type'], string> = {
   tip: 'Tip',

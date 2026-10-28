@@ -1,0 +1,21 @@
+{
+  "title": "Natural navigation",
+  "cards": [
+    {
+      "id": "moss-north-myth",
+      "type": "myth",
+      "headline": "Moss grows on the north side? Unreliable.",
+      "body": "Moss grows wherever it is shady and damp, which can be any side. Use the sun, a watch, or the stars instead.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "US Army FM 21-76, Survival"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

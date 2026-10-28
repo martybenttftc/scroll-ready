@@ -13,7 +13,7 @@ Stop doomscrolling. Start skill-scrolling. Learn one survival skill a day in two
 - **You**: Readiness Score, streak, saved cards, settings, and subscription.
 
 ## Content model
-Track → Skill → Card. Types are in `src/content/types.ts`. There are 12 tracks, and the launch target is about 900 cards.
+Theme → Track → Skill → Card. Types are in `src/content/types.ts`, themes and tracks in `src/content/taxonomy.ts`, and cards in `content/<track>/<skill>.json`. There are 9 themes and 48 tracks. The target is about 1,000 verified cards at launch and about 5,000 in the first year (ADR 0003).
 
 ## MVP (v1.0)
 - Onboarding quiz, Readiness Score, and a paywall with a close button (RevenueCat)

@@ -1,0 +1,21 @@
+{
+  "title": "Fire basics",
+  "cards": [
+    {
+      "id": "fire-triangle",
+      "type": "step",
+      "headline": "Every fire needs heat, fuel, and air",
+      "body": "Gather three piles before you strike anything: tinder (dry, fluffy), kindling (pencil-thin sticks), and fuel (wrist-thick wood). Most failed fires skip the kindling.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "US Army FM 21-76, Survival"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

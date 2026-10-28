@@ -3,14 +3,14 @@ import { FlatList, StyleSheet, View, type ListViewToken } from 'react-native';
 
 import { FeedCard } from '@/components/feed-card';
 import type { Card } from '@/content/types';
-import { cards } from '@/content/seed';
+import { feed } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
 
 // The home feed: one full-screen card per page, swiped vertically.
 export default function FeedScreen() {
   const theme = useTheme();
   const [height, setHeight] = useState(0);
-  const [activeId, setActiveId] = useState(cards[0]?.id);
+  const [activeId, setActiveId] = useState(feed[0]?.id);
 
   // FlatList requires these two to keep the same identity across renders.
   const viewability = useRef({ itemVisiblePercentThreshold: 60 }).current;
@@ -25,7 +25,7 @@ export default function FeedScreen() {
       onLayout={(e) => setHeight(e.nativeEvent.layout.height)}>
       {height > 0 && (
         <FlatList
-          data={cards}
+          data={feed}
           keyExtractor={(c) => c.id}
           renderItem={({ item }) => <FeedCard card={item} height={height} active={item.id === activeId} />}
           extraData={activeId}

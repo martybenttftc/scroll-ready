@@ -11,7 +11,9 @@ Each role is a Claude Code subagent defined in `.claude/agents/`. Opus does the 
 | Product lead | `product-lead.md` | opus | Scope, priorities, the backlog, user stories, what "done" means |
 | Architect | `architect.md` | opus | Data model, app structure, libraries, ADRs in `docs/decisions/` |
 | Mobile engineer | `mobile-engineer.md` | sonnet | Building features in `src/` |
-| Content and safety reviewer | `content-safety.md` | opus | Card accuracy, risk tiers, sources, disclaimers |
+| Curriculum planner | `curriculum-planner.md` | opus | Which skills each track teaches, and their outlines |
+| Card drafter | `card-drafter.md` | sonnet | Drafting cards from outlines, with sources |
+| Content and safety reviewer | `content-safety.md` | opus | Verifying cards against 3+ sources, risk tiers, disclaimers |
 | Code reviewer | `code-reviewer.md` | opus | Reviews every PR for bugs, simplicity, and fit with the ADRs |
 | QA tester | `qa-tester.md` | sonnet | Runs the app, tries to break features, writes tests |
 | Design lead | `design-lead.md` | opus | Brand, type, color, card templates, `docs/DESIGN.md`, signs off UI changes |
@@ -39,6 +41,9 @@ Use this for any choice that's expensive to reverse, such as a new library, a da
 4. The code reviewer and QA tester review the PR. Content-safety joins if the PR touches cards. If the PR changes what the user sees, run `/design-crit` so the design lead and accessibility reviewer check screenshots too.
 5. The engineer fixes what they find. CI must pass: typecheck, lint, tests, and the content check.
 6. Marcus merges. Merging is the only step that requires him.
+
+### Content batch (`/card-batch <track>`)
+The planner outlines skills, the drafter writes cards, and a separate content-safety run verifies them against 3+ sources. One track and about 60 cards per PR. See ADR 0003 and `docs/CONTENT.md`.
 
 ### Weekly retro (`/retro`)
 At the end of each week the team looks at what shipped, what slowed it down, and changes one rule in this file or in `CLAUDE.md`.

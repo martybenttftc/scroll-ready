@@ -1,0 +1,21 @@
+{
+  "title": "Sowing seeds",
+  "cards": [
+    {
+      "id": "seed-depth",
+      "type": "tip",
+      "headline": "Plant seeds two to three times their width deep",
+      "body": "Tiny seeds like lettuce barely get covered. Big seeds like beans go about an inch down. Too deep is the most common reason seeds never come up.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "University extension seed-starting guides"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}
