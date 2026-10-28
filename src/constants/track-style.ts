@@ -61,8 +61,6 @@ const icons: Record<TrackId, SymbolViewProps['name']> = {
   heating: sym('heater.vertical', 'fireplace'),
 };
 
-const fallback = sym('book', 'menu_book');
-
-export function trackIcon(trackId: string): SymbolViewProps['name'] {
-  return icons[trackId as TrackId] ?? fallback;
+export function trackIcon(trackId: TrackId): SymbolViewProps['name'] {
+  return icons[trackId];
 }

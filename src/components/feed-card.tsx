@@ -20,6 +20,16 @@ import type { Card } from '@/content/types';
 import { independentSourceCount, isShippable } from '@/content/types';
 import { skills, tracks } from '@/content/catalog';
 
+const typeLabel: Record<Card['type'], string> = {
+  tip: 'Tip',
+  step: 'Step',
+  myth: 'Myth or fact',
+  quiz: 'Quick quiz',
+  scenario: 'Scenario',
+  gear: 'Gear pick',
+  checklist: 'Checklist',
+};
+
 // Card types that hold back the answer until a tap, so people think first.
 const revealPrompt: Partial<Record<Card['type'], string>> = {
   myth: 'Why? Think, then tap to see',
@@ -60,13 +70,18 @@ export function FeedCard({
   const [showSources, setShowSources] = useState(false);
 
   // The reveal button unmounts on tap, so move screen reader focus to the body it
-  // revealed. Only after a tap, never when an already-revealed row remounts.
+  // revealed. Only after a tap, never when an already-revealed row remounts. Wait
+  // until the fade-in ends: VoiceOver can drop focus sent to a view that is still
+  // mounting at opacity 0.
   const bodyRef = useRef<HostInstance>(null);
   const [focusBody, setFocusBody] = useState(false);
   useEffect(() => {
-    if (!focusBody || !revealed || !bodyRef.current) return;
-    if (Platform.OS !== 'web') AccessibilityInfo.sendAccessibilityEvent(bodyRef.current, 'focus');
-    setFocusBody(false);
+    if (!focusBody || !revealed) return;
+    const timer = setTimeout(() => {
+      setFocusBody(false);
+      if (Platform.OS !== 'web' && bodyRef.current) AccessibilityInfo.sendAccessibilityEvent(bodyRef.current, 'focus');
+    }, Motion.reveal + 50);
+    return () => clearTimeout(timer);
   }, [focusBody, revealed]);
 
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
@@ -76,7 +91,8 @@ export function FeedCard({
   // so nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md).
   // Standard myth cards are a Myth or Fact guess. Caution and expert headlines state the safe
   // answer, so they never become a guessing game (docs/DESIGN.md, Card.verdict).
-  const mythGuess = card.type === 'myth' && card.verdict !== undefined && card.riskTier === 'standard';
+  const mythGuess =
+    card.type === 'myth' && !card.quiz && card.verdict !== undefined && card.riskTier === 'standard';
   const quiz =
     card.quiz ??
     (mythGuess ? { choices: ['Myth', 'Fact'], answerIndex: card.verdict === 'myth' ? 0 : 1 } : undefined);
@@ -124,7 +140,11 @@ export function FeedCard({
             ))}
           </View>
         )}
-        <Text style={styles.chipText} numberOfLines={1}>
+        {/* The card type stays off screen, where the buttons already show it, but screen readers hear it. */}
+        <Text
+          style={styles.trackLabel}
+          numberOfLines={1}
+          accessibilityLabel={[trackTitle, skill?.title, typeLabel[card.type]].filter(Boolean).join(', ')}>
           {[trackTitle, skill?.title].filter(Boolean).join(' · ')}
         </Text>
       </View>
@@ -150,6 +170,7 @@ export function FeedCard({
                       accessibilityRole="button"
                       accessibilityState={{ disabled: answered, selected: picked === i }}
                       accessibilityLabel={mark ? `${choice}, ${mark}` : choice}
+                      accessibilityHint={mythGuess && !answered ? 'Guess whether the headline is a myth or a fact' : undefined}
                       disabled={answered}
                       onPress={() => {
                         onPick(card.id, i);
@@ -336,7 +357,7 @@ const styles = StyleSheet.create({
     height: 3,
     borderRadius: 2,
   },
-  chipText: {
+  trackLabel: {
     fontFamily: Type.bodySemiBold,
     fontSize: 13,
     color: Palette.ash,
