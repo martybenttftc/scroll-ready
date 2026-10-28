@@ -26,8 +26,12 @@ export default function FeedScreen() {
   }, [day]);
   const [activeId, setActiveId] = useState(pages[0]?.id);
   useEffect(() => {
+    // Only after a real trip to the background: iOS also goes inactive and back for
+    // Control Center, Face ID, and call banners, and that shouldn't swap the story.
+    let last = AppState.currentState;
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') setDay(localDayNumber(new Date()));
+      if (state === 'active' && last === 'background') setDay(localDayNumber(new Date()));
+      last = state;
     });
     return () => sub.remove();
   }, []);
