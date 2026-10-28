@@ -63,7 +63,8 @@ export default function FeedScreen() {
           keyExtractor={(p) => p.id}
           renderItem={({ item }) =>
             item.kind === 'story' ? (
-              <StoryCard story={item.story} height={height} active={item.id === activeId} />
+              // Keyed by story, so a new day's story mounts fresh: any open reader closes and the entrance replays.
+              <StoryCard key={item.story.id} story={item.story} height={height} active={item.id === activeId} />
             ) : (
               <FeedCard
                 card={item.card}
