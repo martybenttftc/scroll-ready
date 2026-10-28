@@ -16,14 +16,19 @@ const MIN_FRAME_HEIGHT = 120;
 const CHROME_HEIGHT = 2 * Spacing.three + Spacing.one + 2 * 15;
 
 // A card's photo or video, with its credit. It fills whatever height the card's text leaves
-// (a flex slot whose size doesn't depend on what's in it), and hides when that's too small or
-// the file won't load (offline, or a dead link), so the card reads as plain text. ADR 0004.
+// (a flex slot whose size doesn't depend on what's in it). It stays hidden when that space is too
+// small or the file won't load (offline, or a dead link), so the card reads as plain text. ADR 0004.
 export function CardMedia({ media, active }: { media: Media; active: boolean }) {
-  const [slotHeight, setSlotHeight] = useState(0);
+  // Once media has room, it stays, and shrinks if the text grows (sources opened, an answer
+  // revealed). Hiding it again would drop a playing video back to the start.
+  const [fits, setFits] = useState(false);
   const [failed, setFailed] = useState(false);
-  const fits = slotHeight >= MIN_FRAME_HEIGHT + CHROME_HEIGHT;
   return (
-    <View style={styles.slot} onLayout={(e) => setSlotHeight(e.nativeEvent.layout.height)}>
+    <View
+      style={styles.slot}
+      onLayout={(e) => {
+        if (e.nativeEvent.layout.height >= MIN_FRAME_HEIGHT + CHROME_HEIGHT) setFits(true);
+      }}>
       {fits && !failed && (
         <View style={styles.fill}>
           <View style={styles.frame}>
@@ -162,6 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 0,
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   fill: {
     flex: 1,
