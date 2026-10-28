@@ -34,7 +34,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 16. **Go Deeper and the subscription.** RevenueCat (needs a development build). The paywall shows the billed price and period, the trial terms, a timeline with a Day 5 reminder that actually gets sent, Restore, Terms and Privacy links, and a close button that's visible right away. $39.99 a year with a 7-day trial, or $7.99 a month. It shows after the first finished skill and at Go Deeper taps.
 17. **Readiness Score.** It only goes up and reads "Here's where you're starting".
 18. **Kit tab.** Go-bag and home kit checklists, with gear links that open outside the app.
-19. Widget with the day's card, share as an image (it keeps the 911 line and sources), seasonal packs, Supabase sync, the rating prompt after a finished skill, and the Android release.
+19. Plans (guided multi-track paths, from PRODUCT.md), widget with the day's card, share as an image (it keeps the 911 line and sources), seasonal packs, Supabase sync, the rating prompt after a finished skill, and the Android release.
 
 ## Done
 - Feed snapping and the "Track · Skill" label (PR #1). Design v2 with one accent (PR #13). Story of the day (PR #16). Content pipeline and loader (PR #7).
