@@ -29,7 +29,8 @@ export function FeedCard({ card, height }: { card: Card; height: number }) {
       <ThemedText type="smallBold" themeColor="textSecondary" style={styles.eyebrow}>
         {skill && step > 0
           ? `${trackTitle} · ${skill.title} · ${step} of ${skill.cardIds.length}`
-          : `${trackTitle} · ${typeLabel[card.type]}`}
+          : trackTitle}
+        {card.type === 'step' ? '' : ` · ${typeLabel[card.type]}`}
       </ThemedText>
 
       <ThemedText type="subtitle">{card.headline}</ThemedText>
