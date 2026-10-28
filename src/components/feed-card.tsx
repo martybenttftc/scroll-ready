@@ -27,9 +27,10 @@ const revealPrompt: Partial<Record<Card['type'], string>> = {
   scenario: 'What would you do? Tap to see',
 };
 
-// Android reads the revealed text through accessibilityLiveRegion; iOS needs an announcement.
+// Called only from tap handlers, so scrolling back to an answered card stays quiet.
+// Web isn't a release target, so it has no announcement.
 const announce = (text: string) => {
-  if (Platform.OS === 'ios') AccessibilityInfo.announceForAccessibility(text);
+  if (Platform.OS !== 'web') AccessibilityInfo.announceForAccessibility(text);
 };
 
 export function FeedCard({
@@ -193,7 +194,7 @@ export function FeedCard({
             )}
 
             {bodyHidden ? null : card.quiz ? (
-              <Animated.View entering={enter} style={styles.verdictBox} accessibilityLiveRegion="polite">
+              <Animated.View entering={enter} style={styles.verdictBox}>
                 <Text
                   style={[
                     styles.label,
@@ -206,7 +207,7 @@ export function FeedCard({
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
             ) : prompt ? (
-              <Animated.View entering={enter} accessibilityLiveRegion="polite">
+              <Animated.View entering={enter}>
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
             ) : (
