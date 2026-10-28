@@ -66,8 +66,9 @@ for (const card of cards) {
   if (EXPERT_TRACKS.includes(card.track) && card.riskTier !== 'expert') {
     errors.push(`${at}: cards in the ${card.track} track must be riskTier "expert"`);
   }
-  if (card.track === 'first-aid' && !/\b911\b/.test(text(card))) {
-    errors.push(`${at}: first aid cards must point to calling 911`);
+  // The feed shows only the headline and body, so 911 must be in one of them.
+  if (card.track === 'first-aid' && !/\b911\b/.test(`${card.headline} ${card.body}`)) {
+    errors.push(`${at}: first aid cards must point to calling 911 in the headline or body`);
   }
   const sentences = text(card).split(/(?<=[.!?])\s+/);
   if (sentences.some((s) => /back[\s-]?feed/i.test(s) && !/\bnever\b/i.test(s))) {

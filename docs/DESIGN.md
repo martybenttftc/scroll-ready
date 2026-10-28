@@ -55,7 +55,7 @@ A plain night-pine page with one soft neutral light from the top. From top to bo
 | gear | Product card (later, with Kit). |
 | checklist | Tappable items (later, with Kit). |
 
-First aid cards say to call 911 in their own text (`check:content` enforces it). There's no separate Call 911 button: Marcus found it bad UX.
+First aid cards say to call 911 in their headline or body, the text the feed shows (`check:content` enforces it). There's no separate Call 911 button: Marcus found it bad UX.
 
 ## Motion
 Values live in `Motion` in `src/constants/theme.ts`.
