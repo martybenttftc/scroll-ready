@@ -80,17 +80,19 @@ export function StoryCard({
               : `Draft · ${sourceCount} ${sourceCount === 1 ? 'source' : 'sources'}`}
           </Text>
         </View>
-        {/* The story is a new user's first screen, so say that the feed continues below until they've swiped in. */}
-        {showHint && (
-          <View style={styles.hint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            <SymbolView
-              name={{ ios: 'chevron.up', android: 'keyboard_arrow_up', web: 'keyboard_arrow_up' }}
-              size={14}
-              tintColor={Palette.stone}
-            />
-            <Text style={styles.hintText}>Swipe up for skills</Text>
-          </View>
-        )}
+        {/* The story is a new user's first screen, so say that the feed continues below until they've
+            swiped in. The row stays mounted and only fades, so the story doesn't jump mid-swipe. */}
+        <View
+          style={[styles.hint, !showHint && styles.hintGone]}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants">
+          <SymbolView
+            name={{ ios: 'chevron.up', android: 'keyboard_arrow_up', web: 'keyboard_arrow_up' }}
+            size={14}
+            tintColor={Palette.stone}
+          />
+          <Text style={styles.hintText}>Swipe up for skills</Text>
+        </View>
       </View>
 
       <StoryReader story={story} visible={reading} onClose={() => setReading(false)} />
@@ -161,6 +163,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: Spacing.one,
+  },
+  hintGone: {
+    opacity: 0,
   },
   hintText: {
     fontFamily: Type.bodyMedium,
