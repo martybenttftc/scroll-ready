@@ -29,7 +29,7 @@ Tokens live in `src/constants/theme.ts`. The app runs dark for now so the tab ba
 | Blaze | #FF7A3D | The one accent: primary actions, selected tab, streak |
 | Sage | #5CC9A8 | Right answers, verified badge |
 
-Blaze is the only accent and sage only marks right answers. Tracks don't get their own colors: every track has an icon (`src/constants/track-style.ts`), drawn in ash on Learn (stone when the track has no cards yet). Right and wrong answers are never shown by color alone; they always carry a label.
+Blaze is the only accent and sage only marks right answers. Tracks don't get their own colors: every track has an icon (`src/constants/track-style.ts`), drawn in ash on Learn. Learn lists only tracks that have cards, so the launch app never shows a wall of "Coming soon" tiles. Right and wrong answers are never shown by color alone; they always carry a label.
 
 ## Type
 - **Fraunces SemiBold** for headlines, 32 to 36 pt. A soft serif reads as a field journal, not a warning sign.
