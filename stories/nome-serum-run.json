@@ -1,0 +1,28 @@
+{
+  "kind": "survival",
+  "title": "The dog sled relay that beat diphtheria",
+  "dek": "In 1925, Nome, Alaska needed medicine fast. Twenty dog teams carried it 674 miles through the winter.",
+  "when": "January–February 1925",
+  "where": "Nenana to Nome, Alaska",
+  "paragraphs": [
+    "In January 1925, diphtheria broke out in Nome, Alaska. The town needed antitoxin serum to stop it, and the serum could only travel by train as far as Nenana, 674 miles away.",
+    "So Alaskans organized a relay. Twenty mushers and their dog teams carried the serum from one to the next across the frozen interior, through bitter cold and storms.",
+    "Leonhard Seppala and his lead dog, Togo, ran the longest stretch of the route. Gunnar Kaasen and his lead dog, Balto, ran the final leg into Nome.",
+    "The serum reached Nome in less than six days, and the outbreak was brought under control."
+  ],
+  "takeaway": "In remote places and big disasters, help can take days to arrive. Preparedness starts with what you and your neighbors can do before it gets there.",
+  "track": "disasters",
+  "riskTier": "standard",
+  "draftedBy": "story-drafter, 2026-10-28 batch stories-1",
+  "verifiedBy": "content-safety, 2026-10-28 batch stories-1",
+  "verifiedOn": "2026-10-28",
+  "sources": [
+    { "title": "Smithsonian Magazine: This heroic dog raced across the frozen Alaskan wilderness to deliver life-saving medicine", "url": "https://www.smithsonianmag.com/history/this-heroic-dog-raced-across-the-frozen-alaskan-wilderness-to-deliver-life-saving-medicine-but-his-contributions-were-long-overlooked-180985905/" },
+    { "title": "American Kennel Club: Togo, Siberian husky sled dog hero of 1925", "url": "https://www.akc.org/expert-advice/news/togo-siberian-husky-sled-dog-hero-of-1925/" },
+    { "title": "Central Park Conservancy: From Alaska to Central Park, Balto", "url": "https://www.centralparknyc.org/articles/balto" },
+    { "title": "The Scientist: The sled dogs that stopped an outbreak", "url": "https://www.the-scientist.com/the-sled-dogs-that-stopped-an-outbreak-32260" },
+    { "title": "Sports Illustrated: The 1925 serum run, Togo not Balto", "url": "https://www.si.com/more-sports/2021/01/13/alaska-serum-run-1925-togo-not-balto" },
+    { "title": "Deseret News archives: 100 years ago, sled dogs arrived in Nome with lifesaving medicine", "url": "https://www.deseret.com/utah/2025/02/02/deseret-news-archives-100-years-ago-sled-dogs-arrived-in-nome-alaska-with-lifesaving-medicine/" },
+    { "title": "Mental Floss: 10 things to know about the 1925 serum run to Nome", "url": "https://www.mentalfloss.com/1925-nome-serum-run-facts-history" }
+  ]
+}

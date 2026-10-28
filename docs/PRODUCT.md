@@ -7,7 +7,7 @@ Research on Scroll The Bible: https://claude.ai/artifact/VzGv5vGpsmGTwr1fTn9X11
 Stop doomscrolling. Start skill-scrolling. Learn one survival skill a day in two minutes.
 
 ## Tabs
-- **Feed**: full-screen vertical cards (tip, step, myth, quiz, scenario, gear, checklist). Each card shows its track and step.
+- **Feed**: full-screen vertical cards (tip, step, myth, quiz, scenario, gear, checklist). Each card shows its track and step. The first page is the story of the day, a short true survival or DIY story (ADR 0005).
 - **Learn**: tracks, skills, and plans, with progress.
 - **Kit**: go-bag and home kit checklists, with links to gear.
 - **You**: Readiness Score, streak, saved cards, settings, and subscription.

@@ -1,4 +1,5 @@
 import { feedOrder, loadCatalog, type ContentFile } from './load';
+import { loadStories } from './stories';
 
 export { EXPERT_TRACKS, themes, tracks } from './taxonomy';
 
@@ -13,3 +14,11 @@ if (__DEV__) for (const p of catalog.problems) console.warn(`content: ${p}`);
 export const skills = catalog.skills;
 export const cards = catalog.cards;
 export const feed = feedOrder(catalog.cards);
+
+// Story of the day, one file per story in stories/<id>.json. ADR 0005.
+const storyContext = require.context('../../stories', false, /\.json$/);
+const storyFiles = storyContext.keys().map((path) => ({ path, data: storyContext<unknown>(path) }));
+const storyCatalog = loadStories(storyFiles);
+if (__DEV__) for (const p of storyCatalog.problems) console.warn(`stories: ${p}`);
+
+export const stories = storyCatalog.stories;

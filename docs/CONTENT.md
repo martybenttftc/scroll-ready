@@ -69,6 +69,13 @@ Rules are in ADR 0004. In short:
 - The picture must show exactly what the card says. The verifier sets `media.verifiedBy` (never the drafter), and anyone who swaps the media removes it. AI-generated media (`"aiGenerated": true`) only goes on standard cards outside first aid, wild food, and power.
 - `gearIds` point to items in `src/content/gear.ts`. Wild food cards never link to gear.
 
+## Stories of the day
+- One file per story: `stories/<story-id>.json`. Fields are the `Story` type in `src/content/stories.ts`; see ADR 0005 and any existing story for the shape.
+- Title 8 words or fewer, `dek` 25 words or fewer, `paragraphs` 250 words or fewer in all, `takeaway` 40 words or fewer.
+- True, well-documented events only. Every name, date, number, and place needs 3 independent sources that agree; cut any detail that has fewer. Write in our own words.
+- The takeaway is a reflection that points to a `track`, not new safety advice.
+- Same `draftedBy`, `verifiedBy`, and `verifiedOn` rules as cards. `--release` fails on an unverified story.
+
 ## Commands
 ```bash
 npm run check:content               # validate everything; unverified cards are warnings

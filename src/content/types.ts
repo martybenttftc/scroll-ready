@@ -154,8 +154,11 @@ export type Card = {
 
 export const MIN_SOURCES_TO_SHIP = 3;
 
+// What the ship check reads. Cards and stories (src/content/stories.ts) both have it.
+export type Verifiable = Pick<Card, 'sources' | 'draftedBy' | 'verifiedBy' | 'verifiedOn' | 'media'>;
+
 // Sources count once per site, and a source with no URL can't be re-checked, so it doesn't count.
-export function independentSourceCount(card: Card): number {
+export function independentSourceCount(card: Verifiable): number {
   const hosts = new Set<string>();
   for (const s of card.sources) {
     const host = s.url?.match(/^https?:\/\/(?:www\.)?([^/:?#]+)/i)?.[1];
@@ -167,7 +170,7 @@ export function independentSourceCount(card: Card): number {
 const isIsoDate = (s: string) => /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(Date.parse(s));
 
 // Why a card can't ship yet. Empty means it can. See ADR 0002.
-export function shipBlockers(card: Card): string[] {
+export function shipBlockers(card: Verifiable): string[] {
   const blockers: string[] = [];
   const count = independentSourceCount(card);
   if (count < MIN_SOURCES_TO_SHIP) blockers.push(`${count} of ${MIN_SOURCES_TO_SHIP} independent sources`);
@@ -179,6 +182,6 @@ export function shipBlockers(card: Card): string[] {
   return blockers;
 }
 
-export function isShippable(card: Card): boolean {
+export function isShippable(card: Verifiable): boolean {
   return shipBlockers(card).length === 0;
 }

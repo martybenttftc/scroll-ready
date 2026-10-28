@@ -1,0 +1,28 @@
+{
+  "kind": "diy",
+  "title": "The duct tape fix that saved Apollo 13",
+  "dek": "Three astronauts were breathing in their own carbon dioxide. The fix was built from bags and tape.",
+  "when": "April 1970",
+  "where": "Between Earth and the Moon",
+  "paragraphs": [
+    "Apollo 13 launched for the Moon in April 1970 with Jim Lovell, Jack Swigert, and Fred Haise aboard. On their third day in space, an oxygen tank exploded in the service module. The crew moved into the lunar module, Aquarius, and used it as a lifeboat.",
+    "The lunar module was designed for two people, not three. Its lithium hydroxide canisters, which pull carbon dioxide out of the air, couldn't keep up, and the gas began to build. The command module had spare canisters, but they didn't fit the lunar module's system.",
+    "Engineers on the ground worked out an adapter using only things the crew had on board: plastic bags, a spacesuit hose, and tape.",
+    "It worked. The adapter cleaned the air, and all three astronauts made it home."
+  ],
+  "takeaway": "Improvising works best when you know exactly what you have. Know every item in your kit and what else it can do, and a few supplies become many options.",
+  "track": "go-bag",
+  "riskTier": "standard",
+  "draftedBy": "story-drafter, 2026-10-28 batch stories-1",
+  "verifiedBy": "content-safety, 2026-10-28 batch stories-1",
+  "verifiedOn": "2026-10-28",
+  "sources": [
+    { "title": "NASA: Apollo 13 mission page", "url": "https://www.nasa.gov/missions/apollo/apollo-13/" },
+    { "title": "DLR (German Aerospace Center): A carbon dioxide absorber to the rescue", "url": "https://www.dlr.de/en/images/moon-special/carbon-dioxid-absorber-to-the-rescue" },
+    { "title": "Popular Science: The greatest space hack ever", "url": "https://www.popsci.com/article/technology/greatest-space-hack-ever/" },
+    { "title": "NASA: Apollo 13 mission details", "url": "https://www.nasa.gov/missions/apollo/apollo-13-mission-details/" },
+    { "title": "Smithsonian National Air and Space Museum: Apollo 13", "url": "https://airandspace.si.edu/explore/stories/apollo-missions/apollo-13" },
+    { "title": "History.com: Apollo 13 launches to the moon", "url": "https://www.history.com/this-day-in-history/april-11/apollo-13-launched-to-moon" },
+    { "title": "Live Science: Apollo 13 at 50, how NASA turned near disaster into a 'successful failure'", "url": "https://www.livescience.com/apollo-13-nasa-successful-failure-50th-anniversary.html" }
+  ]
+}

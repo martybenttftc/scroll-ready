@@ -1,0 +1,26 @@
+{
+  "kind": "survival",
+  "title": "Shackleton's whole crew comes home",
+  "dek": "Their ship was crushed by Antarctic ice. In the end, all 28 men were alive.",
+  "when": "1915–1916",
+  "where": "Weddell Sea and South Georgia",
+  "paragraphs": [
+    "In January 1915, Ernest Shackleton's ship Endurance froze into the pack ice of the Weddell Sea. For months the crew of 28 lived aboard while the ice carried them. In October the pressure began crushing the hull, and Shackleton ordered everyone off. The ship sank in November.",
+    "The men camped on the drifting ice for months. In April 1916 they took to three lifeboats. After about a week at sea, they landed on Elephant Island.",
+    "Shackleton and five men then sailed one lifeboat, the James Caird, about 800 miles across the Southern Ocean to South Georgia. Shackleton and two others crossed the island's mountains in 36 hours to reach the whaling station at Stromness.",
+    "Several rescue attempts failed. On August 30, 1916, Shackleton reached Elephant Island aboard the Yelcho. Every man left there was alive."
+  ],
+  "takeaway": "A long emergency is survived through small, steady choices as much as bold ones. Keeping a group calm, fed, and busy is a skill you can practice.",
+  "track": "mindset",
+  "riskTier": "standard",
+  "draftedBy": "story-drafter, 2026-10-28 batch stories-1",
+  "verifiedBy": "content-safety, 2026-10-28 batch stories-1",
+  "verifiedOn": "2026-10-28",
+  "sources": [
+    { "title": "Ernest Shackleton, South (1919), Project Gutenberg", "url": "https://www.gutenberg.org/ebooks/5199" },
+    { "title": "PBS NOVA: Shackleton's Voyage of Endurance, timeline", "url": "https://www.pbs.org/wgbh/nova/shackletonexped/1914/timeline.html" },
+    { "title": "Burke Museum: The Endurance expedition", "url": "https://www.burkemuseum.org/static/endurance/expedition2.html" },
+    { "title": "Royal Geographical Society: Shackleton Endurance expedition timeline", "url": "https://www.rgs.org/media/ev4lehtv/wseshackletonexpeditiontimeline.pdf" },
+    { "title": "NBC News: Lost in 1915, Ernest Shackleton's ship Endurance found off coast of Antarctica", "url": "https://www.nbcnews.com/news/world/ernest-shackletons-ship-endurance-antarctica-sea-106-years-1915-rcna19264" }
+  ]
+}
