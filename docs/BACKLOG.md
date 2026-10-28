@@ -16,24 +16,25 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
    - The Apple Developer account is enrolled.
 
    *Status: not started.*
-7. **Release builds leave drafts out.** A production build bundles only verified cards and stories, and still fails on a verified card that is broken. Production OTA updates go out only from CI, after `check:content -- --release`, with `eas fingerprint:compare` against the latest production build and a fresh checkout so `.env*.local` stays out (ADR 0002). **The CI-only update gate must land before the first production update.** *Status: today `--release` fails on any draft. It needs an ADR 0002 amendment.*
+7. **CI-only production updates.** Production OTA updates go out only from CI, after `check:content -- --release`, with `eas fingerprint:compare` against the latest production build and a fresh checkout so `.env*.local` stays out. Production-capable `EXPO_TOKEN`s live only in CI, never in local shells (ADR 0002). **Must land before the first production update.** *Status: today the gate is the `update:production` script, by convention.*
+8. **Release builds leave drafts out.** A production build bundles only verified cards and stories, and still fails on a verified card that is broken. *Status: today `--release` fails on any draft. It needs an ADR 0002 amendment first.*
 
 ## P1: ship with v1.0
-8. **First-session order.** The first skill after the story is a standard-tier myth or quiz. Expert-tier cards start at the second or third skill.
-9. **One-question welcome.** "What do you want to be ready for?" offers 4 to 6 choices, which pick the first tracks. No account.
-10. **Kind streak and daily reminder.** One card counts as a day. A free repair. A quiet note on days 3 and 7. Ask for notification permission after the first save or finished skill. One daily notice that names the day's card, with rotating copy and no loss framing.
-11. **Crash reporting and analytics.** Sentry, plus PostHog without the advertising ID, disclosed, with an opt-out.
-12. **VoiceOver moves between cards.** Accessible next and previous actions on the feed, so the app can claim VoiceOver support on Apple's accessibility labels.
-13. **Lint in CI.** Fix the 4 React Compiler errors `expo lint` reports, then add lint to CI.
-14. **Feed polish.** Swiping right inside a skill moves to the next step (from the original backlog). Test with 5 people whether anyone taps the progress segments. If they do, make a tap advance the card or switch to a small "2 of 5".
+9. **First-session order.** The first skill after the story is a standard-tier myth or quiz. Expert-tier cards start at the second or third skill.
+10. **One-question welcome.** "What do you want to be ready for?" offers 4 to 6 choices, which pick the first tracks. No account.
+11. **Kind streak and daily reminder.** One card counts as a day. A free repair. A quiet note on days 3 and 7. Ask for notification permission after the first save or finished skill. One daily notice that names the day's card, with rotating copy and no loss framing.
+12. **Crash reporting and analytics.** Sentry, plus PostHog without the advertising ID, disclosed, with an opt-out.
+13. **VoiceOver moves between cards.** Accessible next and previous actions on the feed, so the app can claim VoiceOver support on Apple's accessibility labels. Until then, screen reader users get no cue that the feed continues past the story, because the swipe hint is hidden from them.
+14. **Lint in CI.** Fix the 4 React Compiler errors `expo lint` reports, then add lint to CI.
+15. **Feed polish.** Swiping right inside a skill moves to the next step (from the original backlog). Test with 5 people whether anyone taps the progress segments. If they do, make a tap advance the card or switch to a small "2 of 5".
 
 ## P2: v1.1 and later
 "Go Deeper and the subscription" and "Readiness Score" sit here only if Marcus takes LAUNCH.md decisions 1 and 5 as recommended (free v1.0, light onboarding). If he doesn't, they move to P0.
 
-15. **Go Deeper and the subscription.** RevenueCat (needs a development build). The paywall shows the billed price and period, the trial terms, a timeline with a Day 5 reminder that actually gets sent, Restore, Terms and Privacy links, and a close button that's visible right away. $39.99 a year with a 7-day trial, or $7.99 a month. It shows after the first finished skill and at Go Deeper taps.
-16. **Readiness Score.** It only goes up and reads "Here's where you're starting".
-17. **Kit tab.** Go-bag and home kit checklists, with gear links that open outside the app.
-18. Widget with the day's card, share as an image (it keeps the 911 line and sources), seasonal packs, Supabase sync, the rating prompt after a finished skill, and the Android release.
+16. **Go Deeper and the subscription.** RevenueCat (needs a development build). The paywall shows the billed price and period, the trial terms, a timeline with a Day 5 reminder that actually gets sent, Restore, Terms and Privacy links, and a close button that's visible right away. $39.99 a year with a 7-day trial, or $7.99 a month. It shows after the first finished skill and at Go Deeper taps.
+17. **Readiness Score.** It only goes up and reads "Here's where you're starting".
+18. **Kit tab.** Go-bag and home kit checklists, with gear links that open outside the app.
+19. Widget with the day's card, share as an image (it keeps the 911 line and sources), seasonal packs, Supabase sync, the rating prompt after a finished skill, and the Android release.
 
 ## Done
 - Feed snapping and the "Track · Skill" label (PR #1). Design v2 with one accent (PR #13). Story of the day (PR #16). Content pipeline and loader (PR #7).
