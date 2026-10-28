@@ -26,7 +26,7 @@ export default function FeedScreen() {
   }, [day]);
   const [activeId, setActiveId] = useState(pages[0]?.id);
   // The story's swipe hint goes away once someone has swiped into the feed. Session only
-  // until saves land on the device (backlog item 3), which should remember it too.
+  // until saves land on the device (the "Saves that last" backlog item), which should remember it too.
   const [swipedIn, setSwipedIn] = useState(false);
   useEffect(() => {
     // Only after a real trip to the background: iOS also goes inactive and back for
@@ -39,7 +39,7 @@ export default function FeedScreen() {
     return () => sub.remove();
   }, []);
   // Saves, quiz answers, and reveals live above the list so they survive FlatList
-  // unmounting off-screen rows. Not persisted yet: backlog item 8 stores them on the device.
+  // unmounting off-screen rows. Not persisted yet: the "Saves that last" backlog item stores them on the device.
   const [savedIds, setSavedIds] = useState<ReadonlySet<string>>(new Set());
   const [answers, setAnswers] = useState<Readonly<Record<string, number>>>({});
   const [revealedIds, setRevealedIds] = useState<ReadonlySet<string>>(new Set());

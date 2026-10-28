@@ -1,6 +1,6 @@
 # Backlog
 
-The product lead owns the order. Each item lists acceptance criteria and its status. P0 blocks the App Store launch, P1 should ship with v1.0, and P2 can follow. The plan and the reasoning behind this order are in `docs/LAUNCH.md`.
+The product lead owns the order. Each item lists acceptance criteria and its status. P0 blocks the App Store launch, P1 should ship with v1.0, and P2 can follow. The plan and the reasoning behind this order are in `docs/LAUNCH.md`. Refer to items by name, not number, since the order changes.
 
 ## P0: blocks launch
 1. **Content to the launch bar.** 12 launch tracks, each with at least 4 skills and 25 to 35 verified cards (about 350), plus 30 verified stories. The 29 current drafts are verified or cut. Run `/card-batch <track>` per track. *Status: 43 cards (14 verified), 5 stories. The track list waits on Marcus (LAUNCH.md decision 2).*
@@ -16,7 +16,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
    - The Apple Developer account is enrolled.
 
    *Status: not started.*
-7. **Release builds leave drafts out.** A production build bundles only verified cards and stories, and still fails on a verified card that is broken. Production OTA updates go out only from CI, after `check:content -- --release`, with `eas fingerprint:compare` against the latest production build and a fresh checkout so `.env*.local` stays out (ADR 0002). *Status: today `--release` fails on any draft. It needs an ADR 0002 amendment.*
+7. **Release builds leave drafts out.** A production build bundles only verified cards and stories, and still fails on a verified card that is broken. Production OTA updates go out only from CI, after `check:content -- --release`, with `eas fingerprint:compare` against the latest production build and a fresh checkout so `.env*.local` stays out (ADR 0002). **The CI-only update gate must land before the first production update.** *Status: today `--release` fails on any draft. It needs an ADR 0002 amendment.*
 
 ## P1: ship with v1.0
 8. **First-session order.** The first skill after the story is a standard-tier myth or quiz. Expert-tier cards start at the second or third skill.
@@ -28,7 +28,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 14. **Feed polish.** Swiping right inside a skill moves to the next step (from the original backlog). Test with 5 people whether anyone taps the progress segments. If they do, make a tap advance the card or switch to a small "2 of 5".
 
 ## P2: v1.1 and later
-Items 15 and 16 sit here only if Marcus takes LAUNCH.md decisions 1 and 5 as recommended (free v1.0, light onboarding). If he doesn't, they move to P0.
+"Go Deeper and the subscription" and "Readiness Score" sit here only if Marcus takes LAUNCH.md decisions 1 and 5 as recommended (free v1.0, light onboarding). If he doesn't, they move to P0.
 
 15. **Go Deeper and the subscription.** RevenueCat (needs a development build). The paywall shows the billed price and period, the trial terms, a timeline with a Day 5 reminder that actually gets sent, Restore, Terms and Privacy links, and a close button that's visible right away. $39.99 a year with a 7-day trial, or $7.99 a month. It shows after the first finished skill and at Go Deeper taps.
 16. **Readiness Score.** It only goes up and reads "Here's where you're starting".
