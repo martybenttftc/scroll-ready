@@ -110,7 +110,12 @@ for (const item of gear) {
 }
 
 // Story of the day (ADR 0005). Same verification rule as cards.
-const { stories, problems: storyProblems } = loadStories(readFiles(storiesDir));
+// The app bundles only the top level of stories/, so the check reads only that too.
+for (const entry of readdirSync(storiesDir, { withFileTypes: true })) {
+  if (entry.isDirectory()) errors.push(`stories/${entry.name}: stories can't be in subfolders; the app won't load them`);
+}
+const storyFiles = readFiles(storiesDir).filter((f) => !f.path.slice('stories/'.length).includes('/'));
+const { stories, problems: storyProblems } = loadStories(storyFiles);
 errors.push(...storyProblems);
 for (const story of stories) {
   const at = `stories/${story.id}`;

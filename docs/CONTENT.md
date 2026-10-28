@@ -73,7 +73,8 @@ Rules are in ADR 0004. In short:
 - One file per story: `stories/<story-id>.json`. Fields are the `Story` type in `src/content/stories.ts`; see ADR 0005 and any existing story for the shape.
 - Title 8 words or fewer, `dek` 25 words or fewer, `paragraphs` 250 words or fewer in all, `takeaway` 40 words or fewer.
 - True, well-documented events only. Every name, date, number, and place needs 3 independent sources that agree; cut any detail that has fewer. Write in our own words.
-- The takeaway is a reflection that points to a `track`, not new safety advice.
+- The takeaway is a reflection, not new safety advice. Every story names the `track` it points to.
+- Stories are flat files in `stories/`, never in subfolders. They carry no `riskTier`: anything that needs one belongs on a card.
 - Same `draftedBy`, `verifiedBy`, and `verifiedOn` rules as cards. `--release` fails on an unverified story.
 
 ## Commands
