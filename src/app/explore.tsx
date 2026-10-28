@@ -43,7 +43,7 @@ export default function LearnScreen() {
                     accessible
                     accessibilityLabel={`${track.title}. ${track.blurb} ${countLabel}.`}
                     style={styles.tile}>
-                    <SymbolView name={icon} size={24} tintColor={count === 0 ? Palette.stone : Palette.blaze} />
+                    <SymbolView name={icon} size={24} tintColor={count === 0 ? Palette.stone : Palette.ash} />
                     <View style={styles.tileText}>
                       <Text style={styles.tileTitle} numberOfLines={2}>
                         {track.title}
