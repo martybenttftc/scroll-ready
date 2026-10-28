@@ -4,6 +4,7 @@ import { AccessibilityInfo, Linking, Platform, Pressable, Share, StyleSheet, Tex
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { CardMedia, GearLinks } from '@/components/card-media';
 import { Rise } from '@/components/rise';
 import { BottomTabInset, Motion, Palette, Spacing, Type } from '@/constants/theme';
 import { trackGlow, trackStyle } from '@/constants/track-style';
@@ -127,6 +128,11 @@ export function FeedCard({
       <View style={styles.bottom}>
         <View style={styles.row}>
           <View style={styles.content}>
+            {card.media && (
+              <Rise active={active} order={0}>
+                <CardMedia media={card.media} active={active} maxHeight={height * 0.32} />
+              </Rise>
+            )}
             {card.type === 'step' && step > 0 && (
               <Rise active={active} order={0}>
                 <Text style={[styles.stepNumber, { color: `${look.hue}59` }]} accessible={false}>
@@ -235,6 +241,8 @@ export function FeedCard({
                 <Text style={styles.emergencyText}>Emergency? Call 911 first.</Text>
               </Pressable>
             )}
+
+            {card.gearIds && !bodyHidden && <GearLinks gearIds={card.gearIds} />}
           </View>
 
           <View style={styles.rail}>

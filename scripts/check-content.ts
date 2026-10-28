@@ -4,6 +4,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
+import { gear, gearById } from '../src/content/gear';
 import { loadCatalog, type ContentFile } from '../src/content/load';
 import { EXPERT_TRACKS, themes, tracks } from '../src/content/taxonomy';
 import { isShippable, shipBlockers } from '../src/content/types';
@@ -73,8 +74,33 @@ for (const card of cards) {
     errors.push(`${at}: mentions backfeeding without saying never in the same sentence`);
   }
 
+  // Photos, videos, and gear links. ADR 0004.
+  if (card.media?.aiGenerated && (card.riskTier !== 'standard' || EXPERT_TRACKS.includes(card.track))) {
+    errors.push(`${at}: AI-generated media only goes on standard cards outside expert tracks`);
+  }
+  if (card.media && ['cc-by', 'cc-by-sa'].includes(card.media.license) && /^(unknown|n\/?a)$/i.test(card.media.credit.trim())) {
+    errors.push(`${at}: ${card.media.license} media must credit its author`);
+  }
+  for (const id of card.gearIds ?? []) {
+    if (!gearById.has(id)) errors.push(`${at}: unknown gearId "${id}" (add it to src/content/gear.ts)`);
+  }
+  if (card.gearIds?.length && card.track === 'wild-food') {
+    errors.push(`${at}: wild food cards don't link to gear`);
+  }
+
   const blockers = shipBlockers(card);
   if (blockers.length) (release ? errors : warnings).push(`${at}: not verified (${blockers.join(', ')})`);
+}
+
+const gearIds = new Set<string>();
+for (const item of gear) {
+  const at = `gear "${item.id}"`;
+  if (gearIds.has(item.id)) errors.push(`${at}: duplicate id`);
+  gearIds.add(item.id);
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(item.id)) errors.push(`${at}: id must be kebab-case`);
+  if (!/^https:\/\//.test(item.url)) errors.push(`${at}: url must be https`);
+  if (words(item.why) > 15) errors.push(`${at}: why over 15 words`);
+  if (!cards.some((c) => c.gearIds?.includes(item.id))) warnings.push(`${at}: no card links to it`);
 }
 
 for (const skill of skills) {

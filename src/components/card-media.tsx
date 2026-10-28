@@ -1,0 +1,190 @@
+import { Image } from 'expo-image';
+import { SymbolView } from 'expo-symbols';
+import { useVideoPlayer, VideoView, type VideoPlayer } from 'expo-video';
+import { useEffect, useState } from 'react';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useReducedMotion } from 'react-native-reanimated';
+
+import { Palette, Spacing, Type } from '@/constants/theme';
+import { AFFILIATE_DISCLOSURE, gearById } from '@/content/gear';
+import type { Media } from '@/content/types';
+
+// A card's photo or video, with its credit. Video plays inside the app, muted until tapped,
+// and only while its card is on screen. ADR 0004.
+export function CardMedia({ media, active, maxHeight }: { media: Media; active: boolean; maxHeight: number }) {
+  return (
+    <View style={styles.wrap}>
+      <View style={[styles.frame, { maxHeight }]}>
+        {media.kind === 'video' ? (
+          <CardVideo media={media} active={active} />
+        ) : (
+          <Image
+            source={media.url}
+            accessibilityLabel={media.alt}
+            contentFit="cover"
+            transition={200}
+            style={StyleSheet.absoluteFill}
+          />
+        )}
+      </View>
+      <Text
+        accessibilityRole="link"
+        onPress={() => Linking.openURL(media.sourceUrl).catch(() => {})}
+        style={styles.credit}
+        numberOfLines={1}>
+        {media.aiGenerated ? 'Illustration (AI-generated)' : media.kind === 'video' ? 'Video' : 'Photo'}: {media.credit}
+      </Text>
+    </View>
+  );
+}
+
+// The player is a native object, not React state. Setting it here keeps the React Compiler
+// from treating the hook's return value as frozen.
+const setPlayerMuted = (player: VideoPlayer, muted: boolean) => {
+  player.muted = muted;
+};
+
+function CardVideo({ media, active }: { media: Media; active: boolean }) {
+  const reduceMotion = useReducedMotion();
+  const [muted, setMuted] = useState(true);
+  const [started, setStarted] = useState(false);
+  const player = useVideoPlayer(media.url, (p) => {
+    p.loop = true;
+    p.muted = true;
+  });
+
+  // With reduce motion on, nothing moves until the person taps play.
+  const playing = active && (started || !reduceMotion);
+  useEffect(() => {
+    if (playing) player.play();
+    else player.pause();
+  }, [player, playing]);
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${media.alt}. ${!playing ? 'Play' : muted ? 'Turn sound on' : 'Turn sound off'}`}
+      onPress={() => {
+        if (!playing) return setStarted(true);
+        setPlayerMuted(player, !muted);
+        setMuted(!muted);
+      }}
+      style={StyleSheet.absoluteFill}>
+      {media.poster && !playing && (
+        <Image source={media.poster} contentFit="cover" style={StyleSheet.absoluteFill} accessible={false} />
+      )}
+      <VideoView
+        player={player}
+        nativeControls={false}
+        contentFit="cover"
+        style={[StyleSheet.absoluteFill, !playing && media.poster ? styles.hidden : undefined]}
+        pointerEvents="none"
+      />
+      <View style={styles.badge} pointerEvents="none">
+        <SymbolView
+          name={
+            !playing
+              ? { ios: 'play.fill', android: 'play_arrow', web: 'play_arrow' }
+              : muted
+                ? { ios: 'speaker.slash.fill', android: 'volume_off', web: 'volume_off' }
+                : { ios: 'speaker.wave.2.fill', android: 'volume_up', web: 'volume_up' }
+          }
+          size={16}
+          tintColor={Palette.bone}
+        />
+      </View>
+    </Pressable>
+  );
+}
+
+// Gear for this card. Links leave the app for the store (Amazon doesn't allow its pages inside apps).
+export function GearLinks({ gearIds }: { gearIds: string[] }) {
+  const items = gearIds.flatMap((id) => gearById.get(id) ?? []);
+  if (items.length === 0) return null;
+  return (
+    <View style={styles.gear}>
+      {items.map((item) => (
+        <Pressable
+          key={item.id}
+          accessibilityRole="link"
+          accessibilityHint="Opens the store outside the app"
+          onPress={() => Linking.openURL(item.url).catch(() => {})}
+          style={({ pressed }) => [styles.gearRow, pressed && styles.pressed]}>
+          <SymbolView name={{ ios: 'bag', android: 'shopping_bag', web: 'shopping_bag' }} size={16} tintColor={Palette.bone} />
+          <View style={styles.gearText}>
+            <Text style={styles.gearName}>{item.name}</Text>
+            <Text style={styles.gearWhy}>{item.why}</Text>
+          </View>
+          <SymbolView
+            name={{ ios: 'arrow.up.right', android: 'open_in_new', web: 'open_in_new' }}
+            size={13}
+            tintColor={Palette.ash}
+          />
+        </Pressable>
+      ))}
+      {items.some((i) => i.affiliate) && <Text style={styles.credit}>{AFFILIATE_DISCLOSURE}</Text>}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  wrap: {
+    gap: Spacing.one,
+  },
+  frame: {
+    width: '100%',
+    aspectRatio: 4 / 3,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(242,236,225,0.06)',
+  },
+  hidden: {
+    opacity: 0,
+  },
+  badge: {
+    position: 'absolute',
+    right: Spacing.two,
+    bottom: Spacing.two,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+  },
+  credit: {
+    fontFamily: Type.body,
+    fontSize: 11,
+    lineHeight: 15,
+    color: Palette.ash,
+  },
+  gear: {
+    gap: Spacing.two,
+  },
+  gearRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    minHeight: 48,
+    paddingHorizontal: 14,
+    paddingVertical: Spacing.two,
+    borderRadius: 14,
+    backgroundColor: 'rgba(242,236,225,0.06)',
+  },
+  gearText: {
+    flex: 1,
+  },
+  gearName: {
+    fontFamily: Type.bodySemiBold,
+    fontSize: 15,
+    color: Palette.bone,
+  },
+  gearWhy: {
+    fontFamily: Type.body,
+    fontSize: 13,
+    color: Palette.ash,
+  },
+  pressed: {
+    opacity: 0.7,
+  },
+});
