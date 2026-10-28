@@ -43,7 +43,7 @@
     "check:content": "tsx scripts/check-content.ts",
     "typecheck": "tsc --noEmit",
     "update:preview": "npm run check:content && npx eas-cli@26 update --branch preview --environment preview --auto",
-    "update:production": "test -z \"$(git status --porcelain)\" && test \"$(git rev-parse --abbrev-ref HEAD)\" = main && npm ci && npm run check:content -- --release && npx eas-cli@26 update --branch production --environment production --auto",
+    "update:production": "test -z \"$(git status --porcelain)\" && git fetch -q origin main && test \"$(git rev-parse HEAD)\" = \"$(git rev-parse origin/main)\" && npm ci && npm run check:content -- --release && npx eas-cli@26 update --branch production --environment production --auto",
     "eas-build-post-install": "case \"$EAS_BUILD_PROFILE\" in preview|development) npm run check:content ;; *) npm run check:content -- --release ;; esac"
   },
   "private": true
