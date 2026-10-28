@@ -97,7 +97,9 @@ export function FeedCard({
     card.quiz ??
     (mythGuess ? { choices: ['Myth', 'Fact'], answerIndex: card.verdict === 'myth' ? 0 : 1 } : undefined);
   // Caution and expert myths state the safe answer, so don't call them "Myth or fact".
-  const cardTypeLabel = card.type === 'myth' && !mythGuess ? undefined : typeLabel[card.type];
+  // Step cards already announce their position in the progress segments.
+  const cardTypeLabel =
+    (card.type === 'myth' && !mythGuess) || card.type === 'step' ? undefined : typeLabel[card.type];
   const prompt = quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
   const answer = quiz ? (mythGuess ? `a ${card.verdict}` : quiz.choices[quiz.answerIndex]) : '';
   const bodyHidden = (quiz && picked === null) || (prompt !== undefined && !revealed);
@@ -133,7 +135,7 @@ export function FeedCard({
           <View
             style={styles.segments}
             accessible
-            accessibilityLabel={`${skill.title}, step ${step} of ${skill.cardIds.length}`}>
+            accessibilityLabel={`Step ${step} of ${skill.cardIds.length}`}>
             {skill.cardIds.map((id, i) => (
               <View
                 key={id}
