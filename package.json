@@ -44,7 +44,7 @@
     "typecheck": "tsc --noEmit",
     "update:preview": "npx eas-cli@latest update --branch preview --environment preview --auto",
     "update:production": "npm run check:content -- --release && npx eas-cli@latest update --branch production --environment production --auto",
-    "eas-build-post-install": "if [ \"$EAS_BUILD_PROFILE\" = \"production\" ]; then npm run check:content -- --release; fi"
+    "eas-build-post-install": "case \"$EAS_BUILD_PROFILE\" in preview|development) ;; *) npm run check:content -- --release ;; esac"
   },
   "private": true
 }
