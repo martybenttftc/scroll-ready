@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import type { Card } from '@/content/types';
-import { tracks } from '@/content/seed';
+import { skills, tracks } from '@/content/seed';
 import { useTheme } from '@/hooks/use-theme';
 
 const typeLabel: Record<Card['type'], string> = {
@@ -21,12 +21,15 @@ export function FeedCard({ card, height }: { card: Card; height: number }) {
   const theme = useTheme();
   const [picked, setPicked] = useState<number | null>(null);
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
+  const skill = skills.find((s) => s.id === card.skill);
+  const step = skill ? skill.cardIds.indexOf(card.id) + 1 : 0;
 
   return (
     <View style={[styles.page, { height, backgroundColor: theme.background }]}>
       <ThemedText type="smallBold" themeColor="textSecondary" style={styles.eyebrow}>
-        {trackTitle} · {typeLabel[card.type]}
-        {card.stepOrder ? ` · Step ${card.stepOrder}` : ''}
+        {skill && step > 0
+          ? `${trackTitle} · ${skill.title} · ${step} of ${skill.cardIds.length}`
+          : `${trackTitle} · ${typeLabel[card.type]}`}
       </ThemedText>
 
       <ThemedText type="subtitle">{card.headline}</ThemedText>

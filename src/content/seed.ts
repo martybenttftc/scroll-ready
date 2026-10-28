@@ -1,4 +1,4 @@
-import type { Card, Track } from './types';
+import type { Card, Skill, Track } from './types';
 
 // Placeholder seed content so the feed renders. Every card here is a DRAFT:
 // expert-tier cards have no reviewer yet and must not ship until signed off.
@@ -14,6 +14,11 @@ export const tracks: Track[] = [
   { id: 'go-bag', title: 'Go-bag and gear', blurb: 'Pack once, be ready.' },
   { id: 'navigation', title: 'Navigation', blurb: 'Know where you are.' },
   { id: 'disasters', title: 'Disasters', blurb: 'Storms, floods, outages.' },
+];
+
+export const skills: Skill[] = [
+  { id: 'purify-water', track: 'water', title: 'Purify water', cardIds: ['boil-water'] },
+  { id: 'fire-basics', track: 'fire', title: 'Fire basics', cardIds: ['fire-triangle'] },
 ];
 
 const readyGov = { title: 'Ready.gov (FEMA)', url: 'https://www.ready.gov/kit' };

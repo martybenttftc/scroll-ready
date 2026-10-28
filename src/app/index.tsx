@@ -20,6 +20,9 @@ export default function FeedScreen() {
           keyExtractor={(c) => c.id}
           renderItem={({ item }) => <FeedCard card={item} height={height} />}
           pagingEnabled
+          snapToInterval={height}
+          snapToAlignment="start"
+          disableIntervalMomentum
           showsVerticalScrollIndicator={false}
           decelerationRate="fast"
           getItemLayout={(_, index) => ({ length: height, offset: height * index, index })}
