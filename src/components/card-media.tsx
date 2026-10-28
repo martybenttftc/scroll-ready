@@ -9,31 +9,43 @@ import { Palette, Spacing, Type } from '@/constants/theme';
 import { AFFILIATE_DISCLOSURE, gearById } from '@/content/gear';
 import type { Media } from '@/content/types';
 
-// A card's photo or video, with its credit. Video plays inside the app, muted until tapped,
-// and only while its card is on screen. ADR 0004.
-export function CardMedia({ media, active, maxHeight }: { media: Media; active: boolean; maxHeight: number }) {
+// Below this, a picture is too small to teach anything, so the card shows text only.
+const MIN_FRAME_HEIGHT = 120;
+// The slot's margins and the credit line.
+const CHROME_HEIGHT = 2 * Spacing.three + Spacing.one + 15;
+
+// A card's photo or video, with its credit. It fills whatever height the card's text leaves
+// (a flex slot whose size doesn't depend on what's in it), and hides when that's too small.
+// Video plays inside the app, muted until tapped, and only while its card is on screen. ADR 0004.
+export function CardMedia({ media, active }: { media: Media; active: boolean }) {
+  const [slotHeight, setSlotHeight] = useState(0);
+  const fits = slotHeight >= MIN_FRAME_HEIGHT + CHROME_HEIGHT;
   return (
-    <View style={styles.wrap}>
-      <View style={[styles.frame, { maxHeight }]}>
-        {media.kind === 'video' ? (
-          <CardVideo media={media} active={active} />
-        ) : (
-          <Image
-            source={media.url}
-            accessibilityLabel={media.alt}
-            contentFit="cover"
-            transition={200}
-            style={StyleSheet.absoluteFill}
-          />
-        )}
-      </View>
-      <Text
-        accessibilityRole="link"
-        onPress={() => Linking.openURL(media.sourceUrl).catch(() => {})}
-        style={styles.credit}
-        numberOfLines={1}>
-        {media.aiGenerated ? 'Illustration (AI-generated)' : media.kind === 'video' ? 'Video' : 'Photo'}: {media.credit}
-      </Text>
+    <View style={styles.slot} onLayout={(e) => setSlotHeight(e.nativeEvent.layout.height)}>
+      {fits && (
+        <View style={styles.fill}>
+          <View style={styles.frame}>
+            {media.kind === 'video' ? (
+              <CardVideo media={media} active={active} />
+            ) : (
+              <Image
+                source={media.url}
+                accessibilityLabel={media.alt}
+                contentFit="cover"
+                transition={200}
+                style={StyleSheet.absoluteFill}
+              />
+            )}
+          </View>
+          <Text
+            accessibilityRole="link"
+            onPress={() => Linking.openURL(media.sourceUrl).catch(() => {})}
+            style={styles.credit}
+            numberOfLines={1}>
+            {media.aiGenerated ? 'Illustration (AI-generated)' : media.kind === 'video' ? 'Video' : 'Photo'}: {media.credit}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -128,12 +140,21 @@ export function GearLinks({ gearIds }: { gearIds: string[] }) {
 }
 
 const styles = StyleSheet.create({
-  wrap: {
+  slot: {
+    flex: 1,
+    minHeight: 0,
+    justifyContent: 'center',
+  },
+  fill: {
+    flex: 1,
+    maxHeight: 420,
     gap: Spacing.one,
+    marginVertical: Spacing.three,
   },
   frame: {
+    flex: 1,
+    minHeight: 0,
     width: '100%',
-    aspectRatio: 4 / 3,
     borderRadius: 16,
     overflow: 'hidden',
     backgroundColor: 'rgba(242,236,225,0.06)',

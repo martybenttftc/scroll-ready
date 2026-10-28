@@ -125,14 +125,13 @@ export function FeedCard({
         </View>
       </View>
 
+      {/* Media takes only the space the text leaves, so it never pushes the 911 button,
+          gear, or sources off the page. */}
+      {card.media && <CardMedia media={card.media} active={active} />}
+
       <View style={styles.bottom}>
         <View style={styles.row}>
           <View style={styles.content}>
-            {card.media && (
-              <Rise active={active} order={0}>
-                <CardMedia media={card.media} active={active} maxHeight={height * 0.32} />
-              </Rise>
-            )}
             {card.type === 'step' && step > 0 && (
               <Rise active={active} order={0}>
                 <Text style={[styles.stepNumber, { color: `${look.hue}59` }]} accessible={false}>
