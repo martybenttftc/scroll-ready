@@ -71,8 +71,8 @@ export function FeedCard({
 
   // The reveal button unmounts on tap, so move screen reader focus to the body it
   // revealed. Only after a tap, never when an already-revealed row remounts. Wait
-  // until the fade-in ends: VoiceOver can drop focus sent to a view that is still
-  // mounting at opacity 0.
+  // until the fade-in ends (no wait with Reduce Motion): VoiceOver can drop focus
+  // sent to a view that is still at opacity 0.
   const bodyRef = useRef<HostInstance>(null);
   const [focusBody, setFocusBody] = useState(false);
   useEffect(() => {
@@ -80,9 +80,9 @@ export function FeedCard({
     const timer = setTimeout(() => {
       setFocusBody(false);
       if (Platform.OS !== 'web' && bodyRef.current) AccessibilityInfo.sendAccessibilityEvent(bodyRef.current, 'focus');
-    }, Motion.reveal + 50);
+    }, reduceMotion ? 0 : Motion.reveal + 50);
     return () => clearTimeout(timer);
-  }, [focusBody, revealed]);
+  }, [focusBody, revealed, reduceMotion]);
 
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
   const skill = skills.find((s) => s.id === card.skill);
