@@ -288,7 +288,7 @@
       "id": "flat-water-fix",
       "type": "tip",
       "headline": "Boiled water tastes flat. Pour it back and forth.",
-      "body": "Pour boiled, cooled water between two clean containers a few times to put air back in. A pinch of salt per quart also helps.",
+      "body": "Pour boiled, cooled water between two clean containers a few times to put air back in.",
       "difficulty": 1,
       "riskTier": "standard",
       "sources": [
@@ -311,9 +311,7 @@
       ],
       "isFree": true,
       "offlineCore": false,
-      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
-      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
-      "verifiedOn": "2026-10-28"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "bleach-wait-quiz",

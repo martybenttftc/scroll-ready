@@ -35,7 +35,7 @@
       "id": "drain-water-heater",
       "type": "step",
       "headline": "Drain the water heater tank",
-      "body": "Turn off its power or gas first. Close the cold water intake valve, open a hot water faucet in the house, then open the drain at the bottom of the tank.",
+      "body": "Turn off its power or gas first. Close the cold water intake valve, open a hot water faucet in the house, then open the drain at the bottom of the tank. Let the water cool first.",
       "difficulty": 2,
       "riskTier": "caution",
       "sources": [
@@ -63,9 +63,7 @@
         "Draining with the power or gas still on",
         "Turning the heater back on before the tank is refilled"
       ],
-      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
-      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
-      "verifiedOn": "2026-10-28"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "refill-water-heater",
@@ -142,7 +140,7 @@
       "id": "unsafe-home-water",
       "type": "myth",
       "headline": "Don't drink pool or hot tub water",
-      "body": "Never drink from radiators, heating boilers, waterbeds, pools, or hot tubs. Pool and hot tub water is fine for washing and flushing. Toilet tank water, never the bowl, works if treated.",
+      "body": "Never drink from radiators, heating boilers, waterbeds, pools, or hot tubs. Pool and hot tub water is fine for washing and flushing. Toilet tank water (never the bowl) works if treated and free of cleaning tablets.",
       "verdict": "myth",
       "difficulty": 1,
       "riskTier": "caution",
@@ -174,7 +172,7 @@
       ],
       "isFree": true,
       "offlineCore": true,
-      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "shut-main-water-valve",
@@ -211,7 +209,7 @@
       "id": "dont-ration-water",
       "type": "myth",
       "headline": "Don't ration water unless officials tell you to",
-      "body": "Drink what you need today and look for more tomorrow. Unless officials say otherwise, never drop below about a quart a day. Rest and stay cool to need less.",
+      "body": "Drink what you need today and look for more tomorrow. Most people need at least half a gallon a day to drink. Rest and stay cool to need less.",
       "verdict": "myth",
       "difficulty": 1,
       "riskTier": "caution",
@@ -223,7 +221,7 @@
       ],
       "isFree": true,
       "offlineCore": false,
-      "draftedBy": "card-drafter, 2026-10-28 batch water-1"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "no-soda-for-water",

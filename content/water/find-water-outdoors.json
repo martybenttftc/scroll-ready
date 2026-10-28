@@ -121,7 +121,7 @@
       "body": "Eating unmelted snow lowers your body temperature. Melt it first, near a fire or in a container under your outer layers, then treat it like any other wild water.",
       "verdict": "myth",
       "difficulty": 1,
-      "riskTier": "caution",
+      "riskTier": "expert",
       "sources": [
         {
           "title": "ATP 3-50.21 Survival, ch. 3: Water",
@@ -138,7 +138,7 @@
       ],
       "isFree": true,
       "offlineCore": false,
-      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "solar-still-reality",
