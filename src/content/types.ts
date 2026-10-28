@@ -118,6 +118,10 @@ export type Card = {
   mistakes?: string[];
   gearIds?: string[];
   quiz?: { choices: string[]; answerIndex: number };
+  // Myth cards only: whether the common belief the card is about is a myth or a fact. On standard cards
+  // the headline is that belief, so the UI can show the verdict as the answer. On caution and expert
+  // cards the headline states the safe answer instead, so the UI must not badge the headline with it.
+  verdict?: 'myth' | 'fact';
   regions?: string[];
   seasons?: ('spring' | 'summer' | 'fall' | 'winter')[];
   difficulty: 1 | 2 | 3;

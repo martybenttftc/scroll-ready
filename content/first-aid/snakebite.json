@@ -4,8 +4,9 @@
     {
       "id": "snakebite-myth",
       "type": "myth",
-      "headline": "Suck out snake venom? Myth.",
+      "headline": "Don't cut or suck a snakebite. Call 911.",
       "body": "Do not cut, suck, or ice the bite. Call 911, keep still and calm, remove rings and tight clothing, and keep the bite at heart level.",
+      "verdict": "myth",
       "difficulty": 1,
       "riskTier": "expert",
       "sources": [

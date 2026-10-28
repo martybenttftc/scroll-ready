@@ -86,9 +86,15 @@ export function FeedCard({
   const step = skill ? skill.cardIds.indexOf(card.id) + 1 : 0;
   // A quiz is its own reveal. Expert-tier cards show their guidance right away,
   // so nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md).
-  const prompt = card.quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
-  const answer = card.quiz ? card.quiz.choices[card.quiz.answerIndex] : '';
-  const bodyHidden = (card.quiz && picked === null) || (prompt !== undefined && !revealed);
+  // Standard myth cards are a Myth or Fact guess. Caution and expert headlines state the safe
+  // answer, so they never become a guessing game (docs/DESIGN.md, Card.verdict).
+  const mythGuess = card.type === 'myth' && card.verdict !== undefined && card.riskTier === 'standard';
+  const quiz =
+    card.quiz ??
+    (mythGuess ? { choices: ['Myth', 'Fact'], answerIndex: card.verdict === 'myth' ? 0 : 1 } : undefined);
+  const prompt = quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
+  const answer = quiz ? (mythGuess ? `a ${card.verdict}` : quiz.choices[quiz.answerIndex]) : '';
+  const bodyHidden = (quiz && picked === null) || (prompt !== undefined && !revealed);
   // Fade answers in only when they happen here, not when an answered row remounts.
   const [tappedHere, setTappedHere] = useState(false);
   const enter = reduceMotion || !tappedHere ? undefined : FadeIn.duration(Motion.reveal);
@@ -164,11 +170,11 @@ export function FeedCard({
               </Text>
             </Rise>
 
-            {card.quiz && (
+            {quiz && (
               <Rise active={active} order={2} style={styles.choices}>
-                {card.quiz.choices.map((choice, i) => {
+                {quiz.choices.map((choice, i) => {
                   const answered = picked !== null;
-                  const correct = i === card.quiz!.answerIndex;
+                  const correct = i === quiz.answerIndex;
                   const mark = answered && correct ? 'Right answer' : answered && picked === i ? 'Your pick' : '';
                   return (
                     <Pressable
@@ -219,16 +225,14 @@ export function FeedCard({
               </Rise>
             )}
 
-            {bodyHidden ? null : card.quiz ? (
+            {bodyHidden ? null : quiz ? (
               <Animated.View entering={enter} style={styles.verdictBox}>
                 <Text
                   style={[
                     styles.label,
-                    { color: picked === card.quiz.answerIndex ? Palette.sage : Palette.blaze },
+                    { color: picked === quiz.answerIndex ? Palette.sage : Palette.blaze },
                   ]}>
-                  {picked === card.quiz.answerIndex
-                    ? 'You got it'
-                    : `It's ${answer}`}
+                  {picked === quiz.answerIndex ? 'You got it' : `It's ${answer}`}
                 </Text>
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
