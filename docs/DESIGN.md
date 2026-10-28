@@ -49,7 +49,7 @@ A large, faint track icon (7% opacity) fills the empty upper area. From top to b
 |---|---|
 | tip | Headline and body. |
 | step | Big faint step number, "Step n of m", headline, body. |
-| myth | The claim as the headline, then "Why? Think, then tap to see" reveals the body. Once cards carry a verdict field, people will guess Myth or Fact first (see mockup). |
+| myth | The claim as the headline, then "Why? Think, then tap to see" reveals the body. Once cards carry a verdict field, people will guess Myth or Fact first (see mockup). Expert-tier myth cards never play the guessing game: their headline is safe on its own and the verdict shows right away. |
 | quiz | Question, large answer buttons, then a verdict ("You got it" or "It's 1 gallon") and the body as the explanation. |
 | scenario | "What would you do?" Think first, then tap to reveal the answer. |
 | gear | Product card (later, with Kit). |

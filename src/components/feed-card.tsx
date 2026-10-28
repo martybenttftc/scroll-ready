@@ -226,12 +226,12 @@ export function FeedCard({
           </View>
         </View>
 
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ expanded: showSources }}
-          onPress={() => setShowSources((s) => !s)}
-          style={styles.trust}>
-          <View style={styles.trustRow}>
+        <View style={styles.trust}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ expanded: showSources }}
+            onPress={() => setShowSources((s) => !s)}
+            style={styles.trustRow}>
             <SymbolView
               name={
                 verified
@@ -246,7 +246,7 @@ export function FeedCard({
                 ? `Checked against ${sourceCount} sources`
                 : `Draft · ${sourceCount} ${sourceCount === 1 ? 'source' : 'sources'}`}
             </Text>
-          </View>
+          </Pressable>
           {showSources &&
             card.sources.map(({ title, url }) =>
               url ? (
@@ -263,7 +263,7 @@ export function FeedCard({
                 </Text>
               ),
             )}
-        </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -455,13 +455,12 @@ const styles = StyleSheet.create({
   },
   trust: {
     gap: Spacing.two,
-    minHeight: 44,
-    justifyContent: 'center',
   },
   trustRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.two,
+    minHeight: 44,
   },
   trustText: {
     fontFamily: Type.bodyMedium,
