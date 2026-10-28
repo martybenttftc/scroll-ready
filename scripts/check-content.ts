@@ -1,6 +1,6 @@
-// Validates content cards. `--release` also blocks unreviewed expert-tier cards.
+// Validates content cards. `--release` also blocks cards not yet verified against 3+ sources (ADR 0002).
 import { cards, skills, tracks } from '../src/content/seed';
-import { isShippable } from '../src/content/types';
+import { isShippable, MIN_SOURCES_TO_SHIP } from '../src/content/types';
 
 const release = process.argv.includes('--release');
 const errors: string[] = [];
@@ -21,7 +21,7 @@ for (const card of cards) {
     errors.push(`${at}: quiz answerIndex out of range`);
   }
   if (!isShippable(card)) {
-    const msg = `${at}: ${card.riskTier} card has no human reviewer`;
+    const msg = `${at}: not verified (${card.sources.length} of ${MIN_SOURCES_TO_SHIP} sources${card.verifiedOn ? '' : ', no verifiedOn'})`;
     (release ? errors : warnings).push(msg);
   }
 }

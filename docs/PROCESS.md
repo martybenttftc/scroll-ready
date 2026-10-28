@@ -40,9 +40,9 @@ At the end of each week the team looks at what shipped, what slowed it down, and
 - The agent that writes a change never approves it.
 - Read `CLAUDE.md`, `AGENTS.md`, and the ADRs before you code. Don't re-argue a decision that has an ADR unless you have new evidence. If you do, open a new ADR that supersedes the old one.
 - Keep PRs small: one feature or fix, ideally under 400 changed lines.
-- Expert-tier cards (first aid, wild food, generators and electrical) never ship without a named human reviewer in `reviewedBy`. Agents can draft these cards but can't approve them.
+- No card ships until the content-safety agent has checked it against at least 3 independent sources that agree and set `verifiedOn` (ADR 0002). The agent that drafted a card can't verify it.
 - When unsure, write down the question in the stand-up note and keep working on what isn't blocked.
 
 ## Automation
 - `.github/workflows/ci.yml` runs typecheck and the content check on every PR.
-- `.github/workflows/claude-review.yml` has Claude review every PR automatically. It needs the Claude GitHub app installed on the repo, or an `ANTHROPIC_API_KEY` secret.
+- `.github/workflows/claude-review.yml` has Claude review every PR automatically. It uses the `ANTHROPIC_API_KEY` repository secret.
