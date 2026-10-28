@@ -64,7 +64,7 @@ export function FeedCard({ card, height }: { card: Card; height: number }) {
       )}
 
       <ThemedText type="small" themeColor="textSecondary" style={styles.source}>
-        Source: {card.sources.map((s) => s.title).join('; ')}
+        {card.sources.length > 1 ? 'Sources' : 'Source'}: {card.sources.map((s) => s.title).join('; ')}
       </ThemedText>
     </View>
   );

@@ -1,6 +1,6 @@
 // Validates content cards. `--release` also blocks cards not yet verified against 3+ sources (ADR 0002).
 import { cards, skills, tracks } from '../src/content/seed';
-import { isShippable, MIN_SOURCES_TO_SHIP } from '../src/content/types';
+import { shipBlockers } from '../src/content/types';
 
 const release = process.argv.includes('--release');
 const errors: string[] = [];
@@ -20,10 +20,10 @@ for (const card of cards) {
   if (card.quiz && (card.quiz.answerIndex < 0 || card.quiz.answerIndex >= card.quiz.choices.length)) {
     errors.push(`${at}: quiz answerIndex out of range`);
   }
-  if (!isShippable(card)) {
-    const msg = `${at}: not verified (${card.sources.length} of ${MIN_SOURCES_TO_SHIP} sources${card.verifiedOn ? '' : ', no verifiedOn'})`;
-    (release ? errors : warnings).push(msg);
-  }
+  const titles = card.sources.map((s) => s.title);
+  if (new Set(titles).size !== titles.length) errors.push(`${at}: duplicate source`);
+  const blockers = shipBlockers(card);
+  if (blockers.length) (release ? errors : warnings).push(`${at}: not verified (${blockers.join(', ')})`);
 }
 
 const skillIds = new Set<string>();

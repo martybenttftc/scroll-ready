@@ -15,8 +15,8 @@ Read these before working:
 - Match the surrounding code style. Use TypeScript strictly and don't use `any`.
 
 ## Content safety (non-negotiable)
-- Every card has at least one source.
-- A card ships only after it is checked against at least 3 independent sources that agree, and the reviewer sets `verifiedOn`. The agent that drafted a card never verifies it. `npm run check:content -- --release` fails otherwise. See `docs/decisions/0002-card-verification.md`.
+- Every card has at least one source while it's a draft, and 3 independent ones before it ships.
+- A card ships only after it is checked against at least 3 independent sources that agree, and a reviewer other than its drafter sets `verifiedBy` and `verifiedOn`. The agent that drafted a card never verifies it. `npm run check:content -- --release` fails otherwise. See `docs/decisions/0002-card-verification.md`.
 - `riskTier: 'expert'` cards (first aid, wild food, generators and electrical, water from unknown sources) get the strictest check: any disagreement between sources means the card doesn't ship.
 - Wild food cards never suggest eating a plant based on the app alone. Generator cards never describe backfeeding. First aid cards point to calling 911.
 - The tone is calm and capable, never fear-selling.
