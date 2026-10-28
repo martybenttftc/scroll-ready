@@ -21,4 +21,7 @@ jobs:
             Review this pull request as the code-reviewer agent described in .claude/agents/code-reviewer.md.
             If it changes anything in src/content/, also review it as .claude/agents/content-safety.md.
             Follow CLAUDE.md and docs/decisions/. Post findings as inline comments, ranked by severity, and a short summary comment.
-          claude_args: "--model claude-opus-5-5"
+          # Without allowed tools the review runs but can't post anything.
+          claude_args: >-
+            --model claude-opus-5-5
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"

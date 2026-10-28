@@ -19,7 +19,10 @@ export default function FeedScreen() {
           data={cards}
           keyExtractor={(c) => c.id}
           renderItem={({ item }) => <FeedCard card={item} height={height} />}
+          // pagingEnabled pages by the exact view height. disableIntervalMomentum
+          // stops a hard fling on Android from skipping past the next card.
           pagingEnabled
+          disableIntervalMomentum
           showsVerticalScrollIndicator={false}
           decelerationRate="fast"
           getItemLayout={(_, index) => ({ length: height, offset: height * index, index })}
