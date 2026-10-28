@@ -30,7 +30,8 @@ const revealPrompt: Partial<Record<Card['type'], string>> = {
 // Called only from tap handlers, so scrolling back to an answered card stays quiet.
 // Web isn't a release target, so it has no announcement.
 const announce = (text: string) => {
-  if (Platform.OS !== 'web') AccessibilityInfo.announceForAccessibility(text);
+  // queue: true waits for VoiceOver to finish reading the button's new state.
+  if (Platform.OS !== 'web') AccessibilityInfo.announceForAccessibilityWithOptions(text, { queue: true });
 };
 
 export function FeedCard({
@@ -148,7 +149,7 @@ export function FeedCard({
                   const mark = answered && correct ? 'Right answer' : answered && picked === i ? 'Your pick' : '';
                   return (
                     <Pressable
-                      key={choice}
+                      key={i}
                       accessibilityRole="button"
                       accessibilityState={{ disabled: answered, selected: picked === i }}
                       accessibilityLabel={mark ? `${choice}, ${mark}` : choice}
