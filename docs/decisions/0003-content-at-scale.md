@@ -40,7 +40,7 @@ Each stage is a separate agent run, so no run checks its own work.
 - `npm run check:content -- --stats` prints planned, drafted, and verified counts per track. The product lead uses it to pick the next batch.
 
 ### Machine-checked guardrails
-`npm run check:content` now also fails when a first-aid, wild-food, or generator (`power`) card isn't `expert`, when a first-aid card doesn't mention 911, when a card mentions backfeeding without "never", or when a card has no `draftedBy`. These catch omissions in those tracks only. Heat illness, medical kits, electrical work in `solar` or `home-repair`, and carbon monoxide in `heating` have no machine check yet, so a passing check says nothing about them. The content-safety agent still reads every card.
+`npm run check:content` now also fails when a first-aid, wild-food, or generator (`power`) card isn't `expert`, when a first-aid card doesn't mention 911 in text shown before any tap (headline or body; headline or choices on a quiz), when a card mentions backfeeding without "never", or when a card has no `draftedBy`. These catch omissions in those tracks only. Heat illness, medical kits, electrical work in `solar` or `home-repair`, and carbon monoxide in `heating` have no machine check yet, so a passing check says nothing about them. The content-safety agent still reads every card.
 
 ## Consequences
 - Throughput is limited by verification. Expect a batch of about 50 cards to take one long agent session. The source library in `docs/sources/` keeps drafters from re-searching the web each time.
