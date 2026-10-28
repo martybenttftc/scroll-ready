@@ -118,8 +118,8 @@ export type Card = {
   mistakes?: string[];
   gearIds?: string[];
   quiz?: { choices: string[]; answerIndex: number };
-  // Myth cards only: is the common claim a myth or a fact? Standard and caution myth cards put the bare
-  // claim in the headline so people can guess. Expert ones state the safe answer, since some won't tap.
+  // Myth cards only: is the common claim a myth or a fact? Standard myth cards put the bare claim in the
+  // headline so people can guess. Caution and expert ones state the safe answer, since some won't tap.
   verdict?: 'myth' | 'fact';
   regions?: string[];
   seasons?: ('spring' | 'summer' | 'fall' | 'winter')[];

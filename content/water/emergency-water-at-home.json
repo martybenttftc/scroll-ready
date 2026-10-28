@@ -143,7 +143,7 @@
     {
       "id": "unsafe-home-water",
       "type": "myth",
-      "headline": "Pool water is fine to drink in a pinch",
+      "headline": "Don't drink pool or hot tub water",
       "body": "Never drink from radiators, heating boilers, waterbeds, pools, or hot tubs. Pool and hot tub water is fine for washing and flushing. Toilet tank water, never the bowl, works if treated.",
       "verdict": "myth",
       "difficulty": 1,
@@ -212,7 +212,7 @@
     {
       "id": "dont-ration-water",
       "type": "myth",
-      "headline": "Ration your water to make it last",
+      "headline": "Don't ration water unless officials tell you to",
       "body": "Drink what you need today and look for more tomorrow. Unless officials say otherwise, never drop below about a quart a day. Rest and stay cool to need less.",
       "verdict": "myth",
       "difficulty": 1,
