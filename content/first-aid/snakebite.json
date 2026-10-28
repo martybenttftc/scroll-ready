@@ -1,0 +1,22 @@
+{
+  "title": "Snakebite",
+  "cards": [
+    {
+      "id": "snakebite-myth",
+      "type": "myth",
+      "headline": "Suck out snake venom? Myth.",
+      "body": "Do not cut, suck, or ice the bite. Call 911, keep still and calm, remove rings and tight clothing, and keep the bite at heart level.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "CDC: Venomous snakes",
+          "url": "https://www.cdc.gov/niosh/outdoor-workers/about/venomous-snakes.html"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

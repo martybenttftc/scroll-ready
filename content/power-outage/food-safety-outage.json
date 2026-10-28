@@ -1,0 +1,22 @@
+{
+  "title": "Food safety in an outage",
+  "cards": [
+    {
+      "id": "fridge-outage",
+      "type": "scenario",
+      "headline": "Power is out. How long is the fridge safe?",
+      "body": "Keep the doors shut. A closed fridge keeps food cold about 4 hours. A full freezer holds about 48 hours, a half-full one about 24.",
+      "difficulty": 1,
+      "riskTier": "caution",
+      "sources": [
+        {
+          "title": "USDA: Food safety during power outages",
+          "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/emergencies/food-safety-during-power-outage"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}
