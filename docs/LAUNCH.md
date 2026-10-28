@@ -21,7 +21,7 @@ Each has a recommendation. Record the answer here and in an ADR where it changes
 1. **Free v1.0 or subscription at launch.** Recommend: v1.0 free, then Go Deeper and the subscription in v1.1, before any paid marketing.
 2. **Launch content bar.** Recommend: 12 tracks, each with at least 4 skills and 25 to 35 verified cards (about 350), plus 30 verified stories. 1,000 cards stays the year-one goal.
 3. **Name and icon.** Recommend: run a trademark search on "Scroll Ready", then pick from 3 icon concepts in the app palette.
-4. **Apple Developer account.** Recommend: a company account if we'll sell subscriptions. It needs a D-U-N-S number, so start that now.
+4. **Apple Developer account.** Recommend: a company account, so the listing shows the company as the seller instead of a personal name (an individual account can sell subscriptions too). It needs a D-U-N-S number, so start that now.
 5. **Onboarding.** Recommend: no account. One welcome question ("What do you want to be ready for?"), then the feed. The Readiness Score waits for v1.1 and only goes up.
 
 ## Phases
