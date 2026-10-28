@@ -202,7 +202,9 @@ export function feedOrder(cards: Card[]): Card[] {
   const byTrack = new Map<TrackId, Map<string, Card[]>>();
   for (const card of cards) {
     const skills = byTrack.get(card.track) ?? new Map<string, Card[]>();
-    skills.set(card.skill, [...(skills.get(card.skill) ?? []), card]);
+    const list = skills.get(card.skill) ?? [];
+    list.push(card);
+    skills.set(card.skill, list);
     byTrack.set(card.track, skills);
   }
   const queues = [...byTrack.values()].map((skills) => [...skills.values()]);
