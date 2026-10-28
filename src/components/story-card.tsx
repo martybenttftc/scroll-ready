@@ -91,8 +91,7 @@ export function StoryCard({
             android: 'More skills below. Swipe up with two fingers to continue.',
             default: 'More skills below.',
           })}
-          accessibilityElementsHidden={!showHint}
-          importantForAccessibility={showHint ? 'yes' : 'no-hide-descendants'}>
+          aria-hidden={!showHint}>
           <SymbolView
             name={{ ios: 'chevron.up', android: 'keyboard_arrow_up', web: 'keyboard_arrow_up' }}
             size={14}
