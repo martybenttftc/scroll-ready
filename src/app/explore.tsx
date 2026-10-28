@@ -68,7 +68,7 @@ export default function LearnScreen() {
           </View>
         </View>
       ))}
-      <Text style={styles.footer}>More tracks are on the way.</Text>
+      {openTracks.length < tracks.length && <Text style={styles.footer}>More tracks are on the way.</Text>}
     </ScrollView>
   );
 }
