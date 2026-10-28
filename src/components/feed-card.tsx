@@ -241,16 +241,6 @@ export function FeedCard({
               </Rise>
             )}
 
-            {card.track === 'first-aid' && (
-              <Pressable
-                accessibilityRole="link"
-                accessibilityLabel="In an emergency, call 911"
-                onPress={() => Linking.openURL('tel:911').catch(() => {})}
-                style={({ pressed }) => [styles.emergency, pressed && styles.pressed]}>
-                <SymbolView name={{ ios: 'phone', android: 'call', web: 'call' }} size={17} tintColor={Palette.blaze} />
-                <Text style={styles.emergencyText}>Emergency? Call 911 first.</Text>
-              </Pressable>
-            )}
           </View>
 
           <View style={styles.rail}>
@@ -450,20 +440,6 @@ const styles = StyleSheet.create({
   revealText: {
     fontFamily: Type.bodySemiBold,
     fontSize: 16,
-    color: Palette.bone,
-  },
-  emergency: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    minHeight: 48,
-    paddingHorizontal: 14,
-    borderRadius: 14,
-    backgroundColor: 'rgba(240,123,118,0.12)',
-  },
-  emergencyText: {
-    fontFamily: Type.bodySemiBold,
-    fontSize: 15,
     color: Palette.bone,
   },
   rail: {
