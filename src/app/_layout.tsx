@@ -1,16 +1,51 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import { Fraunces_500Medium, Fraunces_600SemiBold } from '@expo-google-fonts/fraunces';
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  useFonts,
+} from '@expo-google-fonts/inter';
+import { DarkTheme, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Appearance, Platform } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import AppTabs from '@/components/app-tabs';
+import { AppScheme, Colors } from '@/constants/theme';
 
 SplashScreen.preventAutoHideAsync();
+// Native chrome (tab bar, alerts, share sheet) follows the app's single dark scheme.
+// react-native-web has no setColorScheme.
+if (Platform.OS !== 'web') Appearance.setColorScheme(AppScheme);
+
+const navTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: Colors[AppScheme].background,
+    card: Colors[AppScheme].background,
+    primary: Colors[AppScheme].accent,
+    text: Colors[AppScheme].text,
+  },
+};
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  // Keep the splash screen up until the fonts load, so text never flashes in the system font.
+  const [fontsLoaded, fontError] = useFonts({
+    Fraunces_500Medium,
+    Fraunces_600SemiBold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+  });
+  if (!fontsLoaded && !fontError) return null;
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={navTheme}>
+      <StatusBar style="light" />
       <AnimatedSplashOverlay />
       <AppTabs />
     </ThemeProvider>

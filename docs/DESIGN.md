@@ -25,7 +25,7 @@ Tokens live in `src/constants/theme.ts`. The app runs dark for now so the tab ba
 | Canopy | #1B2A22 | Raised surfaces, tiles |
 | Bone | #F2ECE1 | Primary text |
 | Bone soft | #E4DED2 | Body text |
-| Ash | #B9B3A6 | Secondary text (8.9:1 on night pine) |
+| Ash | #B9B3A6 | Secondary text (8.5:1 on night pine) |
 | Blaze | #FF7A3D | The one accent: primary actions, selected tab, streak |
 | Sage | #5CC9A8 | Right answers, verified badge |
 
@@ -37,7 +37,7 @@ Each track has a hue used for its background glow, chip, and progress (`src/cons
 - Both load at runtime with `expo-font`, so they work in Expo Go.
 
 ## Feed card anatomy
-From top to bottom:
+A large, faint track icon (7% opacity) fills the empty upper area. From top to bottom:
 1. Skill progress segments (only inside a skill), like stories.
 2. Track chip: icon, track name, and card type, in the track color.
 3. Content block, anchored to the lower half where the thumb is: big step number (step cards), headline, body, and the type's interaction.
@@ -49,7 +49,7 @@ From top to bottom:
 |---|---|
 | tip | Headline and body. |
 | step | Big faint step number, "Step n of m", headline, body. |
-| myth | The claim as the headline, then "Myth or fact? Tap to see" reveals the body. |
+| myth | The claim as the headline, then "Why? Think, then tap to see" reveals the body. Once cards carry a verdict field, people will guess Myth or Fact first (see mockup). |
 | quiz | Question, large answer buttons, then a verdict ("You got it" or "It's 1 gallon") and the body as the explanation. |
 | scenario | "What would you do?" Think first, then tap to reveal the answer. |
 | gear | Product card (later, with Kit). |

@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { useRef, useState } from 'react';
+import { FlatList, StyleSheet, View, type ListViewToken } from 'react-native';
 
 import { FeedCard } from '@/components/feed-card';
+import type { Card } from '@/content/types';
 import { cards } from '@/content/seed';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -9,6 +10,14 @@ import { useTheme } from '@/hooks/use-theme';
 export default function FeedScreen() {
   const theme = useTheme();
   const [height, setHeight] = useState(0);
+  const [activeId, setActiveId] = useState(cards[0]?.id);
+
+  // FlatList requires these two to keep the same identity across renders.
+  const viewability = useRef({ itemVisiblePercentThreshold: 60 }).current;
+  const onViewable = useRef(({ viewableItems }: { viewableItems: ListViewToken[] }) => {
+    const first: Card | undefined = viewableItems[0]?.item;
+    if (first) setActiveId(first.id);
+  }).current;
 
   return (
     <View
@@ -18,7 +27,10 @@ export default function FeedScreen() {
         <FlatList
           data={cards}
           keyExtractor={(c) => c.id}
-          renderItem={({ item }) => <FeedCard card={item} height={height} />}
+          renderItem={({ item }) => <FeedCard card={item} height={height} active={item.id === activeId} />}
+          extraData={activeId}
+          viewabilityConfig={viewability}
+          onViewableItemsChanged={onViewable}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
           // stops a hard fling on Android from skipping past the next card.
           pagingEnabled
