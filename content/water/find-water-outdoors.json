@@ -97,9 +97,9 @@
       "id": "dew-rag-trick",
       "type": "step",
       "headline": "Mop up morning dew with cloth around your ankles",
-      "body": "Before sunrise, tie cloth or fine grass around your lower legs and walk through tall, wet grass. Wring it into a container and repeat until the dew is gone.",
+      "body": "Before sunrise, tie cloth or fine grass around your lower legs and walk through tall, wet grass. Wring it into a container. Treat it before drinking.",
       "difficulty": 2,
-      "riskTier": "standard",
+      "riskTier": "expert",
       "sources": [
         {
           "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
@@ -112,7 +112,7 @@
       ],
       "isFree": true,
       "offlineCore": false,
-      "draftedBy": "card-drafter, 2026-10-28 batch water-1"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "dont-eat-snow",
