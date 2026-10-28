@@ -33,4 +33,5 @@ Cards teach one skill at a time, but they don't give people a reason to open the
 ## Consequences
 - Adding a story file shifts which story lands on which date. That's fine while the list is short. Once there are enough stories, a `date` field can pin stories to anniversaries (for example, the Apollo 13 story on April 13).
 - Stories cost more verification than cards, because each one makes many small factual claims. Keep them short.
-- Not decided yet: whether stories are free (recommended, since they're the hook) or partly premium, and whether a story can be saved or shared. Sharing should follow the card rule: verified stories only, with their sources.
+- Stories are free. Marcus decided this on 2026-10-28, because they're the hook that brings people back.
+- Not decided yet: whether a story can be saved or shared. Sharing should follow the card rule: verified stories only, with their sources.
