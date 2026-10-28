@@ -21,7 +21,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 
 ## P1: ship with v1.0
 9. **First-session order.** The first skill after the story is a standard-tier myth or quiz. Expert-tier cards start at the second or third skill.
-10. **One-question welcome.** "What do you want to be ready for?" offers 4 to 6 choices, which pick the first tracks. No account.
+10. **One-question welcome** (if LAUNCH.md decision 5 goes as recommended; otherwise the onboarding quiz). "What do you want to be ready for?" offers 4 to 6 choices, which pick the first tracks. No account.
 11. **Kind streak and daily reminder.** One card counts as a day. A free repair. A quiet note on days 3 and 7. Ask for notification permission after the first save or finished skill. One daily notice that names the day's card, with rotating copy and no loss framing.
 12. **Crash reporting and analytics.** Sentry, plus PostHog without the advertising ID, disclosed, with an opt-out.
 13. **VoiceOver moves between cards.** Accessible next and previous actions on the feed, so the app can claim VoiceOver support on Apple's accessibility labels. Until then, screen reader users get no cue that the feed continues past the story, because the swipe hint is hidden from them.
