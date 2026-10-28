@@ -81,7 +81,7 @@ export function StoryCard({
           </Text>
         </View>
         {/* The story is a new user's first screen, so say that the feed continues below until they've
-            swiped in. The row stays mounted and only fades, so the story doesn't jump mid-swipe. */}
+            swiped in. The row stays mounted and only goes transparent, so the story doesn't jump mid-swipe. */}
         <View
           style={[styles.hint, !showHint && styles.hintGone]}
           accessibilityElementsHidden
