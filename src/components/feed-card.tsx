@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
-import { Linking, Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { AccessibilityInfo, Linking, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -27,23 +27,34 @@ const revealPrompt: Partial<Record<Card['type'], string>> = {
   scenario: 'What would you do? Tap to see',
 };
 
+// Android reads the revealed text through accessibilityLiveRegion; iOS needs an announcement.
+const announce = (text: string) => {
+  if (Platform.OS === 'ios') AccessibilityInfo.announceForAccessibility(text);
+};
+
 export function FeedCard({
   card,
   height,
   active,
   saved,
   onToggleSave,
+  picked,
+  onPick,
+  revealed,
+  onReveal,
 }: {
   card: Card;
   height: number;
   active: boolean;
   saved: boolean;
   onToggleSave: (id: string) => void;
+  picked: number | null;
+  onPick: (id: string, choice: number) => void;
+  revealed: boolean;
+  onReveal: (id: string) => void;
 }) {
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
-  const [picked, setPicked] = useState<number | null>(null);
-  const [revealed, setRevealed] = useState(false);
   const [showSources, setShowSources] = useState(false);
 
   const look = trackStyle(card.track);
@@ -53,6 +64,7 @@ export function FeedCard({
   // A quiz is its own reveal. Expert-tier cards show their guidance right away,
   // so nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md).
   const prompt = card.quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
+  const answer = card.quiz ? card.quiz.choices[card.quiz.answerIndex] : '';
   const bodyHidden = (card.quiz && picked === null) || (prompt !== undefined && !revealed);
   const enter = reduceMotion ? undefined : FadeIn.duration(Motion.reveal);
   const verified = isShippable(card);
@@ -140,7 +152,11 @@ export function FeedCard({
                       accessibilityState={{ disabled: answered, selected: picked === i }}
                       accessibilityLabel={mark ? `${choice}, ${mark}` : choice}
                       disabled={answered}
-                      onPress={() => setPicked(i)}
+                      onPress={() => {
+                        onPick(card.id, i);
+                        const verdict = correct ? 'You got it.' : `It's ${answer}.`;
+                        announce(`${verdict} ${card.body}`);
+                      }}
                       style={({ pressed }) => [
                         styles.choice,
                         answered && correct && styles.choiceCorrect,
@@ -166,7 +182,10 @@ export function FeedCard({
               <Rise active={active} order={2}>
                 <Pressable
                   accessibilityRole="button"
-                  onPress={() => setRevealed(true)}
+                  onPress={() => {
+                    onReveal(card.id);
+                    announce(card.body);
+                  }}
                   style={({ pressed }) => [styles.reveal, pressed && styles.pressed]}>
                   <Text style={styles.revealText}>{prompt}</Text>
                 </Pressable>
@@ -174,7 +193,7 @@ export function FeedCard({
             )}
 
             {bodyHidden ? null : card.quiz ? (
-              <Animated.View entering={enter} style={styles.verdictBox}>
+              <Animated.View entering={enter} style={styles.verdictBox} accessibilityLiveRegion="polite">
                 <Text
                   style={[
                     styles.label,
@@ -182,12 +201,12 @@ export function FeedCard({
                   ]}>
                   {picked === card.quiz.answerIndex
                     ? 'You got it'
-                    : `It's ${card.quiz.choices[card.quiz.answerIndex]}`}
+                    : `It's ${answer}`}
                 </Text>
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
             ) : prompt ? (
-              <Animated.View entering={enter}>
+              <Animated.View entering={enter} accessibilityLiveRegion="polite">
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
             ) : (
@@ -251,17 +270,17 @@ export function FeedCard({
             </Text>
           </Pressable>
           {showSources &&
-            card.sources.map(({ title, url }) =>
+            card.sources.map(({ title, url }, i) =>
               url ? (
                 <Text
-                  key={title}
+                  key={`${i}-${title}`}
                   accessibilityRole="link"
                   onPress={() => Linking.openURL(url).catch(() => {})}
                   style={[styles.sourceList, styles.sourceLink]}>
                   {title}
                 </Text>
               ) : (
-                <Text key={title} style={styles.sourceList}>
+                <Text key={`${i}-${title}`} style={styles.sourceList}>
                   {title}
                 </Text>
               ),
