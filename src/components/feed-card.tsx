@@ -40,7 +40,8 @@ const revealPrompt: Partial<Record<Card['type'], string>> = {
 // Called only from tap handlers, so scrolling back to an answered card stays quiet.
 // Web isn't a release target, so it has no announcement.
 const announce = (text: string) => {
-  // queue: true waits for VoiceOver to finish reading the tapped choice's new label.
+  // queue: true (iOS only) waits for VoiceOver to finish reading the tapped choice's
+  // new label. Android ignores it, so check TalkBack before the Android release.
   if (Platform.OS !== 'web') AccessibilityInfo.announceForAccessibilityWithOptions(text, { queue: true });
 };
 
@@ -88,7 +89,9 @@ export function FeedCard({
   const prompt = card.quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
   const answer = card.quiz ? card.quiz.choices[card.quiz.answerIndex] : '';
   const bodyHidden = (card.quiz && picked === null) || (prompt !== undefined && !revealed);
-  const enter = reduceMotion ? undefined : FadeIn.duration(Motion.reveal);
+  // Fade answers in only when they happen here, not when an answered row remounts.
+  const [tappedHere, setTappedHere] = useState(false);
+  const enter = reduceMotion || !tappedHere ? undefined : FadeIn.duration(Motion.reveal);
   const verified = isShippable(card);
   const sourceCount = verified ? independentSourceCount(card) : card.sources.length;
 
@@ -176,6 +179,7 @@ export function FeedCard({
                       disabled={answered}
                       onPress={() => {
                         onPick(card.id, i);
+                        setTappedHere(true);
                         const verdict = correct ? 'You got it.' : `It's ${answer}.`;
                         announce(`${verdict} ${card.body}`);
                       }}
@@ -207,6 +211,7 @@ export function FeedCard({
                   onPress={() => {
                     onReveal(card.id);
                     setFocusBody(true);
+                    setTappedHere(true);
                   }}
                   style={({ pressed }) => [styles.reveal, pressed && styles.pressed]}>
                   <Text style={styles.revealText}>{prompt}</Text>
