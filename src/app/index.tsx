@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react';
-import { FlatList, StyleSheet, View, type ListViewToken } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { AppState, FlatList, StyleSheet, View, type ListViewToken } from 'react-native';
 
 import { FeedCard } from '@/components/feed-card';
 import { StoryCard } from '@/components/story-card';
-import { storyForDate, type Story } from '@/content/stories';
+import { localDayNumber, storyForDay, type Story } from '@/content/stories';
 import type { Card } from '@/content/types';
 import { feed, stories } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
@@ -15,13 +15,26 @@ type Page = { kind: 'story'; id: string; story: Story } | { kind: 'card'; id: st
 export default function FeedScreen() {
   const theme = useTheme();
   const [height, setHeight] = useState(0);
-  // Picked once per launch, so the story doesn't swap out mid-scroll at midnight.
-  const [pages] = useState<Page[]>(() => {
-    const story = storyForDate(stories, new Date());
+  // The story is re-picked only when the app comes back to the foreground on a new day,
+  // so it never swaps out mid-scroll at midnight but doesn't go stale in the background.
+  const [day, setDay] = useState(() => localDayNumber(new Date()));
+  const pages = useMemo<Page[]>(() => {
+    const story = storyForDay(stories, day);
     const cardPages = feed.map((card): Page => ({ kind: 'card', id: card.id, card }));
-    return story ? [{ kind: 'story', id: `story:${story.id}`, story }, ...cardPages] : cardPages;
-  });
+    // One fixed id, so the page stays active when a new day's story replaces it.
+    return story ? [{ kind: 'story', id: 'story-of-the-day', story }, ...cardPages] : cardPages;
+  }, [day]);
   const [activeId, setActiveId] = useState(pages[0]?.id);
+  useEffect(() => {
+    // Only after a real trip to the background: iOS also goes inactive and back for
+    // Control Center, Face ID, and call banners, and that shouldn't swap the story.
+    let last = AppState.currentState;
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active' && last === 'background') setDay(localDayNumber(new Date()));
+      last = state;
+    });
+    return () => sub.remove();
+  }, []);
   // Saves, quiz answers, and reveals live above the list so they survive FlatList
   // unmounting off-screen rows. Not persisted yet: backlog item 8 stores them on the device.
   const [savedIds, setSavedIds] = useState<ReadonlySet<string>>(new Set());
@@ -54,7 +67,8 @@ export default function FeedScreen() {
           keyExtractor={(p) => p.id}
           renderItem={({ item }) =>
             item.kind === 'story' ? (
-              <StoryCard story={item.story} height={height} active={item.id === activeId} />
+              // Keyed by story, so a new day's story mounts fresh: any open reader closes and the entrance replays.
+              <StoryCard key={item.story.id} story={item.story} height={height} active={item.id === activeId} />
             ) : (
               <FeedCard
                 card={item.card}

@@ -1,5 +1,5 @@
 import { tracks } from './taxonomy';
-import type { RiskTier, Source, TrackId } from './types';
+import type { Source, TrackId } from './types';
 
 // Story of the day: one true survival or DIY story a day, read in about a minute.
 // Stories live in stories/<id>.json and follow the same 3-source rule as cards (ADR 0002, ADR 0005).
@@ -20,8 +20,7 @@ export type Story = {
   where: string; // "Weddell Sea, Antarctica"
   paragraphs: string[]; // the story, 250 words or fewer in all
   takeaway: string; // what it teaches, 40 words or fewer
-  track?: TrackId; // the track the takeaway points to
-  riskTier: RiskTier;
+  track: TrackId; // the track the takeaway points to
   draftedBy?: string;
   verifiedBy?: string;
   verifiedOn?: string;
@@ -31,7 +30,6 @@ export type Story = {
 export type StoryFile = { path: string; data: unknown };
 
 const KINDS: StoryKind[] = ['survival', 'diy'];
-const RISK_TIERS: RiskTier[] = ['standard', 'caution', 'expert'];
 const FIELDS = [
   'kind',
   'title',
@@ -41,7 +39,6 @@ const FIELDS = [
   'paragraphs',
   'takeaway',
   'track',
-  'riskTier',
   'draftedBy',
   'verifiedBy',
   'verifiedOn',
@@ -75,11 +72,10 @@ export function loadStories(files: StoryFile[]): { stories: Story[]; problems: s
     const missing = ['title', 'dek', 'when', 'where', 'takeaway'].filter((k) => !isStr(d[k]));
     if (missing.length) problem(`bad or missing ${missing.join(', ')}`);
     if (!isOneOf(KINDS, d.kind)) problem('kind must be "survival" or "diy"');
-    if (!isOneOf(RISK_TIERS, d.riskTier)) problem('bad or missing riskTier');
     if (!Array.isArray(d.paragraphs) || d.paragraphs.length === 0 || !d.paragraphs.every(isStr)) {
       problem('paragraphs must be a list of text');
     }
-    if (d.track !== undefined && !(isStr(d.track) && trackIds.has(d.track))) problem(`unknown track "${d.track}"`);
+    if (!(isStr(d.track) && trackIds.has(d.track))) problem(`bad or missing track "${String(d.track)}"`);
     for (const key of ['draftedBy', 'verifiedBy', 'verifiedOn'] as const) {
       if (d[key] !== undefined && !isStr(d[key])) problem(`bad ${key}`);
     }
@@ -102,8 +98,7 @@ export function loadStories(files: StoryFile[]): { stories: Story[]; problems: s
       where: d.where as string,
       paragraphs: d.paragraphs as string[],
       takeaway: d.takeaway as string,
-      ...(isStr(d.track) && { track: d.track as TrackId }),
-      riskTier: d.riskTier as RiskTier,
+      track: d.track as TrackId,
       ...(isStr(d.draftedBy) && { draftedBy: d.draftedBy }),
       ...(isStr(d.verifiedBy) && { verifiedBy: d.verifiedBy }),
       ...(isStr(d.verifiedOn) && { verifiedOn: d.verifiedOn }),
@@ -119,7 +114,7 @@ export function localDayNumber(date: Date): number {
 }
 
 // Everyone sees the same story on the same local date, and the list cycles in file-name order.
-export function storyForDate(stories: Story[], date: Date): Story | undefined {
+export function storyForDay(stories: Story[], day: number): Story | undefined {
   if (stories.length === 0) return undefined;
-  return stories[localDayNumber(date) % stories.length];
+  return stories[day % stories.length];
 }

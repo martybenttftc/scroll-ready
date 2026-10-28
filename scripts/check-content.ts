@@ -19,12 +19,13 @@ const storiesDir = join(root, 'stories');
 const errors: string[] = [];
 const warnings: string[] = [];
 
-function readFiles(dir: string): ContentFile[] {
+function readFiles(dir: string, recursive = true): ContentFile[] {
   const out: ContentFile[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...readFiles(full));
-    else if (entry.name.endsWith('.json')) {
+    if (entry.isDirectory()) {
+      if (recursive) out.push(...readFiles(full));
+    } else if (entry.name.endsWith('.json')) {
       const path = relative(root, full);
       try {
         out.push({ path, data: JSON.parse(readFileSync(full, 'utf8')) });
@@ -110,7 +111,11 @@ for (const item of gear) {
 }
 
 // Story of the day (ADR 0005). Same verification rule as cards.
-const { stories, problems: storyProblems } = loadStories(readFiles(storiesDir));
+// The app bundles only the top level of stories/, so the check reads only that too.
+for (const entry of readdirSync(storiesDir, { withFileTypes: true })) {
+  if (entry.isDirectory()) errors.push(`stories/${entry.name}: stories can't be in subfolders; the app won't load them`);
+}
+const { stories, problems: storyProblems } = loadStories(readFiles(storiesDir, false));
 errors.push(...storyProblems);
 for (const story of stories) {
   const at = `stories/${story.id}`;
