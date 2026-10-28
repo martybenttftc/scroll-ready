@@ -1,6 +1,6 @@
 # Launch plan
 
-Owner: product lead. Written Oct 28, 2026 from an overnight UX audit and research pass. The research, with a source for every figure, is in `docs/research/launch-2026-10.md`. The screen-by-screen audit is on https://claude.ai/artifact/5SzuN2tyJbbzS1wqMafcB2.
+Owner: product lead. Written Oct 28, 2026 from an overnight UX audit and research pass. The research, with a source for every figure, is in `docs/research/launch-2026-10.md`. The audit summary below is the record; the page at https://claude.ai/artifact/5SzuN2tyJbbzS1wqMafcB2 is a convenience view of the same findings.
 
 ## Where we are
 - 43 cards in 14 skills across 11 of 48 tracks. 14 are verified. Water is 33 of the 43.
