@@ -75,7 +75,9 @@ export function FeedCard({
   // Only verified cards leave the app, and they carry their sources (and the 911
   // line for first aid) with them. ADR 0002.
   const share = () => {
-    const lines = [card.headline, card.body];
+    // A standard myth headline is the bare claim, so the shared text needs the answer too.
+    const verdict = card.verdict && card.riskTier === 'standard' ? `${card.verdict === 'fact' ? 'Fact' : 'Myth'}: ` : '';
+    const lines = [verdict + card.headline, card.body];
     if (card.track === 'first-aid') lines.push('In an emergency, call 911.');
     const titles = card.sources.map((s) => s.title).join('; ');
     lines.push(`Checked against ${sourceCount} independent sources: ${titles}`);
