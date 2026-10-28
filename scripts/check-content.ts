@@ -66,9 +66,12 @@ for (const card of cards) {
   if (EXPERT_TRACKS.includes(card.track) && card.riskTier !== 'expert') {
     errors.push(`${at}: cards in the ${card.track} track must be riskTier "expert"`);
   }
-  // The feed shows only the headline and body, so 911 must be in one of them.
-  if (card.track === 'first-aid' && !/\b911\b/.test(`${card.headline} ${card.body}`)) {
-    errors.push(`${at}: first aid cards must point to calling 911 in the headline or body`);
+  // 911 must be in text the feed shows before any tap: headline and body, but a quiz
+  // hides its body until someone answers, so there it's the headline or a choice.
+  // (First aid is always expert, so myth and scenario cards never hide their body.)
+  const shownFirst = card.quiz ? [card.headline, ...card.quiz.choices].join(' ') : `${card.headline} ${card.body}`;
+  if (card.track === 'first-aid' && !/\b911\b/.test(shownFirst)) {
+    errors.push(`${at}: first aid cards must point to calling 911 in text shown before any tap`);
   }
   const sentences = text(card).split(/(?<=[.!?])\s+/);
   if (sentences.some((s) => /back[\s-]?feed/i.test(s) && !/\bnever\b/i.test(s))) {
