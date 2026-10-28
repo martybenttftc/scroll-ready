@@ -119,7 +119,7 @@ export function localDayNumber(date: Date): number {
 }
 
 // Everyone sees the same story on the same local date, and the list cycles in file-name order.
-export function storyForDate(stories: Story[], date: Date): Story | undefined {
+export function storyForDay(stories: Story[], day: number): Story | undefined {
   if (stories.length === 0) return undefined;
-  return stories[localDayNumber(date) % stories.length];
+  return stories[day % stories.length];
 }
