@@ -8,7 +8,7 @@ Scroll Ready should feel like a well-worn field guide read by firelight: calm, c
 1. **One idea per screen.** The headline does the work and the body is a single breath (12 and 40 word budgets).
 2. **Make them think, then reveal.** Quizzes, myths, and scenarios hold back the answer until a tap. Recalling an answer teaches better than rereading it.
 3. **Show the trust.** Every card shows how many sources it was checked against. Drafts say they are drafts.
-4. **Every track has a color.** You know where you are before you read a word.
+4. **Quiet by default.** One accent color, no decoration that doesn't help someone learn. Marcus found the first pass (a hue per track, big step numbers, watermark icons) busy and confusing, so v2 strips those out.
 5. **Motion rewards, never nags.** Short, soft, and off when Reduce Motion is on. No confetti, and no guilt-trip streak alerts.
 
 ## What the research says
@@ -29,7 +29,7 @@ Tokens live in `src/constants/theme.ts`. The app runs dark for now so the tab ba
 | Blaze | #FF7A3D | The one accent: primary actions, selected tab, streak |
 | Sage | #5CC9A8 | Right answers, verified badge |
 
-Each theme has a hue, and a few signature tracks (Fire, Fishing) get their own. The hue drives a track's background glow, chip, icon, and progress, and every track has its own icon (`src/constants/track-style.ts`). Hues are similar in lightness so no track shouts louder than another. Right and wrong answers are never shown by color alone; they always carry a label.
+Blaze is the only accent and sage only marks right answers. Tracks don't get their own colors: every track has an icon (`src/constants/track-style.ts`), drawn in ash on Learn (stone when the track has no cards yet). Right and wrong answers are never shown by color alone; they always carry a label.
 
 ## Type
 - **Fraunces SemiBold** for headlines, 32 to 36 pt. A soft serif reads as a field journal, not a warning sign.
@@ -37,10 +37,10 @@ Each theme has a hue, and a few signature tracks (Fire, Fishing) get their own. 
 - Both load at runtime with `expo-font`, so they work in Expo Go.
 
 ## Feed card anatomy
-A large, faint track icon (7% opacity) fills the empty upper area. From top to bottom:
-1. Skill progress segments (only inside a skill), like stories.
-2. Track chip: icon, track, skill, and card type (except on step cards), in the track color.
-3. Content block, anchored to the lower half where the thumb is: big step number (step cards), headline, body, and the type's interaction.
+A plain night-pine page with one soft neutral light from the top. From top to bottom:
+1. Skill progress segments (only in skills with more than one card), like stories.
+2. A small ash label: track · skill.
+3. Content block, anchored to the lower half where the thumb is: headline, body, and the type's interaction.
 4. Action rail on the right: Save, Share (verified cards only, and the shared text carries the sources and, on first aid, the 911 line), and Go Deeper (only when the card has deeper content).
 5. Trust line: "Checked against N independent sources" with a shield, or "Draft · N sources". Tap it to list the sources, each linked when it has a URL.
 
@@ -48,14 +48,14 @@ A large, faint track icon (7% opacity) fills the empty upper area. From top to b
 | Type | Template |
 |---|---|
 | tip | Headline and body. |
-| step | Big faint step number, "Step n of m", headline, body. |
-| myth | The claim as the headline, then "Why? Think, then tap to see" reveals the body. Once cards carry a verdict field, people will guess Myth or Fact first (see mockup). Expert-tier myth cards never play the guessing game: their headline is safe on its own and the verdict shows right away. |
+| step | Headline and body. The progress segments show where you are in the skill. |
+| myth | Standard tier: the common belief is the headline, people guess Myth or Fact, then see "It's a myth" (or "You got it") and the body. Caution tier: the headline states the safe answer and "Why? Think, then tap to see" reveals the body. Expert tier never plays the guessing game: the headline is safe on its own and the body shows right away. |
 | quiz | Question, large answer buttons, then a verdict ("You got it" or "It's 1 gallon") and the body as the explanation. |
 | scenario | "What would you do?" Think first, then tap to reveal the answer. |
 | gear | Product card (later, with Kit). |
 | checklist | Tappable items (later, with Kit). |
 
-First aid cards always show a "Call 911" strip.
+First aid cards say to call 911 in text the feed shows before any tap: the headline or body, or on a quiz the headline or a choice (`check:content` enforces it). There's no separate Call 911 button: Marcus found it bad UX.
 
 ## Motion
 Values live in `Motion` in `src/constants/theme.ts`.

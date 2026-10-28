@@ -1,35 +1,9 @@
 import type { SymbolViewProps } from 'expo-symbols';
 
-import type { ThemeId, TrackId } from '@/content/types';
-import { tracks } from '@/content/catalog';
+import type { TrackId } from '@/content/types';
 
-// Color comes from a track's theme, so a theme reads as one family in the feed
-// and on Learn. A few signature tracks get their own hue. Hues share a similar
-// lightness so no track shouts louder than another. See docs/DESIGN.md.
-export type TrackStyle = {
-  hue: string; // chip text, icons, progress, and the background glow
-  tint: string; // chip and tile background
-  icon: SymbolViewProps['name'];
-};
-
-type Hue = Pick<TrackStyle, 'hue' | 'tint'>;
-
-export const themeHues: Record<ThemeId, Hue> = {
-  wilderness: { hue: '#A9D06F', tint: '#1E2716' },
-  'water-food': { hue: '#6CC0E4', tint: '#15262E' },
-  health: { hue: '#F07B76', tint: '#2D1A1A' },
-  emergency: { hue: '#F2A65A', tint: '#2B2016' },
-  gear: { hue: '#C79BF2', tint: '#241B2D' },
-  garden: { hue: '#D2D46A', tint: '#232716' },
-  homestead: { hue: '#E3B98A', tint: '#2A2218' },
-  diy: { hue: '#9AA8FF', tint: '#1A1E30' },
-  energy: { hue: '#EEC25A', tint: '#2B2414' },
-};
-
-const trackHues: Partial<Record<TrackId, Hue>> = {
-  fire: { hue: '#F59A62', tint: '#2A1E16' },
-  'fishing-trapping': { hue: '#5CC9A8', tint: '#14271F' },
-};
+// Every track has its own icon, drawn in one neutral color. The app keeps to a
+// single accent (blaze), so tracks don't each get a hue. See docs/DESIGN.md.
 
 const sym = (ios: SFName, android: AndroidName): SymbolViewProps['name'] => ({ ios, android, web: android });
 type SymbolNames = Exclude<SymbolViewProps['name'], string>;
@@ -87,22 +61,6 @@ const icons: Record<TrackId, SymbolViewProps['name']> = {
   heating: sym('heater.vertical', 'fireplace'),
 };
 
-const fallback: TrackStyle = {
-  hue: '#B9B3A6',
-  tint: '#1B2A22',
-  icon: sym('book', 'menu_book'),
-};
-
-export function trackStyle(trackId: string): TrackStyle {
-  const track = tracks.find((t) => t.id === trackId);
-  if (!track) return fallback;
-  return { ...themeHues[track.theme], ...trackHues[track.id], icon: icons[track.id] };
-}
-
-// A soft glow of the track's hue in one corner of a dark surface.
-export function trackGlow(trackId: string, corner: 'left' | 'right' = 'left', strength = 0.3): string {
-  const { hue } = trackStyle(trackId);
-  const alpha = Math.round(strength * 255).toString(16).padStart(2, '0');
-  const x = corner === 'left' ? '0%' : '100%';
-  return `radial-gradient(120% 60% at ${x} 0%, ${hue}${alpha} 0%, ${hue}00 70%)`;
+export function trackIcon(trackId: TrackId): SymbolViewProps['name'] {
+  return icons[trackId];
 }

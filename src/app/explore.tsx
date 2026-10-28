@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BottomTabInset, MaxContentWidth, Palette, Spacing, Type } from '@/constants/theme';
-import { trackStyle } from '@/constants/track-style';
+import { trackIcon } from '@/constants/track-style';
 import { cards, themes, tracks } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -34,7 +34,7 @@ export default function LearnScreen() {
             {tracks
               .filter((track) => track.theme === theme.id)
               .map((track) => {
-                const look = trackStyle(track.id);
+                const icon = trackIcon(track.id);
                 const count = cards.filter((c) => c.track === track.id).length;
                 const countLabel = count === 0 ? 'Coming soon' : `${count} ${count === 1 ? 'card' : 'cards'}`;
                 return (
@@ -42,14 +42,8 @@ export default function LearnScreen() {
                     key={track.id}
                     accessible
                     accessibilityLabel={`${track.title}. ${track.blurb} ${countLabel}.`}
-                    style={[
-                      styles.tile,
-                      {
-                        backgroundColor: look.tint,
-                        backgroundImage: `radial-gradient(90% 90% at 100% 0%, ${look.hue}55 0%, ${look.hue}00 70%)`,
-                      },
-                    ]}>
-                    <SymbolView name={look.icon} size={26} tintColor={look.hue} />
+                    style={styles.tile}>
+                    <SymbolView name={icon} size={24} tintColor={count === 0 ? Palette.stone : Palette.ash} />
                     <View style={styles.tileText}>
                       <Text style={styles.tileTitle} numberOfLines={2}>
                         {track.title}
@@ -57,7 +51,7 @@ export default function LearnScreen() {
                       <Text style={styles.tileMeta} numberOfLines={2}>
                         {track.blurb}
                       </Text>
-                      <Text style={[styles.tileCount, { color: count === 0 ? Palette.ash : look.hue }]}>
+                      <Text style={styles.tileCount}>
                         {countLabel}
                       </Text>
                     </View>
@@ -118,6 +112,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'space-between',
     gap: Spacing.three,
+    backgroundColor: Palette.canopy,
   },
   tileText: {
     gap: 2,
@@ -135,10 +130,9 @@ const styles = StyleSheet.create({
     color: Palette.boneSoft,
   },
   tileCount: {
-    fontFamily: Type.bodyBold,
-    fontSize: 12,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
+    fontFamily: Type.bodySemiBold,
+    fontSize: 13,
+    color: Palette.ash,
     marginTop: Spacing.one,
   },
 });

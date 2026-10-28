@@ -1,13 +1,22 @@
 import { SymbolView } from 'expo-symbols';
-import { useState } from 'react';
-import { AccessibilityInfo, Linking, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import {
+  AccessibilityInfo,
+  Linking,
+  Platform,
+  Pressable,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+  type HostInstance,
+} from 'react-native';
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CardMedia, GearLinks } from '@/components/card-media';
 import { Rise } from '@/components/rise';
 import { BottomTabInset, Motion, Palette, Spacing, Type } from '@/constants/theme';
-import { trackGlow, trackStyle } from '@/constants/track-style';
 import type { Card } from '@/content/types';
 import { independentSourceCount, isShippable } from '@/content/types';
 import { skills, tracks } from '@/content/catalog';
@@ -31,7 +40,8 @@ const revealPrompt: Partial<Record<Card['type'], string>> = {
 // Called only from tap handlers, so scrolling back to an answered card stays quiet.
 // Web isn't a release target, so it has no announcement.
 const announce = (text: string) => {
-  // queue: true waits for VoiceOver to finish reading the button's new state.
+  // queue: true (iOS only) waits for VoiceOver to finish reading the tapped choice's
+  // new label. Android ignores it, so check TalkBack before the Android release.
   if (Platform.OS !== 'web') AccessibilityInfo.announceForAccessibilityWithOptions(text, { queue: true });
 };
 
@@ -60,16 +70,51 @@ export function FeedCard({
   const reduceMotion = useReducedMotion();
   const [showSources, setShowSources] = useState(false);
 
-  const look = trackStyle(card.track);
+  // The reveal button unmounts on tap, so move screen reader focus to the body it
+  // revealed. Only after a tap, never when an already-revealed row remounts. Wait
+  // until the fade-in ends (no wait with Reduce Motion): VoiceOver can drop focus
+  // sent to a view that is still at opacity 0.
+  const bodyRef = useRef<HostInstance>(null);
+  const [focusBody, setFocusBody] = useState(false);
+  useEffect(() => {
+    if (!focusBody || !revealed) return;
+    // Swiped away before the timer fired: drop the focus move rather than pull focus back.
+    if (!active) {
+      setFocusBody(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setFocusBody(false);
+      if (Platform.OS !== 'web' && bodyRef.current) AccessibilityInfo.sendAccessibilityEvent(bodyRef.current, 'focus');
+    }, reduceMotion ? 0 : Motion.reveal + 50);
+    return () => clearTimeout(timer);
+  }, [focusBody, revealed, reduceMotion, active]);
+
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
   const skill = skills.find((s) => s.id === card.skill);
   const step = skill ? skill.cardIds.indexOf(card.id) + 1 : 0;
-  // A quiz is its own reveal. Expert-tier cards show their guidance right away,
-  // so nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md).
-  const prompt = card.quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
-  const answer = card.quiz ? card.quiz.choices[card.quiz.answerIndex] : '';
-  const bodyHidden = (card.quiz && picked === null) || (prompt !== undefined && !revealed);
-  const enter = reduceMotion ? undefined : FadeIn.duration(Motion.reveal);
+  // A quiz is its own reveal. Expert-tier cards skip the "think, then tap" reveal so
+  // nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md). An
+  // expert quiz still waits for an answer, so check:content requires a first aid
+  // quiz to show 911 in its headline or choices.
+  // Standard myth cards are a Myth or Fact guess. Caution and expert headlines state the safe
+  // answer, so they never become a guessing game (docs/DESIGN.md, Card.verdict).
+  const mythGuess =
+    card.type === 'myth' && !card.quiz && card.verdict !== undefined && card.riskTier === 'standard';
+  const quiz =
+    card.quiz ??
+    (mythGuess ? { choices: ['Myth', 'Fact'], answerIndex: card.verdict === 'myth' ? 0 : 1 } : undefined);
+  // Caution and expert myths state the safe answer, so don't call them "Myth or fact".
+  // Step cards in multi-card skills already announce their position in the progress segments.
+  const showSegments = skill !== undefined && step > 0 && skill.cardIds.length > 1;
+  const cardTypeLabel =
+    (card.type === 'myth' && !mythGuess) || (card.type === 'step' && showSegments) ? undefined : typeLabel[card.type];
+  const prompt = quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
+  const answer = quiz ? (mythGuess ? `a ${card.verdict}` : quiz.choices[quiz.answerIndex]) : '';
+  const bodyHidden = (quiz && picked === null) || (prompt !== undefined && !revealed);
+  // Fade answers in only when they happen here, not when an answered row remounts.
+  const [tappedHere, setTappedHere] = useState(false);
+  const enter = reduceMotion || !tappedHere ? undefined : FadeIn.duration(Motion.reveal);
   const verified = isShippable(card);
   const sourceCount = verified ? independentSourceCount(card) : card.sources.length;
 
@@ -92,67 +137,51 @@ export function FeedCard({
         styles.page,
         {
           height,
-          backgroundImage: trackGlow(card.track, step > 0 || card.type === 'tip' ? 'left' : 'right'),
           paddingTop: insets.top + Spacing.three,
           paddingBottom: insets.bottom + BottomTabInset + Spacing.three,
         },
       ]}>
-      <View style={[styles.watermark, { top: insets.top + 72 }]} pointerEvents="none">
-        <SymbolView name={look.icon} size={240} tintColor={look.hue} />
-      </View>
-
       <View style={styles.top}>
-        {skill && step > 0 && (
+        {showSegments && (
           <View
             style={styles.segments}
             accessible
-            accessibilityLabel={`${skill.title}, step ${step} of ${skill.cardIds.length}`}>
+            accessibilityLabel={`${card.type === 'step' ? 'Step' : 'Card'} ${step} of ${skill.cardIds.length}`}>
             {skill.cardIds.map((id, i) => (
               <View
                 key={id}
-                style={[styles.segment, { backgroundColor: i < step ? look.hue : 'rgba(242,236,225,0.22)' }]}
+                style={[styles.segment, { backgroundColor: i < step ? Palette.bone : 'rgba(242,236,225,0.22)' }]}
               />
             ))}
           </View>
         )}
-        <View style={[styles.chip, { backgroundColor: look.tint }]}>
-          <SymbolView name={look.icon} size={15} tintColor={look.hue} />
-          <Text style={[styles.chipText, { color: look.hue }]} numberOfLines={1}>
-            {[trackTitle, skill?.title, card.type === 'step' ? undefined : typeLabel[card.type]]
-              .filter(Boolean)
-              .join(' · ')}
-          </Text>
-        </View>
+        {/* The card type stays off screen, where the buttons already show it, but screen readers hear it. */}
+        <Text
+          style={styles.trackLabel}
+          numberOfLines={1}
+          accessibilityLabel={[trackTitle, skill?.title, cardTypeLabel].filter(Boolean).join(', ')}>
+          {[trackTitle, skill?.title].filter(Boolean).join(' · ')}
+        </Text>
       </View>
 
-      {/* Media takes only the space the text leaves, so it never pushes the 911 button,
-          gear, or sources off the page. */}
+      {/* Media takes only the space the text leaves, so it never pushes the answer, gear links,
+          or sources off the page. */}
       {card.media && <CardMedia media={card.media} active={active} />}
 
       <View style={styles.bottom}>
         <View style={styles.row}>
           <View style={styles.content}>
-            {card.type === 'step' && step > 0 && (
-              <Rise active={active} order={0}>
-                <Text style={[styles.stepNumber, { color: `${look.hue}59` }]} accessible={false}>
-                  {String(step).padStart(2, '0')}
-                </Text>
-                <Text style={styles.label}>
-                  Step {step} of {skill?.cardIds.length}
-                </Text>
-              </Rise>
-            )}
-            <Rise active={active} order={1}>
+            <Rise active={active} order={0}>
               <Text style={styles.headline} accessibilityRole="header">
                 {card.headline}
               </Text>
             </Rise>
 
-            {card.quiz && (
-              <Rise active={active} order={2} style={styles.choices}>
-                {card.quiz.choices.map((choice, i) => {
+            {quiz && (
+              <Rise active={active} order={1} style={styles.choices}>
+                {quiz.choices.map((choice, i) => {
                   const answered = picked !== null;
-                  const correct = i === card.quiz!.answerIndex;
+                  const correct = i === quiz.answerIndex;
                   const mark = answered && correct ? 'Right answer' : answered && picked === i ? 'Your pick' : '';
                   return (
                     <Pressable
@@ -160,9 +189,11 @@ export function FeedCard({
                       accessibilityRole="button"
                       accessibilityState={{ disabled: answered, selected: picked === i }}
                       accessibilityLabel={mark ? `${choice}, ${mark}` : choice}
+                      accessibilityHint={mythGuess && !answered ? 'Guess whether the headline is a myth or a fact' : undefined}
                       disabled={answered}
                       onPress={() => {
                         onPick(card.id, i);
+                        setTappedHere(true);
                         const verdict = correct ? 'You got it.' : `It's ${answer}.`;
                         announce(`${verdict} ${card.body}`);
                       }}
@@ -188,12 +219,13 @@ export function FeedCard({
             )}
 
             {prompt && !revealed && (
-              <Rise active={active} order={2}>
+              <Rise active={active} order={1}>
                 <Pressable
                   accessibilityRole="button"
                   onPress={() => {
                     onReveal(card.id);
-                    announce(card.body);
+                    setFocusBody(true);
+                    setTappedHere(true);
                   }}
                   style={({ pressed }) => [styles.reveal, pressed && styles.pressed]}>
                   <Text style={styles.revealText}>{prompt}</Text>
@@ -201,44 +233,27 @@ export function FeedCard({
               </Rise>
             )}
 
-            {bodyHidden ? null : card.quiz ? (
+            {bodyHidden ? null : quiz ? (
               <Animated.View entering={enter} style={styles.verdictBox}>
                 <Text
                   style={[
                     styles.label,
-                    { color: picked === card.quiz.answerIndex ? Palette.sage : Palette.blaze },
+                    { color: picked === quiz.answerIndex ? Palette.sage : Palette.blaze },
                   ]}>
-                  {picked === card.quiz.answerIndex
-                    ? 'You got it'
-                    : `It's ${answer}`}
+                  {picked === quiz.answerIndex ? 'You got it' : `It's ${answer}`}
                 </Text>
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
             ) : prompt ? (
-              <Animated.View entering={enter} style={styles.revealed}>
-                {/* Only standard myth headlines are bare claims, so only they need the answer spelled out. */}
-                {card.verdict && card.riskTier === 'standard' && (
-                  <Text style={[styles.label, { color: card.verdict === 'fact' ? Palette.sage : Palette.blaze }]}>
-                    {card.verdict === 'fact' ? 'Fact' : 'Myth'}
-                  </Text>
-                )}
-                <Text style={styles.body}>{card.body}</Text>
+              <Animated.View entering={enter}>
+                <Text ref={bodyRef} style={styles.body}>
+                  {card.body}
+                </Text>
               </Animated.View>
             ) : (
-              <Rise active={active} order={2}>
+              <Rise active={active} order={1}>
                 <Text style={styles.body}>{card.body}</Text>
               </Rise>
-            )}
-
-            {card.track === 'first-aid' && (
-              <Pressable
-                accessibilityRole="link"
-                accessibilityLabel="In an emergency, call 911"
-                onPress={() => Linking.openURL('tel:911').catch(() => {})}
-                style={({ pressed }) => [styles.emergency, pressed && styles.pressed]}>
-                <SymbolView name={{ ios: 'phone', android: 'call', web: 'call' }} size={17} tintColor={look.hue} />
-                <Text style={styles.emergencyText}>Emergency? Call 911 first.</Text>
-              </Pressable>
             )}
 
             {card.gearIds && !bodyHidden && <GearLinks gearIds={card.gearIds} />}
@@ -335,13 +350,10 @@ function RailButton({
 const styles = StyleSheet.create({
   page: {
     backgroundColor: Palette.nightPine,
+    // One soft, neutral light from the top so the page isn't flat. No per-track color.
+    backgroundImage: `radial-gradient(120% 60% at 50% 0%, ${Palette.canopyHigh} 0%, ${Palette.nightPine} 70%)`,
     paddingHorizontal: Spacing.four,
     justifyContent: 'space-between',
-  },
-  watermark: {
-    position: 'absolute',
-    right: -48,
-    opacity: 0.07,
   },
   top: {
     gap: Spacing.three,
@@ -355,22 +367,10 @@ const styles = StyleSheet.create({
     height: 3,
     borderRadius: 2,
   },
-  chip: {
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.two,
-    paddingVertical: 6,
-    paddingLeft: 10,
-    paddingRight: 12,
-    borderRadius: 999,
-    maxWidth: '100%',
-  },
-  chipText: {
-    fontFamily: Type.bodyBold,
-    fontSize: 12,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
+  trackLabel: {
+    fontFamily: Type.bodySemiBold,
+    fontSize: 13,
+    color: Palette.ash,
   },
   bottom: {
     gap: Spacing.four,
@@ -383,11 +383,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     gap: Spacing.three,
-  },
-  stepNumber: {
-    fontFamily: Type.displayMedium,
-    fontSize: 88,
-    lineHeight: 88,
   },
   label: {
     fontFamily: Type.bodyBold,
@@ -443,9 +438,6 @@ const styles = StyleSheet.create({
     fontFamily: Type.bodyBold,
     fontSize: 13,
   },
-  revealed: {
-    gap: Spacing.two,
-  },
   verdictBox: {
     gap: Spacing.two,
     padding: Spacing.three,
@@ -464,20 +456,6 @@ const styles = StyleSheet.create({
   revealText: {
     fontFamily: Type.bodySemiBold,
     fontSize: 16,
-    color: Palette.bone,
-  },
-  emergency: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    minHeight: 48,
-    paddingHorizontal: 14,
-    borderRadius: 14,
-    backgroundColor: 'rgba(240,123,118,0.12)',
-  },
-  emergencyText: {
-    fontFamily: Type.bodySemiBold,
-    fontSize: 15,
     color: Palette.bone,
   },
   rail: {
