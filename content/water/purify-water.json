@@ -1,0 +1,22 @@
+{
+  "title": "Purify water",
+  "cards": [
+    {
+      "id": "boil-water",
+      "type": "step",
+      "headline": "Boil water to make it safe",
+      "body": "Bring clear water to a rolling boil for 1 minute. Above 6,500 feet, boil for 3 minutes. Let it cool before drinking.",
+      "difficulty": 1,
+      "riskTier": "caution",
+      "sources": [
+        {
+          "title": "CDC: Making water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

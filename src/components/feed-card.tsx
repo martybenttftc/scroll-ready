@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import type { Card } from '@/content/types';
-import { skills, tracks } from '@/content/seed';
+import { skills, tracks } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
 
 const typeLabel: Record<Card['type'], string> = {

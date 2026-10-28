@@ -1,0 +1,21 @@
+{
+  "title": "Improvised fishing",
+  "cards": [
+    {
+      "id": "gorge-hook",
+      "type": "tip",
+      "headline": "No hook? Carve a gorge.",
+      "body": "Sharpen a small sliver of bone or hardwood at both ends and tie your line to the middle. Bury it in bait. When a fish swallows it, the line turns it sideways.",
+      "difficulty": 2,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "US Army FM 21-76, Survival"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

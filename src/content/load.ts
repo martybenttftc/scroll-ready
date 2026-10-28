@@ -1,0 +1,166 @@
+import { tracks } from './taxonomy';
+import type { Card, CardType, RiskTier, Skill, Source, TrackId } from './types';
+
+// Turns content/<track>/<skill>.json files into skills and cards. The app and
+// scripts/check-content.ts both use this, so they always agree on what a file means.
+
+export type ContentFile = { path: string; data: unknown };
+
+export type Catalog = { skills: Skill[]; cards: Card[]; problems: string[] };
+
+const CARD_TYPES: CardType[] = ['tip', 'step', 'myth', 'quiz', 'scenario', 'gear', 'checklist'];
+const RISK_TIERS: RiskTier[] = ['standard', 'caution', 'expert'];
+const SEASONS = ['spring', 'summer', 'fall', 'winter'] as const;
+const trackIds = new Set<string>(tracks.map((t) => t.id));
+
+type Obj = Record<string, unknown>;
+const isObj = (v: unknown): v is Obj => typeof v === 'object' && v !== null && !Array.isArray(v);
+const isStr = (v: unknown): v is string => typeof v === 'string' && v.trim().length > 0;
+const isStrList = (v: unknown): v is string[] => Array.isArray(v) && v.every(isStr);
+const isOneOf = <T extends string>(list: readonly T[], v: unknown): v is T =>
+  typeof v === 'string' && (list as readonly string[]).includes(v);
+
+// "./water/purify-water.json" or "content/water/purify-water.json" -> ["water", "purify-water"]
+function parsePath(path: string): [string, string] | null {
+  const m = path.match(/([^/]+)\/([^/]+)\.json$/);
+  return m ? [m[1], m[2]] : null;
+}
+
+function parseSource(v: unknown): Source | null {
+  if (!isObj(v) || !isStr(v.title)) return null;
+  if (v.url !== undefined && !isStr(v.url)) return null;
+  return { title: v.title, ...(isStr(v.url) && { url: v.url }) };
+}
+
+function parseCard(v: unknown, track: TrackId, skill: string, problem: (msg: string) => void): Card | null {
+  if (!isObj(v) || !isStr(v.id)) {
+    problem('card is missing an id');
+    return null;
+  }
+  const at = `card "${v.id}"`;
+  const bad = (field: string): null => {
+    problem(`${at}: bad or missing ${field}`);
+    return null;
+  };
+  if (!isOneOf(CARD_TYPES, v.type)) return bad('type');
+  if (!isStr(v.headline)) return bad('headline');
+  if (!isStr(v.body)) return bad('body');
+  if (v.difficulty !== 1 && v.difficulty !== 2 && v.difficulty !== 3) return bad('difficulty');
+  if (!isOneOf(RISK_TIERS, v.riskTier)) return bad('riskTier');
+  if (typeof v.isFree !== 'boolean') return bad('isFree');
+  if (typeof v.offlineCore !== 'boolean') return bad('offlineCore');
+  if (!Array.isArray(v.sources)) return bad('sources');
+  const sources: Source[] = [];
+  for (const s of v.sources) {
+    const parsed = parseSource(s);
+    if (!parsed) return bad('source');
+    sources.push(parsed);
+  }
+
+  const card: Card = {
+    id: v.id,
+    track,
+    skill,
+    type: v.type,
+    headline: v.headline,
+    body: v.body,
+    difficulty: v.difficulty,
+    riskTier: v.riskTier,
+    sources,
+    isFree: v.isFree,
+    offlineCore: v.offlineCore,
+  };
+  if (v.stepOrder !== undefined) {
+    if (typeof v.stepOrder !== 'number') return bad('stepOrder');
+    card.stepOrder = v.stepOrder;
+  }
+  for (const key of ['image', 'deeper', 'draftedBy', 'verifiedBy', 'verifiedOn'] as const) {
+    const value = v[key];
+    if (value === undefined) continue;
+    if (!isStr(value)) return bad(key);
+    card[key] = value;
+  }
+  for (const key of ['mistakes', 'gearIds', 'regions'] as const) {
+    const value = v[key];
+    if (value === undefined) continue;
+    if (!isStrList(value)) return bad(key);
+    card[key] = value;
+  }
+  if (v.seasons !== undefined) {
+    if (!Array.isArray(v.seasons) || !v.seasons.every((s) => isOneOf(SEASONS, s))) return bad('seasons');
+    card.seasons = v.seasons;
+  }
+  if (v.quiz !== undefined) {
+    const q = v.quiz;
+    if (!isObj(q) || !isStrList(q.choices) || typeof q.answerIndex !== 'number') return bad('quiz');
+    card.quiz = { choices: q.choices, answerIndex: q.answerIndex };
+  }
+  const known = new Set(Object.keys(card).concat('track', 'skill'));
+  for (const key of Object.keys(v)) if (!known.has(key)) problem(`${at}: unknown field "${key}"`);
+  return card;
+}
+
+export function loadCatalog(files: ContentFile[]): Catalog {
+  const skills: Skill[] = [];
+  const cards: Card[] = [];
+  const problems: string[] = [];
+  const seen = new Set<string>();
+
+  for (const file of [...files].sort((a, b) => a.path.localeCompare(b.path))) {
+    const problem = (msg: string) => problems.push(`${file.path}: ${msg}`);
+    const parts = parsePath(file.path);
+    if (!parts) {
+      problem('expected content/<track>/<skill>.json');
+      continue;
+    }
+    const [track, skillId] = parts;
+    // Metro can list one file under two keys, so the same track/skill pair is skipped.
+    if (seen.has(`${track}/${skillId}`)) continue;
+    seen.add(`${track}/${skillId}`);
+    if (!trackIds.has(track)) {
+      problem(`unknown track folder "${track}" (add it to src/content/taxonomy.ts)`);
+      continue;
+    }
+    const trackId = track as TrackId;
+    const d = file.data;
+    if (!isObj(d) || !isStr(d.title) || !Array.isArray(d.cards)) {
+      problem('needs a "title" and a "cards" array');
+      continue;
+    }
+    if (d.summary !== undefined && !isStr(d.summary)) problem('bad summary');
+    if (d.outline !== undefined && !isStrList(d.outline)) problem('bad outline');
+
+    const skillCards: Card[] = [];
+    for (const raw of d.cards) {
+      const card = parseCard(raw, trackId, skillId, problem);
+      if (card) skillCards.push(card);
+    }
+    skills.push({
+      id: skillId,
+      track: trackId,
+      title: d.title,
+      ...(isStr(d.summary) && { summary: d.summary }),
+      ...(isStrList(d.outline) && { outline: d.outline }),
+      cardIds: skillCards.map((c) => c.id),
+    });
+    cards.push(...skillCards);
+  }
+  return { skills, cards, problems };
+}
+
+// The feed takes one card from each track in turn, so a big track doesn't bury the rest.
+// Within a skill, cards stay in file order.
+export function feedOrder(cards: Card[]): Card[] {
+  const byTrack = new Map<TrackId, Card[]>();
+  for (const card of cards) {
+    const list = byTrack.get(card.track) ?? [];
+    list.push(card);
+    byTrack.set(card.track, list);
+  }
+  const queues = [...byTrack.values()];
+  const out: Card[] = [];
+  for (let i = 0; out.length < cards.length; i++) {
+    for (const q of queues) if (i < q.length) out.push(q[i]);
+  }
+  return out;
+}

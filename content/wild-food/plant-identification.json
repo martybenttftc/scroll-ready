@@ -1,0 +1,21 @@
+{
+  "title": "Plant identification",
+  "cards": [
+    {
+      "id": "never-eat-unknown",
+      "type": "tip",
+      "headline": "Never eat a wild plant you cannot identify with certainty",
+      "body": "Many deadly plants have edible lookalikes. Learn plants with a local expert, check several sources, and never rely on this app alone.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "US Army FM 21-76, Survival"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

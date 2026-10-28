@@ -1,0 +1,22 @@
+{
+  "title": "Generator safety",
+  "cards": [
+    {
+      "id": "generator-outside",
+      "type": "tip",
+      "headline": "Generators stay outside, 20 feet from the house",
+      "body": "Never run a generator indoors or in a garage, even with the door open. Point the exhaust away from windows and doors. Carbon monoxide kills without warning.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "CDC: Carbon monoxide poisoning prevention",
+          "url": "https://www.cdc.gov/carbon-monoxide/"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "draftedBy": "starter seed (Oct 27, 2026)"
+    }
+  ]
+}

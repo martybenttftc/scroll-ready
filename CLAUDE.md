@@ -6,10 +6,11 @@ Read these before working:
 - `AGENTS.md`: Expo SDK rules and commands. Always check the versioned Expo docs; don't rely on memory.
 - `docs/PRODUCT.md`: what we're building and the MVP scope.
 - `docs/PROCESS.md`: how the agent team works (roles, stand-ups, debates, reviews).
+- `docs/CONTENT.md`: how to write, source, and verify cards. Use `/card-batch <track>` to produce a batch.
 - `docs/decisions/`: architecture decisions. Follow them unless you write a new ADR that supersedes one.
 
 ## Code
-- Expo Router routes go in `src/app/`. Components go in `src/components/`. The content model and data go in `src/content/`.
+- Expo Router routes go in `src/app/`. Components go in `src/components/`. The content model and loader go in `src/content/`. Skills and cards go in `content/<track>/<skill>.json` (see `docs/CONTENT.md` and ADR 0003).
 - Use `npx expo install <pkg>` for dependencies.
 - Before calling anything done, run `npx tsc --noEmit` and `npm run check:content`.
 - Match the surrounding code style. Use TypeScript strictly and don't use `any`.

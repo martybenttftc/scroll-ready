@@ -1,19 +1,76 @@
-// Content model: Track -> Skill -> Card. Mirrors Book -> Chapter -> Verse.
-// See docs/PRODUCT.md for the full spec.
+// Content model: Theme -> Track -> Skill -> Card. Mirrors Book -> Chapter -> Verse.
+// Themes and tracks live in taxonomy.ts. Skills and cards live in content/<track>/<skill>.json.
+// See docs/PRODUCT.md and ADR 0003.
 
-export type TrackId =
-  | 'fire'
-  | 'water'
-  | 'shelter'
-  | 'first-aid'
-  | 'wild-food'
-  | 'fishing-trapping'
+export type ThemeId =
+  | 'wilderness'
+  | 'water-food'
+  | 'health'
+  | 'emergency'
+  | 'gear'
   | 'garden'
   | 'homestead'
-  | 'power-tools'
-  | 'go-bag'
+  | 'diy'
+  | 'energy';
+
+export type TrackId =
+  // wilderness
+  | 'fire'
+  | 'shelter'
   | 'navigation'
-  | 'disasters';
+  | 'signaling'
+  | 'knots'
+  | 'bushcraft'
+  | 'wild-food'
+  | 'fishing-trapping'
+  | 'weather'
+  // water-food
+  | 'water'
+  | 'food-storage'
+  | 'canning'
+  | 'off-grid-cooking'
+  // health
+  | 'first-aid'
+  | 'medical-kit'
+  | 'sanitation'
+  | 'mindset'
+  // emergency
+  | 'disasters'
+  | 'storms'
+  | 'floods'
+  | 'earthquakes'
+  | 'wildfire'
+  | 'winter-weather'
+  | 'heat'
+  | 'power-outage'
+  | 'evacuation'
+  | 'communication'
+  // gear
+  | 'go-bag'
+  | 'home-kit'
+  | 'everyday-carry'
+  // garden
+  | 'garden'
+  | 'soil-compost'
+  | 'seed-saving'
+  | 'herbs'
+  | 'fruit-trees'
+  | 'pests'
+  // homestead
+  | 'homestead'
+  | 'chickens'
+  | 'bees'
+  | 'goats'
+  // diy
+  | 'home-repair'
+  | 'plumbing'
+  | 'sewing'
+  | 'hand-tools'
+  | 'vehicle'
+  // energy
+  | 'power'
+  | 'solar'
+  | 'heating';
 
 export type CardType = 'tip' | 'step' | 'myth' | 'quiz' | 'scenario' | 'gear' | 'checklist';
 
@@ -21,17 +78,26 @@ export type CardType = 'tip' | 'step' | 'myth' | 'quiz' | 'scenario' | 'gear' | 
 // expert: can seriously hurt someone. Any disagreement between sources blocks it (ADR 0002).
 export type RiskTier = 'standard' | 'caution' | 'expert';
 
+export type Theme = {
+  id: ThemeId;
+  title: string;
+  blurb: string;
+};
+
 export type Track = {
   id: TrackId;
+  theme: ThemeId;
   title: string;
   blurb: string;
 };
 
 export type Skill = {
-  id: string;
-  track: TrackId;
+  id: string; // the JSON file name
+  track: TrackId; // the JSON file's folder
   title: string;
-  cardIds: string[];
+  summary?: string;
+  outline?: string[]; // card ideas planned but not drafted yet
+  cardIds: string[]; // in file order
 };
 
 export type Source = {
@@ -41,8 +107,8 @@ export type Source = {
 
 export type Card = {
   id: string;
-  track: TrackId;
-  skill?: string;
+  track: TrackId; // set by the loader from the file path
+  skill: string; // set by the loader from the file path
   stepOrder?: number;
   type: CardType;
   headline: string; // 12 words or fewer

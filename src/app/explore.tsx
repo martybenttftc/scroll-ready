@@ -3,7 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { cards, tracks } from '@/content/seed';
+import { cards, tracks } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
 
 // Learn tab: browse tracks like chapters. Skills and plans come next.

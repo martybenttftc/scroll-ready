@@ -5,7 +5,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 ## Now
 1. **Feed polish.** Full-screen snapping works on iOS and Android. The progress label reads "Track · Skill · n of m". Swiping right inside a skill moves to the next step. *Status: basic feed done.*
 2. **Theme and brand.** Forest green and blaze orange palette, display font, app icon, and splash screen. *Status: not started.*
-3. **Content pipeline.** Load cards from JSON files in `content/`, validated against `src/content/types.ts`. Add 100 draft cards across 12 tracks. *Status: not started. Depends on the content sources work.*
+3. **Content pipeline.** Load cards from JSON files in `content/`, validated against `src/content/types.ts`. Add 100 draft cards across the tracks. *Status: loader, taxonomy, and `/card-batch` pipeline done (ADR 0003). Batches in progress.*
 
 ## Next
 4. Onboarding quiz and Readiness Score

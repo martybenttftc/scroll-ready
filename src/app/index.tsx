@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import { FeedCard } from '@/components/feed-card';
-import { cards } from '@/content/seed';
+import { feed } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
 
 // The home feed: one full-screen card per page, swiped vertically.
@@ -16,7 +16,7 @@ export default function FeedScreen() {
       onLayout={(e) => setHeight(e.nativeEvent.layout.height)}>
       {height > 0 && (
         <FlatList
-          data={cards}
+          data={feed}
           keyExtractor={(c) => c.id}
           renderItem={({ item }) => <FeedCard card={item} height={height} />}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
