@@ -50,7 +50,8 @@ export function FeedCard({
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
   const skill = skills.find((s) => s.id === card.skill);
   const step = skill ? skill.cardIds.indexOf(card.id) + 1 : 0;
-  const prompt = revealPrompt[card.type];
+  // A quiz is its own reveal, so it takes priority over the tap-to-see prompt.
+  const prompt = card.quiz ? undefined : revealPrompt[card.type];
   const bodyHidden = (card.quiz && picked === null) || (prompt !== undefined && !revealed);
   const enter = reduceMotion ? undefined : FadeIn.duration(Motion.reveal);
   const verified = isShippable(card);
@@ -61,7 +62,8 @@ export function FeedCard({
   const share = () => {
     const lines = [card.headline, card.body];
     if (card.track === 'first-aid') lines.push('In an emergency, call 911.');
-    lines.push(`Checked against ${sourceCount} sources: ${card.sources.map((s) => s.title).join('; ')}`);
+    const titles = card.sources.map((s) => s.title).join('; ');
+    lines.push(`Checked against ${sourceCount} independent sources: ${titles}`);
     lines.push('From Scroll Ready');
     Share.share({ message: lines.join('\n\n') }).catch(() => {});
   };
@@ -199,7 +201,7 @@ export function FeedCard({
                 accessibilityLabel="In an emergency, call 911"
                 onPress={() => Linking.openURL('tel:911').catch(() => {})}
                 style={({ pressed }) => [styles.emergency, pressed && styles.pressed]}>
-                <SymbolView name={{ ios: 'phone', android: 'call', web: 'call' }} size={17} tintColor="#F07B76" />
+                <SymbolView name={{ ios: 'phone', android: 'call', web: 'call' }} size={17} tintColor={look.hue} />
                 <Text style={styles.emergencyText}>Emergency? Call 911 first.</Text>
               </Pressable>
             )}
@@ -243,7 +245,7 @@ export function FeedCard({
             />
             <Text style={styles.trustText}>
               {verified
-                ? `Checked against ${sourceCount} sources`
+                ? `Checked against ${sourceCount} independent sources`
                 : `Draft · ${sourceCount} ${sourceCount === 1 ? 'source' : 'sources'}`}
             </Text>
           </Pressable>
