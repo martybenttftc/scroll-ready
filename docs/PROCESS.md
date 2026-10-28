@@ -16,8 +16,15 @@ Each role is a Claude Code subagent defined in `.claude/agents/`. Opus does the 
 | Content and safety reviewer | `content-safety.md` | opus | Verifying cards against 3+ sources, risk tiers, disclaimers |
 | Code reviewer | `code-reviewer.md` | opus | Reviews every PR for bugs, simplicity, and fit with the ADRs |
 | QA tester | `qa-tester.md` | sonnet | Runs the app, tries to break features, writes tests |
+| Design lead | `design-lead.md` | opus | Brand, type, color, card templates, `docs/DESIGN.md`, signs off UI changes |
+| UX researcher | `ux-researcher.md` | opus | Engagement and learning research, flow audits, guarding against dark patterns |
+| Motion designer | `motion-designer.md` | sonnet | Animation, transitions, and haptics that keep the feed at 60fps |
+| Accessibility reviewer | `accessibility-reviewer.md` | sonnet | Contrast, text size, screen reader labels, touch targets |
 
 Marcus usually drives the main Claude Code session (Opus 5.5) as the orchestrator. The orchestrator hands work to these agents and runs the rituals below.
+
+### The design team
+The design lead, UX researcher, motion designer, and accessibility reviewer work as a sub-team. The UX researcher goes first on a new flow and writes what the research says. The design lead turns that into a direction in `docs/DESIGN.md`, with a mockup when it's a big change. The mobile engineer and motion designer build it. The design lead and accessibility reviewer then critique screenshots of the real app, never only the diff. Brand, name, and paywall changes go to Marcus.
 
 ## Rituals
 
@@ -31,7 +38,7 @@ Use this for any choice that's expensive to reverse, such as a new library, a da
 1. The product lead writes a short story with acceptance criteria in `docs/BACKLOG.md`.
 2. The architect adds an implementation note, or an ADR if it's a bigger call.
 3. The mobile engineer builds it on a branch and opens a PR.
-4. The code reviewer and QA tester review the PR. Content-safety joins if the PR touches cards.
+4. The code reviewer and QA tester review the PR. Content-safety joins if the PR touches cards. If the PR changes what the user sees, run `/design-crit` so the design lead and accessibility reviewer check screenshots too.
 5. The engineer fixes what they find. CI must pass: typecheck, lint, tests, and the content check.
 6. Marcus merges. Merging is the only step that requires him.
 
