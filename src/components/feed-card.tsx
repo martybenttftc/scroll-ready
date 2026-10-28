@@ -71,13 +71,14 @@ export function FeedCard({
   const enter = reduceMotion ? undefined : FadeIn.duration(Motion.reveal);
   const verified = isShippable(card);
   const sourceCount = verified ? independentSourceCount(card) : card.sources.length;
+  // Only standard myth headlines are bare claims, so only they need the answer spelled out.
+  const verdictLabel =
+    card.verdict && card.riskTier === 'standard' ? (card.verdict === 'fact' ? 'Fact' : 'Myth') : undefined;
 
   // Only verified cards leave the app, and they carry their sources (and the 911
   // line for first aid) with them. ADR 0002.
   const share = () => {
-    // A standard myth headline is the bare claim, so the shared text needs the answer too.
-    const verdict = card.verdict && card.riskTier === 'standard' ? `${card.verdict === 'fact' ? 'Fact' : 'Myth'}: ` : '';
-    const lines = [verdict + card.headline, card.body];
+    const lines = [verdictLabel ? `${verdictLabel}: ${card.headline}` : card.headline, card.body];
     if (card.track === 'first-aid') lines.push('In an emergency, call 911.');
     const titles = card.sources.map((s) => s.title).join('; ');
     lines.push(`Checked against ${sourceCount} independent sources: ${titles}`);
@@ -211,10 +212,9 @@ export function FeedCard({
               </Animated.View>
             ) : prompt ? (
               <Animated.View entering={enter} style={styles.revealed}>
-                {/* Only standard myth headlines are bare claims, so only they need the answer spelled out. */}
-                {card.verdict && card.riskTier === 'standard' && (
-                  <Text style={[styles.label, { color: card.verdict === 'fact' ? Palette.sage : Palette.blaze }]}>
-                    {card.verdict === 'fact' ? 'Fact' : 'Myth'}
+                {verdictLabel && (
+                  <Text style={[styles.label, { color: verdictLabel === 'Fact' ? Palette.sage : Palette.blaze }]}>
+                    {verdictLabel}
                   </Text>
                 )}
                 <Text style={styles.body}>{card.body}</Text>
