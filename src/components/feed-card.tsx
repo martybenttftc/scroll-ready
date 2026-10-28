@@ -16,20 +16,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Rise } from '@/components/rise';
 import { BottomTabInset, Motion, Palette, Spacing, Type } from '@/constants/theme';
-import { trackGlow, trackStyle } from '@/constants/track-style';
 import type { Card } from '@/content/types';
 import { independentSourceCount, isShippable } from '@/content/types';
 import { skills, tracks } from '@/content/catalog';
-
-const typeLabel: Record<Card['type'], string> = {
-  tip: 'Tip',
-  step: 'Step',
-  myth: 'Myth or fact',
-  quiz: 'Quick quiz',
-  scenario: 'Scenario',
-  gear: 'Gear pick',
-  checklist: 'Checklist',
-};
 
 // Card types that hold back the answer until a tap, so people think first.
 const revealPrompt: Partial<Record<Card['type'], string>> = {
@@ -80,7 +69,6 @@ export function FeedCard({
     setFocusBody(false);
   }, [focusBody, revealed]);
 
-  const look = trackStyle(card.track);
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
   const skill = skills.find((s) => s.id === card.skill);
   const step = skill ? skill.cardIds.indexOf(card.id) + 1 : 0;
@@ -118,17 +106,12 @@ export function FeedCard({
         styles.page,
         {
           height,
-          backgroundImage: trackGlow(card.track, step > 0 || card.type === 'tip' ? 'left' : 'right'),
           paddingTop: insets.top + Spacing.three,
           paddingBottom: insets.bottom + BottomTabInset + Spacing.three,
         },
       ]}>
-      <View style={[styles.watermark, { top: insets.top + 72 }]} pointerEvents="none">
-        <SymbolView name={look.icon} size={240} tintColor={look.hue} />
-      </View>
-
       <View style={styles.top}>
-        {skill && step > 0 && (
+        {skill && step > 0 && skill.cardIds.length > 1 && (
           <View
             style={styles.segments}
             accessible
@@ -136,34 +119,19 @@ export function FeedCard({
             {skill.cardIds.map((id, i) => (
               <View
                 key={id}
-                style={[styles.segment, { backgroundColor: i < step ? look.hue : 'rgba(242,236,225,0.22)' }]}
+                style={[styles.segment, { backgroundColor: i < step ? Palette.bone : 'rgba(242,236,225,0.22)' }]}
               />
             ))}
           </View>
         )}
-        <View style={[styles.chip, { backgroundColor: look.tint }]}>
-          <SymbolView name={look.icon} size={15} tintColor={look.hue} />
-          <Text style={[styles.chipText, { color: look.hue }]} numberOfLines={1}>
-            {[trackTitle, skill?.title, card.type === 'step' ? undefined : typeLabel[card.type]]
-              .filter(Boolean)
-              .join(' · ')}
-          </Text>
-        </View>
+        <Text style={styles.chipText} numberOfLines={1}>
+          {[trackTitle, skill?.title].filter(Boolean).join(' · ')}
+        </Text>
       </View>
 
       <View style={styles.bottom}>
         <View style={styles.row}>
           <View style={styles.content}>
-            {card.type === 'step' && step > 0 && (
-              <Rise active={active} order={0}>
-                <Text style={[styles.stepNumber, { color: `${look.hue}59` }]} accessible={false}>
-                  {String(step).padStart(2, '0')}
-                </Text>
-                <Text style={styles.label}>
-                  Step {step} of {skill?.cardIds.length}
-                </Text>
-              </Rise>
-            )}
             <Rise active={active} order={1}>
               <Text style={styles.headline} accessibilityRole="header">
                 {card.headline}
@@ -254,7 +222,7 @@ export function FeedCard({
                 accessibilityLabel="In an emergency, call 911"
                 onPress={() => Linking.openURL('tel:911').catch(() => {})}
                 style={({ pressed }) => [styles.emergency, pressed && styles.pressed]}>
-                <SymbolView name={{ ios: 'phone', android: 'call', web: 'call' }} size={17} tintColor={look.hue} />
+                <SymbolView name={{ ios: 'phone', android: 'call', web: 'call' }} size={17} tintColor={Palette.blaze} />
                 <Text style={styles.emergencyText}>Emergency? Call 911 first.</Text>
               </Pressable>
             )}
@@ -351,13 +319,10 @@ function RailButton({
 const styles = StyleSheet.create({
   page: {
     backgroundColor: Palette.nightPine,
+    // One soft, neutral light from the top so the page isn't flat. No per-track color.
+    backgroundImage: `radial-gradient(120% 60% at 50% 0%, ${Palette.canopyHigh} 0%, ${Palette.nightPine} 70%)`,
     paddingHorizontal: Spacing.four,
     justifyContent: 'space-between',
-  },
-  watermark: {
-    position: 'absolute',
-    right: -48,
-    opacity: 0.07,
   },
   top: {
     gap: Spacing.three,
@@ -371,22 +336,10 @@ const styles = StyleSheet.create({
     height: 3,
     borderRadius: 2,
   },
-  chip: {
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.two,
-    paddingVertical: 6,
-    paddingLeft: 10,
-    paddingRight: 12,
-    borderRadius: 999,
-    maxWidth: '100%',
-  },
   chipText: {
-    fontFamily: Type.bodyBold,
-    fontSize: 12,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
+    fontFamily: Type.bodySemiBold,
+    fontSize: 13,
+    color: Palette.ash,
   },
   bottom: {
     gap: Spacing.four,
@@ -399,11 +352,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     gap: Spacing.three,
-  },
-  stepNumber: {
-    fontFamily: Type.displayMedium,
-    fontSize: 88,
-    lineHeight: 88,
   },
   label: {
     fontFamily: Type.bodyBold,
