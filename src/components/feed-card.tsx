@@ -93,8 +93,10 @@ export function FeedCard({
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
   const skill = skills.find((s) => s.id === card.skill);
   const step = skill ? skill.cardIds.indexOf(card.id) + 1 : 0;
-  // A quiz is its own reveal. Expert-tier cards show their guidance right away,
-  // so nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md).
+  // A quiz is its own reveal. Expert-tier cards skip the "think, then tap" reveal so
+  // nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md). An
+  // expert quiz still waits for an answer, so check:content requires a first aid
+  // quiz to show 911 in its headline or choices.
   // Standard myth cards are a Myth or Fact guess. Caution and expert headlines state the safe
   // answer, so they never become a guessing game (docs/DESIGN.md, Card.verdict).
   const mythGuess =
@@ -144,7 +146,7 @@ export function FeedCard({
           <View
             style={styles.segments}
             accessible
-            accessibilityLabel={`Step ${step} of ${skill.cardIds.length}`}>
+            accessibilityLabel={`${card.type === 'step' ? 'Step' : 'Card'} ${step} of ${skill.cardIds.length}`}>
             {skill.cardIds.map((id, i) => (
               <View
                 key={id}
