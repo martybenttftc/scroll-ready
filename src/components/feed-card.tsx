@@ -1,6 +1,16 @@
 import { SymbolView } from 'expo-symbols';
-import { useState } from 'react';
-import { AccessibilityInfo, Linking, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import {
+  AccessibilityInfo,
+  Linking,
+  Platform,
+  Pressable,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+  type HostInstance,
+} from 'react-native';
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -30,7 +40,7 @@ const revealPrompt: Partial<Record<Card['type'], string>> = {
 // Called only from tap handlers, so scrolling back to an answered card stays quiet.
 // Web isn't a release target, so it has no announcement.
 const announce = (text: string) => {
-  // queue: true waits for VoiceOver to finish reading the button's new state.
+  // queue: true waits for VoiceOver to finish reading the tapped choice's new label.
   if (Platform.OS !== 'web') AccessibilityInfo.announceForAccessibilityWithOptions(text, { queue: true });
 };
 
@@ -58,6 +68,16 @@ export function FeedCard({
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
   const [showSources, setShowSources] = useState(false);
+
+  // The reveal button unmounts on tap, so move screen reader focus to the body it
+  // revealed. Only after a tap, never when an already-revealed row remounts.
+  const bodyRef = useRef<HostInstance>(null);
+  const [focusBody, setFocusBody] = useState(false);
+  useEffect(() => {
+    if (!focusBody || !revealed || !bodyRef.current) return;
+    if (Platform.OS !== 'web') AccessibilityInfo.sendAccessibilityEvent(bodyRef.current, 'focus');
+    setFocusBody(false);
+  }, [focusBody, revealed]);
 
   const look = trackStyle(card.track);
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
@@ -186,7 +206,7 @@ export function FeedCard({
                   accessibilityRole="button"
                   onPress={() => {
                     onReveal(card.id);
-                    announce(card.body);
+                    setFocusBody(true);
                   }}
                   style={({ pressed }) => [styles.reveal, pressed && styles.pressed]}>
                   <Text style={styles.revealText}>{prompt}</Text>
@@ -209,7 +229,9 @@ export function FeedCard({
               </Animated.View>
             ) : prompt ? (
               <Animated.View entering={enter}>
-                <Text style={styles.body}>{card.body}</Text>
+                <Text ref={bodyRef} style={styles.body}>
+                  {card.body}
+                </Text>
               </Animated.View>
             ) : (
               <Rise active={active} order={2}>
