@@ -49,6 +49,11 @@ for (const card of cards) {
   if (words(card.headline) > 12) errors.push(`${at}: headline over 12 words`);
   if (words(card.body) > 40) errors.push(`${at}: body over 40 words`);
   if (card.type === 'quiz' && !card.quiz) errors.push(`${at}: quiz card has no quiz`);
+  if (card.type === 'myth' && !card.verdict) errors.push(`${at}: myth card needs a verdict ("myth" or "fact")`);
+  if (card.type !== 'myth' && card.verdict) errors.push(`${at}: only myth cards take a verdict`);
+  if (card.type === 'myth' && card.riskTier !== 'expert' && /\b(myth|fact)\b/i.test(card.headline)) {
+    errors.push(`${at}: write the bare claim in the headline; the verdict field holds the answer`);
+  }
   if (card.quiz && (card.quiz.answerIndex < 0 || card.quiz.answerIndex >= card.quiz.choices.length)) {
     errors.push(`${at}: quiz answerIndex out of range`);
   }

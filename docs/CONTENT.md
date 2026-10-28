@@ -31,13 +31,14 @@ How skills and cards are stored, written, and verified. The why is in ADR 0002 a
 ```
 - `outline` lists card ideas not drafted yet. Drafters remove an item when they draft its card.
 - Don't write `track` or `skill` on a card. The loader sets them from the path.
-- Optional card fields: `stepOrder`, `deeper` (Go Deeper text, premium), `mistakes`, `quiz` (`choices` and `answerIndex`), `gearIds`, `regions`, `seasons`, `image`, `verifiedBy`, `verifiedOn`. The full type is `Card` in `src/content/types.ts`.
+- Optional card fields: `stepOrder`, `deeper` (Go Deeper text, premium), `mistakes`, `quiz` (`choices` and `answerIndex`), `verdict` (myth cards), `gearIds`, `regions`, `seasons`, `image`, `verifiedBy`, `verifiedOn`. The full type is `Card` in `src/content/types.ts`.
 
 ## Writing rules
 - Card ids are kebab-case and unique across all content. Lead with the subject: `bleach-water-ratio`, not `how-much-bleach`.
 - Headline is 12 words or fewer. Body is 40 words or fewer. `deeper` can run to about 150 words.
 - One idea per card. Use exact numbers when the sources give them (minutes, feet, ratios).
 - Calm and capable. No fear-selling, no "you'll die if", no brand names unless the card is a `gear` card.
+- Myth cards set `verdict` to `"myth"` or `"fact"`. For standard and caution cards, the headline is the bare claim ("Moss grows on the north side of trees") so people can guess before the answer shows. For expert cards, the headline states the safe answer on its own ("Don't cut or suck a snakebite"), because some people scroll past without tapping.
 - Mix card types in a skill: open with a `tip` or `scenario`, teach with `step` cards, and end with a `quiz` or `myth`.
 - `riskTier`: `standard` is general knowledge, `caution` can cause harm if done wrong, `expert` can seriously hurt someone. First aid, wild food identification, generators and electrical work, and water from unknown sources are `expert`.
 - Guardrails: first-aid cards point to calling 911. Wild food cards never suggest eating a plant based on the app alone. Generator cards never describe backfeeding: outdoors, 20 feet from the house, and a transfer switch installed by a licensed electrician.

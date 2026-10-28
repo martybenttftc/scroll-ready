@@ -1,0 +1,203 @@
+{
+  "title": "Find water outdoors",
+  "summary": "Pick the safest source you can find, and treat it anyway.",
+  "outline": [
+    "Where to dig for water in dry riverbeds [tip]",
+    "Melt ice rather than snow when you can [tip]"
+  ],
+  "cards": [
+    {
+      "id": "water-outdoors-daily-need",
+      "type": "tip",
+      "headline": "Even in the cold, you need about 2 liters a day",
+      "body": "You lose water through sweat, breathing, cold, and stress. Finding water is one of your most urgent jobs.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "ATP 3-50.21 Survival, ch. 3: Water",
+          "url": "https://archive.org/download/survival-atp-3-50-21/Survival%20%28ATP%203-50-21%29.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1"
+    },
+    {
+      "id": "flowing-beats-stagnant",
+      "type": "tip",
+      "headline": "Pick moving water over still water",
+      "body": "Flowing water is usually a better choice than still, stagnant water. Avoid water that smells bad, looks dark, or has floating material. Treat it either way.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "ATP 3-50.21 Survival, ch. 3: Water",
+          "url": "https://archive.org/download/survival-atp-3-50-21/Survival%20%28ATP%203-50-21%29.pdf"
+        },
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "Texas A&M AgriLife Extension ER-002: Disinfecting water after a disaster",
+          "url": "https://twon.tamu.edu/wp-content/uploads/sites/3/2021/06/disinfecting-water-after-a-disaster-1-2.pdf"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    },
+    {
+      "id": "collect-rainwater",
+      "type": "tip",
+      "headline": "Catch rain in clean containers",
+      "body": "Set out clean, nonporous containers or a tarp to catch rain as it falls. Treat it before drinking when you can, and always treat rain that ran off leaves or plants.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "ATP 3-50.21 Survival, ch. 3: Water",
+          "url": "https://archive.org/download/survival-atp-3-50-21/Survival%20%28ATP%203-50-21%29.pdf"
+        },
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        },
+        {
+          "title": "Texas A&M AgriLife Extension ER-002: Disinfecting water after a disaster",
+          "url": "https://twon.tamu.edu/wp-content/uploads/sites/3/2021/06/disinfecting-water-after-a-disaster-1-2.pdf"
+        },
+        {
+          "title": "CDC: How to find clean water in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    },
+    {
+      "id": "dew-rag-trick",
+      "type": "step",
+      "headline": "Mop up morning dew with cloth around your ankles",
+      "body": "Before sunrise, tie cloth or fine grass around your lower legs and walk through tall, wet grass. Wring it into a container and repeat until the dew is gone.",
+      "difficulty": 2,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "ATP 3-50.21 Survival, ch. 3: Water",
+          "url": "https://archive.org/download/survival-atp-3-50-21/Survival%20%28ATP%203-50-21%29.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1"
+    },
+    {
+      "id": "dont-eat-snow",
+      "type": "myth",
+      "headline": "Eat snow when you're thirsty",
+      "body": "Eating unmelted snow lowers your body temperature. Melt it first, near a fire or in a container under your outer layers, then treat it like any other wild water.",
+      "verdict": "myth",
+      "difficulty": 1,
+      "riskTier": "caution",
+      "sources": [
+        {
+          "title": "ATP 3-50.21 Survival, ch. 3: Water",
+          "url": "https://archive.org/download/survival-atp-3-50-21/Survival%20%28ATP%203-50-21%29.pdf"
+        },
+        {
+          "title": "National Weather Service: Winter storm safety, during the storm",
+          "url": "https://www.weather.gov/safety/winter-during"
+        },
+        {
+          "title": "North Dakota Department of Emergency Services: Winter outdoor safety",
+          "url": "https://ndresponse.gov/sites/www/files/documents/docs/outdoorsafety-winter.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    },
+    {
+      "id": "solar-still-reality",
+      "type": "myth",
+      "headline": "A solar still can supply all the water you need",
+      "body": "A ground still makes about half a liter to a liter a day. You'd need at least three to meet one person's daily need. Treat it as a backup, not a plan.",
+      "verdict": "myth",
+      "difficulty": 2,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1"
+    },
+    {
+      "id": "wild-water-quiz",
+      "type": "quiz",
+      "headline": "Which wild water should you treat before drinking?",
+      "body": "Clear and clean-looking water can still carry germs.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "ATP 3-50.21 Survival, ch. 3: Water",
+          "url": "https://archive.org/download/survival-atp-3-50-21/Survival%20%28ATP%203-50-21%29.pdf"
+        },
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        },
+        {
+          "title": "Texas A&M AgriLife Extension ER-002: Disinfecting water after a disaster",
+          "url": "https://twon.tamu.edu/wp-content/uploads/sites/3/2021/06/disinfecting-water-after-a-disaster-1-2.pdf"
+        },
+        {
+          "title": "National Park Service: Backcountry health (clean drinking water)",
+          "url": "https://www.nps.gov/subjects/healthandsafety/backcountry-health.htm"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "quiz": {
+        "choices": [
+          "A clear, fast stream",
+          "Rain caught in a clean pot",
+          "All of them, whenever you can"
+        ],
+        "answerIndex": 2
+      },
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    }
+  ]
+}
