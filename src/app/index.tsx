@@ -22,8 +22,8 @@ export default function FeedScreen() {
     return story ? [{ kind: 'story', id: `story:${story.id}`, story }, ...cardPages] : cardPages;
   });
   const [activeId, setActiveId] = useState(pages[0]?.id);
-  // Per-card state lives above the list so it survives FlatList unmounting
-  // off-screen rows. Not persisted yet: backlog item 8 stores it on the device.
+  // Saves, quiz answers, and reveals live above the list so they survive FlatList
+  // unmounting off-screen rows. Not persisted yet: backlog item 8 stores them on the device.
   const [savedIds, setSavedIds] = useState<ReadonlySet<string>>(new Set());
   const [answers, setAnswers] = useState<Readonly<Record<string, number>>>({});
   const [revealedIds, setRevealedIds] = useState<ReadonlySet<string>>(new Set());
