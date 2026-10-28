@@ -16,7 +16,7 @@ import AppTabs from '@/components/app-tabs';
 import { AppScheme, Colors } from '@/constants/theme';
 
 SplashScreen.preventAutoHideAsync();
-// A short fade from the plain night-pine splash into the feed.
+// A short fade from the plain night-pine splash into the feed (iOS only; Android uses its own exit).
 SplashScreen.setOptions({ duration: 250, fade: true });
 // Native chrome (tab bar, alerts, share sheet) follows the app's single dark scheme.
 // react-native-web has no setColorScheme.
