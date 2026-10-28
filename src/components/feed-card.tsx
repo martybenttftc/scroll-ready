@@ -156,14 +156,14 @@ export function FeedCard({
       <View style={styles.bottom}>
         <View style={styles.row}>
           <View style={styles.content}>
-            <Rise active={active} order={1}>
+            <Rise active={active} order={0}>
               <Text style={styles.headline} accessibilityRole="header">
                 {card.headline}
               </Text>
             </Rise>
 
             {quiz && (
-              <Rise active={active} order={2} style={styles.choices}>
+              <Rise active={active} order={1} style={styles.choices}>
                 {quiz.choices.map((choice, i) => {
                   const answered = picked !== null;
                   const correct = i === quiz.answerIndex;
@@ -204,7 +204,7 @@ export function FeedCard({
             )}
 
             {prompt && !revealed && (
-              <Rise active={active} order={2}>
+              <Rise active={active} order={1}>
                 <Pressable
                   accessibilityRole="button"
                   onPress={() => {
@@ -236,7 +236,7 @@ export function FeedCard({
                 </Text>
               </Animated.View>
             ) : (
-              <Rise active={active} order={2}>
+              <Rise active={active} order={1}>
                 <Text style={styles.body}>{card.body}</Text>
               </Rise>
             )}
