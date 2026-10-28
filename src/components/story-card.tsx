@@ -85,7 +85,7 @@ export function StoryCard({
             Screen readers get their own wording, since VoiceOver scrolls with three fingers and TalkBack with two. */}
         <View
           style={[styles.hint, !showHint && styles.hintGone]}
-          accessible={showHint}
+          accessible={Platform.OS !== 'web' && showHint}
           accessibilityLabel={Platform.select({
             ios: 'More skills below. Swipe up with three fingers to continue.',
             android: 'More skills below. Swipe up with two fingers to continue.',
