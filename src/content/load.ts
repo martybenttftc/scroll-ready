@@ -1,5 +1,5 @@
 import { tracks } from './taxonomy';
-import type { Card, CardType, RiskTier, Skill, Source, TrackId } from './types';
+import type { Card, CardType, Media, MediaLicense, RiskTier, Skill, Source, TrackId } from './types';
 
 // Turns content/<track>/<skill>.json files into skills and cards. The app and
 // scripts/check-content.ts both use this, so they always agree on what a file means.
@@ -11,6 +11,8 @@ export type Catalog = { skills: Skill[]; cards: Card[]; problems: string[] };
 const CARD_TYPES: CardType[] = ['tip', 'step', 'myth', 'quiz', 'scenario', 'gear', 'checklist'];
 const RISK_TIERS: RiskTier[] = ['standard', 'caution', 'expert'];
 const SEASONS = ['spring', 'summer', 'fall', 'winter'] as const;
+const MEDIA_KINDS = ['photo', 'video'] as const;
+const MEDIA_LICENSES: MediaLicense[] = ['public-domain', 'cc0', 'cc-by', 'cc-by-sa', 'licensed', 'own'];
 const SKILL_FIELDS = ['title', 'summary', 'outline', 'cards'];
 const trackIds = new Set<string>(tracks.map((t) => t.id));
 
@@ -31,6 +33,29 @@ function parseSource(v: unknown): Source | null {
   if (!isObj(v) || !isStr(v.title)) return null;
   if (v.url !== undefined && !isStr(v.url)) return null;
   return { title: v.title, ...(isStr(v.url) && { url: v.url }) };
+}
+
+const isHttps = (v: unknown): v is string => isStr(v) && /^https:\/\/[^\s]+$/.test(v);
+
+function parseMedia(v: unknown): Media | null {
+  if (!isObj(v) || !isOneOf(MEDIA_KINDS, v.kind) || !isHttps(v.url) || !isStr(v.alt)) return null;
+  if (!isOneOf(MEDIA_LICENSES, v.license) || !isStr(v.credit) || !isHttps(v.sourceUrl)) return null;
+  if (v.poster !== undefined && (v.kind !== 'video' || !isHttps(v.poster))) return null;
+  if (v.aiGenerated !== undefined && typeof v.aiGenerated !== 'boolean') return null;
+  if (v.verifiedBy !== undefined && !isStr(v.verifiedBy)) return null;
+  const known = ['kind', 'url', 'alt', 'poster', 'license', 'credit', 'sourceUrl', 'aiGenerated', 'verifiedBy'];
+  if (Object.keys(v).some((k) => !known.includes(k))) return null;
+  return {
+    kind: v.kind,
+    url: v.url,
+    alt: v.alt,
+    license: v.license,
+    credit: v.credit,
+    sourceUrl: v.sourceUrl,
+    ...(isStr(v.poster) && { poster: v.poster }),
+    ...(v.aiGenerated === true && { aiGenerated: true }),
+    ...(isStr(v.verifiedBy) && { verifiedBy: v.verifiedBy }),
+  };
 }
 
 function parseCard(v: unknown, track: TrackId, skill: string, problem: (msg: string) => void): Card | null {
@@ -75,7 +100,7 @@ function parseCard(v: unknown, track: TrackId, skill: string, problem: (msg: str
     if (typeof v.stepOrder !== 'number') return bad('stepOrder');
     card.stepOrder = v.stepOrder;
   }
-  for (const key of ['image', 'deeper', 'draftedBy', 'verifiedBy', 'verifiedOn'] as const) {
+  for (const key of ['deeper', 'draftedBy', 'verifiedBy', 'verifiedOn'] as const) {
     const value = v[key];
     if (value === undefined) continue;
     if (!isStr(value)) return bad(key);
@@ -90,6 +115,11 @@ function parseCard(v: unknown, track: TrackId, skill: string, problem: (msg: str
   if (v.seasons !== undefined) {
     if (!Array.isArray(v.seasons) || !v.seasons.every((s) => isOneOf(SEASONS, s))) return bad('seasons');
     card.seasons = v.seasons;
+  }
+  if (v.media !== undefined) {
+    const media = parseMedia(v.media);
+    if (!media) return bad('media');
+    card.media = media;
   }
   if (v.verdict !== undefined) {
     if (v.verdict !== 'myth' && v.verdict !== 'fact') return bad('verdict');

@@ -105,6 +105,24 @@ export type Source = {
   url?: string;
 };
 
+// How a photo or video may be used. Each one needs a page that states it (sourceUrl). ADR 0004.
+// public-domain: US federal works and the like. own: we shot it. licensed: we paid for it.
+export type MediaLicense = 'public-domain' | 'cc0' | 'cc-by' | 'cc-by-sa' | 'licensed' | 'own';
+
+export type Media = {
+  kind: 'photo' | 'video';
+  url: string; // https. A photo file, or a video as .mp4 or an .m3u8 HLS stream. Plays in the app.
+  alt: string; // what it shows, for screen readers
+  poster?: string; // video only: a still shown before it plays
+  license: MediaLicense;
+  credit: string; // who made it, as the license asks to credit them
+  sourceUrl: string; // the page that states the license
+  aiGenerated?: boolean; // never on caution or expert cards
+  // Who checked that it shows what the card says and that the license holds. Must differ from
+  // the card's draftedBy, and a card with unchecked media can't ship. Swapping media clears it.
+  verifiedBy?: string;
+};
+
 export type Card = {
   id: string;
   track: TrackId; // set by the loader from the file path
@@ -113,10 +131,10 @@ export type Card = {
   type: CardType;
   headline: string; // 12 words or fewer
   body: string; // 40 words or fewer
-  image?: string;
+  media?: Media;
   deeper?: string; // Go Deeper sheet (premium)
   mistakes?: string[];
-  gearIds?: string[];
+  gearIds?: string[]; // ids in src/content/gear.ts
   quiz?: { choices: string[]; answerIndex: number };
   // Myth cards only: whether the common belief the card is about is a myth or a fact. On standard cards
   // the headline is that belief, so the UI can show the verdict as the answer. On caution and expert
@@ -156,6 +174,8 @@ export function shipBlockers(card: Card): string[] {
   if (!card.verifiedOn || !isIsoDate(card.verifiedOn)) blockers.push('no valid verifiedOn date');
   if (!card.verifiedBy) blockers.push('no verifiedBy');
   else if (card.verifiedBy === card.draftedBy) blockers.push('verified by its own drafter');
+  if (card.media && !card.media.verifiedBy) blockers.push('media not verified');
+  else if (card.media && card.media.verifiedBy === card.draftedBy) blockers.push('media verified by its drafter');
   return blockers;
 }
 

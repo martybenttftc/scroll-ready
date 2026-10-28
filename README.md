@@ -16,5 +16,8 @@ npm run check:content # add -- --release to block unreviewed expert cards
 
 ## Preview on a phone
 
-- **Expo Go (no Apple account needed):** publish with `npx eas-cli@latest update --branch preview`. Then open the update on expo.dev, tap **Preview**, and scan the QR code. EAS needs an `EXPO_TOKEN` in the environment.
+- **Expo Go (no Apple account needed):** publish with `npm run update:preview`. Then open the update on expo.dev, tap **Preview**, and scan the QR code. EAS needs an `EXPO_TOKEN` in the environment.
 - **`preview` build profile (`distribution: internal`):** on iOS this makes an ad hoc build. It needs a paid Apple Developer account, and each phone's UDID has to be registered first with `npx eas-cli@latest device:create`. Android internal builds have no such restriction.
+- **Production updates:** publish only with `npm run update:production`. It runs `check:content -- --release` first, so an update can't ship a card that hasn't been verified (see ADR 0002). EAS builds run the same check in an `eas-build-post-install` hook for every profile except `preview`. None of these run the check, so don't use them: `eas update --branch production`, `eas update --channel production`, `eas update:republish --destination-branch production`, `eas channel:edit production`. Moving production publishing into a CI job is the planned follow-up.
+- **Preview updates assume a clean install.** Run `npm ci` first if `node_modules` may have drifted, or the update's runtime won't match any preview build.
+- **Previews are team-only.** Preview updates (the Expo Go QR) and `preview` builds skip the release check, so they can carry unverified cards. Android preview APKs install on any phone, so don't share preview links or APKs outside the team. If a production build fails with `tsx: not found`, devDependencies weren't installed (for example, `NODE_ENV=production`). That's the hook failing closed, not a content error.

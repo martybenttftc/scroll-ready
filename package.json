@@ -19,6 +19,7 @@
     "expo-symbols": "~58.0.4",
     "expo-system-ui": "~58.0.6",
     "expo-updates": "~58.0.18",
+    "expo-video": "~58.0.12",
     "expo-web-browser": "~58.0.7",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -33,6 +34,8 @@
   "devDependencies": {
     "@types/node": "^26.6.5",
     "@types/react": "~19.3.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~58.0.4",
     "tsx": "^4.23.15",
     "typescript": "~6.0.3"
   },
@@ -44,7 +47,10 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "check:content": "tsx scripts/check-content.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "update:preview": "npm run check:content && npx eas-cli@26 update --branch preview --environment preview --auto",
+    "update:production": "test -z \"$(git status --porcelain)\" && git fetch -q origin main && test \"$(git rev-parse HEAD)\" = \"$(git rev-parse origin/main)\" && npm ci && npm run check:content -- --release && npx eas-cli@26 update --branch production --environment production --auto",
+    "eas-build-post-install": "case \"$EAS_BUILD_PROFILE\" in preview) npm run check:content ;; *) npm run check:content -- --release ;; esac"
   },
   "private": true
 }

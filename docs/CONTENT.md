@@ -31,7 +31,7 @@ How skills and cards are stored, written, and verified. The why is in ADR 0002 a
 ```
 - `outline` lists card ideas not drafted yet. Drafters remove an item when they draft its card.
 - Don't write `track` or `skill` on a card. The loader sets them from the path.
-- Optional card fields: `stepOrder`, `deeper` (Go Deeper text, premium), `mistakes`, `quiz` (`choices` and `answerIndex`), `verdict` (myth cards), `gearIds`, `regions`, `seasons`, `image`, `verifiedBy`, `verifiedOn`. The full type is `Card` in `src/content/types.ts`.
+- Optional card fields: `stepOrder`, `deeper` (Go Deeper text, premium), `mistakes`, `quiz` (`choices` and `answerIndex`), `verdict` (myth cards), `gearIds`, `regions`, `seasons`, `media`, `verifiedBy`, `verifiedOn`. The full type is `Card` in `src/content/types.ts`.
 
 ## Writing rules
 - Card ids are kebab-case and unique across all content. Lead with the subject: `bleach-water-ratio`, not `how-much-bleach`.
@@ -51,6 +51,23 @@ How skills and cards are stored, written, and verified. The why is in ADR 0002 a
 - Quote facts, not prose. US federal works are public domain. Extension guides and most modern books are copyrighted, so restate them in our own words and cite them.
 - Every source needs a URL to count toward the 3 (ADR 0002). Two pages on the same site count once.
 - Never scrape YouTube, podcasts, Reddit, or blogs into cards. They can point you to a source but can't be one.
+
+## Photos, videos, and gear
+Rules are in ADR 0004. In short:
+- A card can carry one `media` item, a photo or a video that plays in the app:
+  ```json
+  "media": {
+    "kind": "photo",
+    "url": "https://upload.wikimedia.org/...jpg",
+    "alt": "A pot of water at a rolling boil",
+    "license": "cc-by-sa",
+    "credit": "Jane Doe",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:..."
+  }
+  ```
+- Use federal photos and footage first, then Wikimedia Commons (CC0, CC BY, CC BY-SA), then our own. `sourceUrl` must be the page that states the license. Never use frames from YouTube or stock photos marked editorial only.
+- The picture must show exactly what the card says. The verifier sets `media.verifiedBy` (never the drafter), and anyone who swaps the media removes it. AI-generated media (`"aiGenerated": true`) only goes on standard cards outside first aid, wild food, and power.
+- `gearIds` point to items in `src/content/gear.ts`. Wild food cards never link to gear.
 
 ## Commands
 ```bash

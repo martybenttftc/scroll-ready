@@ -14,6 +14,7 @@ import {
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { CardMedia, GearLinks } from '@/components/card-media';
 import { Rise } from '@/components/rise';
 import { BottomTabInset, Motion, Palette, Spacing, Type } from '@/constants/theme';
 import type { Card } from '@/content/types';
@@ -112,7 +113,9 @@ export function FeedCard({
   // Only verified cards leave the app, and they carry their sources (and the 911
   // line for first aid) with them. ADR 0002.
   const share = () => {
-    const lines = [card.headline, card.body];
+    // A standard myth headline is the bare claim, so the shared text needs the answer too.
+    const verdict = card.verdict && card.riskTier === 'standard' ? `${card.verdict === 'fact' ? 'Fact' : 'Myth'}: ` : '';
+    const lines = [verdict + card.headline, card.body];
     if (card.track === 'first-aid') lines.push('In an emergency, call 911.');
     const titles = card.sources.map((s) => s.title).join('; ');
     lines.push(`Checked against ${sourceCount} independent sources: ${titles}`);
@@ -152,6 +155,10 @@ export function FeedCard({
           {[trackTitle, skill?.title].filter(Boolean).join(' · ')}
         </Text>
       </View>
+
+      {/* Media takes only the space the text leaves, so it never pushes the 911 button,
+          gear, or sources off the page. */}
+      {card.media && <CardMedia media={card.media} active={active} />}
 
       <View style={styles.bottom}>
         <View style={styles.row}>
@@ -241,6 +248,7 @@ export function FeedCard({
               </Rise>
             )}
 
+            {card.gearIds && !bodyHidden && <GearLinks gearIds={card.gearIds} />}
           </View>
 
           <View style={styles.rail}>
