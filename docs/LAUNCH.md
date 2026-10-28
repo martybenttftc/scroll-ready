@@ -8,6 +8,14 @@ Owner: product lead. Written Oct 28, 2026 from an overnight UX audit and researc
 - Two tabs (Feed, Learn). No onboarding, no saved state, no paywall.
 - The app icon is still the Expo starter icon.
 
+## Audit summary (Oct 28)
+- **Keep:** one idea per card, think-then-reveal, one accent color, and the "Checked against N independent sources" line, which answers the main trust complaint about Scroll The Bible's AI-written study content.
+- **Feed:** text can run off a fixed full-screen card at large iOS text sizes. Save goes nowhere: saves don't last past a restart and no screen lists them. Story-style progress segments suggest tap-to-advance but only fill on swipe. A new user's third card is an expert-tier first aid card.
+- **Story of the day:** good daily ritual. It didn't say the feed continues below (fixed in PR #20).
+- **Learn:** 37 "Coming soon" tiles (fixed in PR #19). The tiles look tappable but do nothing. Counts read "6 cards" where people think in skills and minutes.
+- **Brand and plumbing:** the app icon, Android adaptive icon, and tab icons are Expo starter art. `--release` fails on any draft. CI doesn't run lint, and `expo lint` has 4 errors.
+- **Wording:** "Why? Think, then tap to see" packs two instructions; try "Think it over, then tap for why."
+
 ## Decisions for Marcus
 Each has a recommendation. Record the answer here and in an ADR where it changes architecture.
 1. **Free v1.0 or subscription at launch.** Recommend: v1.0 free, then Go Deeper and the subscription in v1.1, before any paid marketing.
