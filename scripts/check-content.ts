@@ -6,6 +6,7 @@ import { join, relative } from 'node:path';
 
 import { gear, gearById } from '../src/content/gear';
 import { loadCatalog, type ContentFile } from '../src/content/load';
+import { loadStories } from '../src/content/stories';
 import { EXPERT_TRACKS, themes, tracks } from '../src/content/taxonomy';
 import { isShippable, shipBlockers } from '../src/content/types';
 
@@ -13,6 +14,7 @@ const release = process.argv.includes('--release');
 const stats = process.argv.includes('--stats');
 const root = process.cwd();
 const contentDir = join(root, 'content');
+const storiesDir = join(root, 'stories');
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -107,6 +109,24 @@ for (const item of gear) {
   if (!cards.some((c) => c.gearIds?.includes(item.id))) warnings.push(`${at}: no card links to it`);
 }
 
+// Story of the day (ADR 0005). Same verification rule as cards.
+const { stories, problems: storyProblems } = loadStories(readFiles(storiesDir));
+errors.push(...storyProblems);
+for (const story of stories) {
+  const at = `stories/${story.id}`;
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(story.id)) errors.push(`${at}: file name must be kebab-case`);
+  if (story.sources.length === 0) errors.push(`${at}: needs at least one source`);
+  if (!story.draftedBy) errors.push(`${at}: no draftedBy`);
+  if (words(story.title) > 8) errors.push(`${at}: title over 8 words`);
+  if (words(story.dek) > 25) errors.push(`${at}: dek over 25 words`);
+  if (words(story.takeaway) > 40) errors.push(`${at}: takeaway over 40 words`);
+  if (words(story.paragraphs.join(' ')) > 250) errors.push(`${at}: story over 250 words`);
+  const titles = story.sources.map((s) => s.title);
+  if (new Set(titles).size !== titles.length) errors.push(`${at}: duplicate source`);
+  const blockers = shipBlockers(story);
+  if (blockers.length) (release ? errors : warnings).push(`${at}: not verified (${blockers.join(', ')})`);
+}
+
 for (const skill of skills) {
   if (skill.cardIds.length === 0 && !skill.outline?.length) {
     warnings.push(`${skill.track}/${skill.id}: no cards and no outline`);
@@ -133,7 +153,8 @@ if (stats) {
 for (const w of warnings) console.warn(`warn  ${w}`);
 for (const e of errors) console.error(`error ${e}`);
 console.log(
-  `${cards.length} cards in ${skills.length} skills checked (${cards.filter(isShippable).length} verified): ` +
+  `${cards.length} cards in ${skills.length} skills and ${stories.length} stories checked ` +
+    `(${cards.filter(isShippable).length} cards and ${stories.filter(isShippable).length} stories verified): ` +
     `${errors.length} errors, ${warnings.length} warnings`,
 );
 process.exit(errors.length ? 1 : 0);

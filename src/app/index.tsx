@@ -2,15 +2,26 @@ import { useRef, useState } from 'react';
 import { FlatList, StyleSheet, View, type ListViewToken } from 'react-native';
 
 import { FeedCard } from '@/components/feed-card';
+import { StoryCard } from '@/components/story-card';
+import { storyForDate, type Story } from '@/content/stories';
 import type { Card } from '@/content/types';
-import { feed } from '@/content/catalog';
+import { feed, stories } from '@/content/catalog';
 import { useTheme } from '@/hooks/use-theme';
+
+// A feed page is a card, or today's story on top (ADR 0005).
+type Page = { kind: 'story'; id: string; story: Story } | { kind: 'card'; id: string; card: Card };
 
 // The home feed: one full-screen card per page, swiped vertically.
 export default function FeedScreen() {
   const theme = useTheme();
   const [height, setHeight] = useState(0);
-  const [activeId, setActiveId] = useState(feed[0]?.id);
+  // Picked once per launch, so the story doesn't swap out mid-scroll at midnight.
+  const [pages] = useState<Page[]>(() => {
+    const story = storyForDate(stories, new Date());
+    const cardPages = feed.map((card): Page => ({ kind: 'card', id: card.id, card }));
+    return story ? [{ kind: 'story', id: `story:${story.id}`, story }, ...cardPages] : cardPages;
+  });
+  const [activeId, setActiveId] = useState(pages[0]?.id);
   // Saves, quiz answers, and reveals live above the list so they survive FlatList
   // unmounting off-screen rows. Not persisted yet: backlog item 8 stores them on the device.
   const [savedIds, setSavedIds] = useState<ReadonlySet<string>>(new Set());
@@ -29,7 +40,7 @@ export default function FeedScreen() {
   // FlatList requires these two to keep the same identity across renders.
   const viewability = useRef({ itemVisiblePercentThreshold: 60 }).current;
   const onViewable = useRef(({ viewableItems }: { viewableItems: ListViewToken[] }) => {
-    const first: Card | undefined = viewableItems[0]?.item;
+    const first: Page | undefined = viewableItems[0]?.item;
     if (first) setActiveId(first.id);
   }).current;
 
@@ -39,21 +50,25 @@ export default function FeedScreen() {
       onLayout={(e) => setHeight(e.nativeEvent.layout.height)}>
       {height > 0 && (
         <FlatList
-          data={feed}
-          keyExtractor={(c) => c.id}
-          renderItem={({ item }) => (
-            <FeedCard
-              card={item}
-              height={height}
-              active={item.id === activeId}
-              saved={savedIds.has(item.id)}
-              onToggleSave={toggleSave}
-              picked={answers[item.id] ?? null}
-              onPick={pick}
-              revealed={revealedIds.has(item.id)}
-              onReveal={reveal}
-            />
-          )}
+          data={pages}
+          keyExtractor={(p) => p.id}
+          renderItem={({ item }) =>
+            item.kind === 'story' ? (
+              <StoryCard story={item.story} height={height} active={item.id === activeId} />
+            ) : (
+              <FeedCard
+                card={item.card}
+                height={height}
+                active={item.id === activeId}
+                saved={savedIds.has(item.id)}
+                onToggleSave={toggleSave}
+                picked={answers[item.id] ?? null}
+                onPick={pick}
+                revealed={revealedIds.has(item.id)}
+                onReveal={reveal}
+              />
+            )
+          }
           extraData={[activeId, savedIds, answers, revealedIds]}
           viewabilityConfig={viewability}
           onViewableItemsChanged={onViewable}

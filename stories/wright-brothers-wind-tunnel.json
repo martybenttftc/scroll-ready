@@ -1,0 +1,26 @@
+{
+  "kind": "diy",
+  "title": "The Wright brothers' homemade wind tunnel",
+  "dek": "Their glider didn't lift the way the published numbers said it would. So they built a way to measure it themselves.",
+  "when": "1901–1903",
+  "where": "Dayton, Ohio",
+  "paragraphs": [
+    "In 1901, Wilbur and Orville Wright tested a glider that produced far less lift than they had calculated from the figures of the day.",
+    "Rather than guess, they decided to measure. In late 1901, in Dayton, Ohio, they built a small wind tunnel: a long wooden box with a fan driving air through it, plus balances to measure the forces on small model wings.",
+    "They tested many model wing shapes at many angles, writing down every result.",
+    "Their data led to a much better glider in 1902, and in December 1903 their powered Flyer made the first flights."
+  ],
+  "takeaway": "When a project doesn't behave the way the instructions say, test small and change one thing at a time. A careful notebook beats a lucky guess.",
+  "riskTier": "standard",
+  "draftedBy": "story-drafter, 2026-10-28 batch stories-1",
+  "verifiedBy": "content-safety, 2026-10-28 batch stories-1",
+  "verifiedOn": "2026-10-28",
+  "sources": [
+    { "title": "NASA Glenn Research Center: The Wright brothers' 1901 wind tunnel", "url": "https://www.grc.nasa.gov/www/K-12/airplane/wrights/tunnel.html" },
+    { "title": "U.S. Centennial of Flight Commission: The Wright brothers' wind tunnel", "url": "https://centennialofflight.net/essay/Wright_Bros/1901/WR3.htm" },
+    { "title": "The Wright Brothers Aeroplane Company: Kitty Hawk in a box", "url": "https://www.wright-brothers.org/History_Wing/Wright_Story/Inventing_the_Airplane/Kitty_Hawk_in_a_Box/Kitty_Hawk_in_a_Box.htm" },
+    { "title": "The Franklin Institute: Wind tunnel", "url": "https://fi.edu/en/science-and-education/collection/wind-tunnel" },
+    { "title": "National Park Service, Wright Brothers National Memorial: 1903, the first flight", "url": "https://www.nps.gov/wrbr/learn/historyculture/thefirstflight.htm" },
+    { "title": "National Museum of the U.S. Air Force: Wright brothers, 1902", "url": "https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/197539/wright-brothers-1902/" }
+  ]
+}

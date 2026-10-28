@@ -1,0 +1,27 @@
+{
+  "kind": "diy",
+  "title": "When Americans grew their own",
+  "dek": "During World War II, home gardens grew a big share of the country's produce.",
+  "when": "1942–1945",
+  "where": "Across the United States",
+  "paragraphs": [
+    "During World War II, the United States needed food for its troops and allies, and food rationing began at home. The government urged families to plant victory gardens.",
+    "Americans planted in backyards and vacant lots. Home gardens freed up farm crops, cans, and rail space for the war effort, and families canned what they couldn't eat fresh.",
+    "There were about 20 million victory gardens. They grew around 40 percent of the country's produce."
+  ],
+  "takeaway": "Even a small garden stretches a pantry, and growing food is a skill that's far easier to learn before you need it.",
+  "track": "garden",
+  "riskTier": "standard",
+  "draftedBy": "story-drafter, 2026-10-28 batch stories-1",
+  "verifiedBy": "content-safety, 2026-10-28 batch stories-1",
+  "verifiedOn": "2026-10-28",
+  "sources": [
+    { "title": "National Park Service: Victory gardens at Oak Ridge", "url": "https://www.nps.gov/articles/victory-gardens-at-oak-ridge.htm" },
+    { "title": "Smithsonian Gardens: Victory garden", "url": "https://gardens.si.edu/wp-content/uploads/2021/04/victory-garden.pdf" },
+    { "title": "The National WWII Museum: Victory gardens in World War II", "url": "https://www.nationalww2museum.org/war/articles/victory-gardens-world-war-ii" },
+    { "title": "Library of Congress, Inside Adams: Grow it yourself", "url": "https://blogs.loc.gov/inside_adams/2011/04/grow-it-yourself/" },
+    { "title": "History.com: America's patriotic victory gardens", "url": "https://www.history.com/articles/americas-patriotic-victory-gardens" },
+    { "title": "Smithsonian Libraries: Gardening for the common good", "url": "https://library.si.edu/exhibition/cultivating-americas-gardens/gardening-for-the-common-good" },
+    { "title": "NCpedia (State Library of North Carolina): Victory gardens", "url": "https://www.ncpedia.org/anchor/victory-gardens" }
+  ]
+}
