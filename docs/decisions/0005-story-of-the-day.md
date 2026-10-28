@@ -23,6 +23,7 @@ Cards teach one skill at a time, but they don't give people a reason to open the
 ### Where it lives
 - Today's story is the first page of the Feed: a plain page with the hook and a "Read the story" button that opens the full text, the takeaway, and the sources in a sheet.
 - The story turns over at local midnight. Everyone sees the same story on the same date, so it can anchor a daily notification (backlog item 9) and the home screen widget later.
+- The switch isn't instant at midnight. The app picks a new story when it launches or comes back to the foreground on a new local day, so someone still scrolling past midnight keeps seeing the earlier story until then. A notification for a day's story should open that story by its id rather than assume the feed has already switched.
 - The UI uses only the shared Palette, Type, and Spacing tokens, with no track colors, to match the simpler design (PR #13).
 
 ### Storage and checks
