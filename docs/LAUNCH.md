@@ -19,7 +19,7 @@ Owner: product lead. Written Oct 28, 2026 from an overnight UX audit and researc
 ## Decisions for Marcus
 Each has a recommendation. Record the answer here and in an ADR where it changes architecture.
 1. **Free v1.0 or subscription at launch.** Recommend: v1.0 free, then Go Deeper and the subscription in v1.1, before any paid marketing.
-2. **Launch content bar.** Recommend: 12 tracks, each with at least 4 skills and 25 to 35 verified cards (about 350), plus 30 verified stories. 1,000 cards stays the year-one goal.
+2. **Launch content bar.** Recommend lowering ADR 0003's targets: about 350 verified cards (12 tracks, each with at least 4 skills and 25 to 35 cards) plus 30 verified stories at launch instead of about 1,000, and about 1,000 in year one instead of about 5,000. If Marcus agrees, write a short ADR that amends 0003 and update PRODUCT.md to match.
 3. **Name and icon.** Recommend: run a trademark search on "Scroll Ready", then pick from 3 icon concepts in the app palette.
 4. **Apple Developer account.** Recommend: a company account, so the listing shows the company as the seller instead of a personal name (an individual account can sell subscriptions too). It needs a D-U-N-S number, so start that now.
 5. **Onboarding.** Recommend: no account. One welcome question ("What do you want to be ready for?"), then the feed. The Readiness Score waits for v1.1 and only goes up.
