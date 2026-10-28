@@ -39,10 +39,10 @@ Each theme has a hue, and a few signature tracks (Fire, Fishing) get their own. 
 ## Feed card anatomy
 A large, faint track icon (7% opacity) fills the empty upper area. From top to bottom:
 1. Skill progress segments (only inside a skill), like stories.
-2. Track chip: icon, track name, and card type, in the track color.
+2. Track chip: icon, track, skill, and card type (except on step cards), in the track color.
 3. Content block, anchored to the lower half where the thumb is: big step number (step cards), headline, body, and the type's interaction.
-4. Action rail on the right: Save, Share, and Go Deeper (only when the card has deeper content).
-5. Trust line: "Checked against N sources" with a shield, or "Draft · N sources". Tap it to list the sources.
+4. Action rail on the right: Save, Share (verified cards only, and the shared text carries the sources and, on first aid, the 911 line), and Go Deeper (only when the card has deeper content).
+5. Trust line: "Checked against N sources" with a shield, or "Draft · N sources". Tap it to list the sources, each linked when it has a URL.
 
 ## Card templates
 | Type | Template |

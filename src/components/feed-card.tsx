@@ -27,12 +27,23 @@ const revealPrompt: Partial<Record<Card['type'], string>> = {
   scenario: 'What would you do? Tap to see',
 };
 
-export function FeedCard({ card, height, active }: { card: Card; height: number; active: boolean }) {
+export function FeedCard({
+  card,
+  height,
+  active,
+  saved,
+  onToggleSave,
+}: {
+  card: Card;
+  height: number;
+  active: boolean;
+  saved: boolean;
+  onToggleSave: (id: string) => void;
+}) {
   const insets = useSafeAreaInsets();
   const reduceMotion = useReducedMotion();
   const [picked, setPicked] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
-  const [saved, setSaved] = useState(false);
   const [showSources, setShowSources] = useState(false);
 
   const look = trackStyle(card.track);
@@ -45,8 +56,15 @@ export function FeedCard({ card, height, active }: { card: Card; height: number;
   const verified = isShippable(card);
   const sourceCount = verified ? independentSourceCount(card) : card.sources.length;
 
-  const share = () =>
-    Share.share({ message: `${card.headline}\n\n${card.body}\n\nFrom Scroll Ready` }).catch(() => {});
+  // Only verified cards leave the app, and they carry their sources (and the 911
+  // line for first aid) with them. ADR 0002.
+  const share = () => {
+    const lines = [card.headline, card.body];
+    if (card.track === 'first-aid') lines.push('In an emergency, call 911.');
+    lines.push(`Checked against ${sourceCount} sources: ${card.sources.map((s) => s.title).join('; ')}`);
+    lines.push('From Scroll Ready');
+    Share.share({ message: lines.join('\n\n') }).catch(() => {});
+  };
 
   return (
     <View
@@ -65,7 +83,10 @@ export function FeedCard({ card, height, active }: { card: Card; height: number;
 
       <View style={styles.top}>
         {skill && step > 0 && (
-          <View style={styles.segments} accessibilityLabel={`Step ${step} of ${skill.cardIds.length}`}>
+          <View
+            style={styles.segments}
+            accessible
+            accessibilityLabel={`${skill.title}, step ${step} of ${skill.cardIds.length}`}>
             {skill.cardIds.map((id, i) => (
               <View
                 key={id}
@@ -77,7 +98,9 @@ export function FeedCard({ card, height, active }: { card: Card; height: number;
         <View style={[styles.chip, { backgroundColor: look.tint }]}>
           <SymbolView name={look.icon} size={15} tintColor={look.hue} />
           <Text style={[styles.chipText, { color: look.hue }]} numberOfLines={1}>
-            {skill ? `${trackTitle} · ${skill.title}` : `${trackTitle} · ${typeLabel[card.type]}`}
+            {[trackTitle, skill?.title, card.type === 'step' ? undefined : typeLabel[card.type]]
+              .filter(Boolean)
+              .join(' · ')}
           </Text>
         </View>
       </View>
@@ -191,13 +214,15 @@ export function FeedCard({ card, height, active }: { card: Card; height: number;
                   ? { ios: 'bookmark.fill', android: 'bookmark', web: 'bookmark' }
                   : { ios: 'bookmark', android: 'bookmark_border', web: 'bookmark_border' }
               }
-              onPress={() => setSaved((s) => !s)}
+              onPress={() => onToggleSave(card.id)}
             />
-            <RailButton
-              label="Share"
-              icon={{ ios: 'square.and.arrow.up', android: 'share', web: 'share' }}
-              onPress={share}
-            />
+            {verified && (
+              <RailButton
+                label="Share"
+                icon={{ ios: 'square.and.arrow.up', android: 'share', web: 'share' }}
+                onPress={share}
+              />
+            )}
           </View>
         </View>
 
@@ -222,9 +247,22 @@ export function FeedCard({ card, height, active }: { card: Card; height: number;
                 : `Draft · ${sourceCount} ${sourceCount === 1 ? 'source' : 'sources'}`}
             </Text>
           </View>
-          {showSources && (
-            <Text style={styles.sourceList}>{card.sources.map((s) => s.title).join('\n')}</Text>
-          )}
+          {showSources &&
+            card.sources.map(({ title, url }) =>
+              url ? (
+                <Text
+                  key={title}
+                  accessibilityRole="link"
+                  onPress={() => Linking.openURL(url).catch(() => {})}
+                  style={[styles.sourceList, styles.sourceLink]}>
+                  {title}
+                </Text>
+              ) : (
+                <Text key={title} style={styles.sourceList}>
+                  {title}
+                </Text>
+              ),
+            )}
         </Pressable>
       </View>
     </View>
@@ -429,6 +467,9 @@ const styles = StyleSheet.create({
     fontFamily: Type.bodyMedium,
     fontSize: 13,
     color: Palette.ash,
+  },
+  sourceLink: {
+    textDecorationLine: 'underline',
   },
   sourceList: {
     fontFamily: Type.body,

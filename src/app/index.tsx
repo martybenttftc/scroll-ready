@@ -11,6 +11,16 @@ export default function FeedScreen() {
   const theme = useTheme();
   const [height, setHeight] = useState(0);
   const [activeId, setActiveId] = useState(feed[0]?.id);
+  // Lives above the list so a save survives FlatList unmounting off-screen rows.
+  // Not persisted yet: backlog item 8 stores saves on the device.
+  const [savedIds, setSavedIds] = useState<ReadonlySet<string>>(new Set());
+  const toggleSave = (id: string) =>
+    setSavedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
   // FlatList requires these two to keep the same identity across renders.
   const viewability = useRef({ itemVisiblePercentThreshold: 60 }).current;
@@ -27,8 +37,16 @@ export default function FeedScreen() {
         <FlatList
           data={feed}
           keyExtractor={(c) => c.id}
-          renderItem={({ item }) => <FeedCard card={item} height={height} active={item.id === activeId} />}
-          extraData={activeId}
+          renderItem={({ item }) => (
+            <FeedCard
+              card={item}
+              height={height}
+              active={item.id === activeId}
+              saved={savedIds.has(item.id)}
+              onToggleSave={toggleSave}
+            />
+          )}
+          extraData={[activeId, savedIds]}
           viewabilityConfig={viewability}
           onViewableItemsChanged={onViewable}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
