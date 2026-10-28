@@ -10,7 +10,17 @@ import { kindLabel, type Story } from '@/content/stories';
 import { independentSourceCount, isShippable } from '@/content/types';
 
 // The first page of the feed: today's story, with a tap to read it in full. ADR 0005.
-export function StoryCard({ story, height, active }: { story: Story; height: number; active: boolean }) {
+export function StoryCard({
+  story,
+  height,
+  active,
+  showHint,
+}: {
+  story: Story;
+  height: number;
+  active: boolean;
+  showHint: boolean;
+}) {
   const insets = useSafeAreaInsets();
   const [reading, setReading] = useState(false);
   const verified = isShippable(story);
@@ -70,15 +80,17 @@ export function StoryCard({ story, height, active }: { story: Story; height: num
               : `Draft · ${sourceCount} ${sourceCount === 1 ? 'source' : 'sources'}`}
           </Text>
         </View>
-        {/* The story is a new user's first screen, so say once that the feed continues below. */}
-        <View style={styles.hint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-          <SymbolView
-            name={{ ios: 'chevron.up', android: 'keyboard_arrow_up', web: 'keyboard_arrow_up' }}
-            size={14}
-            tintColor={Palette.stone}
-          />
-          <Text style={styles.hintText}>Swipe up for skills</Text>
-        </View>
+        {/* The story is a new user's first screen, so say that the feed continues below until they've swiped in. */}
+        {showHint && (
+          <View style={styles.hint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+            <SymbolView
+              name={{ ios: 'chevron.up', android: 'keyboard_arrow_up', web: 'keyboard_arrow_up' }}
+              size={14}
+              tintColor={Palette.stone}
+            />
+            <Text style={styles.hintText}>Swipe up for skills</Text>
+          </View>
+        )}
       </View>
 
       <StoryReader story={story} visible={reading} onClose={() => setReading(false)} />

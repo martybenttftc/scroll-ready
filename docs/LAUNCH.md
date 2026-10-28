@@ -1,6 +1,6 @@
 # Launch plan
 
-Owner: product lead. Written Oct 28, 2026 from an overnight UX audit and research pass. The full page, with the audit screen by screen and the research behind it, is at https://claude.ai/artifact/5SzuN2tyJbbzS1wqMafcB2. The research report and notes are in the project files under `survival-app/launch-research/`.
+Owner: product lead. Written Oct 28, 2026 from an overnight UX audit and research pass. The research, with a source for every figure, is in `docs/research/launch-2026-10.md`. The screen-by-screen audit is on https://claude.ai/artifact/5SzuN2tyJbbzS1wqMafcB2.
 
 ## Where we are
 - 43 cards in 14 skills across 11 of 48 tracks. 14 are verified. Water is 33 of the 43.
@@ -26,7 +26,7 @@ Each has a recommendation. Record the answer here and in an ADR where it changes
 | Weeks 6–8 | Submit and launch | Approved. Plan for 1–2 weeks of review and one rejection round. |
 
 ## Rules the research gave us
-- **Teach the swipe once.** A new niche app can't assume TikTok's gestures. The story card ends with "Swipe up for skills".
+- **Teach the swipe once.** A new niche app can't assume TikTok's gestures. The story card ends with "Swipe up for skills" until the first swipe into the feed.
 - **Play before anything.** No account, no long quiz, and no paywall before the first skill. Apple 5.1.1(v) requires login-free use for apps without account features.
 - **Forgiving habits.** One card counts as a day, a free streak repair, and celebrations at days 3 and 7. No loss-framed copy, ever.
 - **Ask for notifications after value.** Ask after the first save or finished skill. Send one daily notice that names the card, with rotating copy.

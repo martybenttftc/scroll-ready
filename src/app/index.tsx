@@ -25,6 +25,9 @@ export default function FeedScreen() {
     return story ? [{ kind: 'story', id: 'story-of-the-day', story }, ...cardPages] : cardPages;
   }, [day]);
   const [activeId, setActiveId] = useState(pages[0]?.id);
+  // The story's swipe hint goes away once someone has swiped into the feed. Session only
+  // until saves land on the device (backlog item 3), which should remember it too.
+  const [swipedIn, setSwipedIn] = useState(false);
   useEffect(() => {
     // Only after a real trip to the background: iOS also goes inactive and back for
     // Control Center, Face ID, and call banners, and that shouldn't swap the story.
@@ -54,7 +57,9 @@ export default function FeedScreen() {
   const viewability = useRef({ itemVisiblePercentThreshold: 60 }).current;
   const onViewable = useRef(({ viewableItems }: { viewableItems: ListViewToken[] }) => {
     const first: Page | undefined = viewableItems[0]?.item;
-    if (first) setActiveId(first.id);
+    if (!first) return;
+    setActiveId(first.id);
+    if (first.kind === 'card') setSwipedIn(true);
   }).current;
 
   return (
@@ -68,7 +73,13 @@ export default function FeedScreen() {
           renderItem={({ item }) =>
             item.kind === 'story' ? (
               // Keyed by story, so a new day's story mounts fresh: any open reader closes and the entrance replays.
-              <StoryCard key={item.story.id} story={item.story} height={height} active={item.id === activeId} />
+              <StoryCard
+                key={item.story.id}
+                story={item.story}
+                height={height}
+                active={item.id === activeId}
+                showHint={!swipedIn}
+              />
             ) : (
               <FeedCard
                 card={item.card}
@@ -83,7 +94,7 @@ export default function FeedScreen() {
               />
             )
           }
-          extraData={[activeId, savedIds, answers, revealedIds]}
+          extraData={[activeId, savedIds, answers, revealedIds, swipedIn]}
           viewabilityConfig={viewability}
           onViewableItemsChanged={onViewable}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
