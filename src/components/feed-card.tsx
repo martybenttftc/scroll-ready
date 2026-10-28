@@ -50,8 +50,9 @@ export function FeedCard({
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
   const skill = skills.find((s) => s.id === card.skill);
   const step = skill ? skill.cardIds.indexOf(card.id) + 1 : 0;
-  // A quiz is its own reveal, so it takes priority over the tap-to-see prompt.
-  const prompt = card.quiz ? undefined : revealPrompt[card.type];
+  // A quiz is its own reveal. Expert-tier cards show their guidance right away,
+  // so nobody scrolls past a safety card without seeing what to do (docs/DESIGN.md).
+  const prompt = card.quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
   const bodyHidden = (card.quiz && picked === null) || (prompt !== undefined && !revealed);
   const enter = reduceMotion ? undefined : FadeIn.duration(Motion.reveal);
   const verified = isShippable(card);
