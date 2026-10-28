@@ -59,7 +59,6 @@ export default function FeedScreen() {
     const first: Page | undefined = viewableItems[0]?.item;
     if (!first) return;
     setActiveId(first.id);
-    if (first.kind === 'card') setSwipedIn(true);
   }).current;
 
   return (
@@ -97,6 +96,10 @@ export default function FeedScreen() {
           extraData={[activeId, savedIds, answers, revealedIds, swipedIn]}
           viewabilityConfig={viewability}
           onViewableItemsChanged={onViewable}
+          // Only once the list settles on a card, so a half swipe that snaps back keeps the hint.
+          onMomentumScrollEnd={(e) => {
+            if (Math.round(e.nativeEvent.contentOffset.y / height) >= 1) setSwipedIn(true);
+          }}
           // pagingEnabled pages by the exact view height. disableIntervalMomentum
           // stops a hard fling on Android from skipping past the next card.
           pagingEnabled

@@ -81,11 +81,14 @@ export function StoryCard({
           </Text>
         </View>
         {/* The story is a new user's first screen, so say that the feed continues below until they've
-            swiped in. The row stays mounted and only goes transparent, so the story doesn't jump mid-swipe. */}
+            swiped in. The row stays mounted and only goes transparent, so the story doesn't jump mid-swipe.
+            Screen readers get their own wording, since they scroll the list with a three-finger swipe. */}
         <View
           style={[styles.hint, !showHint && styles.hintGone]}
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants">
+          accessible={showHint}
+          accessibilityLabel="More skills below. Swipe up with three fingers to continue."
+          accessibilityElementsHidden={!showHint}
+          importantForAccessibility={showHint ? 'yes' : 'no-hide-descendants'}>
           <SymbolView
             name={{ ios: 'chevron.up', android: 'keyboard_arrow_up', web: 'keyboard_arrow_up' }}
             size={14}

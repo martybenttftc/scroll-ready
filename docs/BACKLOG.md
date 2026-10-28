@@ -7,7 +7,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 2. **Learn opens tracks and skills.** Tapping a track shows its skills, each with its progress. Tapping a skill plays only that skill's cards, and you can come back. A finished skill shows a check and drops out of any "Continue". Tiles show "2 skills · 4 min" instead of a card count. *Status: Learn lists only tracks with cards (PR #19). The tiles don't open anything yet.*
 3. **Saves that last, and a You tab.** Saves, quiz answers, and reveals are stored on the device. The You tab lists saved cards and has About, with the medical note and the version. The story card's swipe hint stays hidden after the first swipe into the feed (today it comes back each launch). *Status: saves are in memory only.*
 4. **Icon, tab icons, and the Android splash.** Real app icon (`icon.png`, the Android adaptive icon, `assets/expo.icon`), SF Symbol tab icons, and a check of the Android 12+ splash. *Status: still the Expo starter art. Waits on Marcus (decision 3).*
-5. **Large text never cuts off a card.** With iOS Larger Text at its largest, every card's text and answers can be reached, and the card scrolls inside itself if needed. *Status: not started.*
+5. **Large text never cuts off a card.** With iOS Larger Text at its largest, every card's text and answers, and the story of the day page, can be reached, and the page scrolls inside itself if needed. *Status: not started.*
 6. **Store paperwork.**
    - Policy, support, and terms pages are hosted.
    - App Privacy answers and the privacy manifest are done.
@@ -24,7 +24,7 @@ The product lead owns the order. Each item lists acceptance criteria and its sta
 10. **One-question welcome** (if LAUNCH.md decision 5 goes as recommended; otherwise the onboarding quiz). "What do you want to be ready for?" offers 4 to 6 choices, which pick the first tracks. No account.
 11. **Kind streak and daily reminder.** One card counts as a day. A free repair. A quiet note on days 3 and 7. Ask for notification permission after the first save or finished skill. One daily notice that names the day's card, with rotating copy and no loss framing.
 12. **Crash reporting and analytics.** Sentry, plus PostHog without the advertising ID, disclosed, with an opt-out.
-13. **VoiceOver moves between cards.** Accessible next and previous actions on the feed, so the app can claim VoiceOver support on Apple's accessibility labels. Until then, screen reader users get no cue that the feed continues past the story, because the swipe hint is hidden from them.
+13. **VoiceOver moves between cards.** Accessible next and previous actions on the feed, so the app can claim VoiceOver support on Apple's accessibility labels. The story's swipe hint already tells screen reader users to swipe up with three fingers.
 14. **Lint in CI.** Fix the 4 React Compiler errors `expo lint` reports, then add lint to CI.
 15. **Feed polish.** Swiping right inside a skill moves to the next step (from the original backlog). Test with 5 people whether anyone taps the progress segments. If they do, make a tap advance the card or switch to a small "2 of 5".
 
