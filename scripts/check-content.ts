@@ -63,8 +63,9 @@ for (const card of cards) {
   if (card.track === 'first-aid' && !/\b911\b/.test(text(card))) {
     errors.push(`${at}: first aid cards must point to calling 911`);
   }
-  if (/back-?feed/i.test(text(card)) && !/\bnever\b/i.test(text(card))) {
-    errors.push(`${at}: mentions backfeeding without saying never to do it`);
+  const sentences = text(card).split(/(?<=[.!?])\s+/);
+  if (sentences.some((s) => /back[\s-]?feed/i.test(s) && !/\bnever\b/i.test(s))) {
+    errors.push(`${at}: mentions backfeeding without saying never in the same sentence`);
   }
 
   const blockers = shipBlockers(card);

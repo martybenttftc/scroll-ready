@@ -4,7 +4,7 @@ How skills and cards are stored, written, and verified. The why is in ADR 0002 a
 
 ## Where things go
 - Themes and tracks: `src/content/taxonomy.ts`. Add a track there before adding its folder.
-- One skill per file: `content/<track>/<skill-id>.json`. The folder must be a track id, and the file name is the skill id.
+- One skill per file: `content/<track>/<skill-id>.json`. The folder must be a track id, and the file name is the skill id. Skill ids are unique across all tracks, so name them specifically (`purify-water`, not `basics`).
 - Cards are listed in the order a user should see them.
 
 ## Skill file

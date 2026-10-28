@@ -11,6 +11,7 @@ export type Catalog = { skills: Skill[]; cards: Card[]; problems: string[] };
 const CARD_TYPES: CardType[] = ['tip', 'step', 'myth', 'quiz', 'scenario', 'gear', 'checklist'];
 const RISK_TIERS: RiskTier[] = ['standard', 'caution', 'expert'];
 const SEASONS = ['spring', 'summer', 'fall', 'winter'] as const;
+const SKILL_FIELDS = ['title', 'summary', 'outline', 'cards'];
 const trackIds = new Set<string>(tracks.map((t) => t.id));
 
 type Obj = Record<string, unknown>;
@@ -95,8 +96,10 @@ function parseCard(v: unknown, track: TrackId, skill: string, problem: (msg: str
     if (!isObj(q) || !isStrList(q.choices) || typeof q.answerIndex !== 'number') return bad('quiz');
     card.quiz = { choices: q.choices, answerIndex: q.answerIndex };
   }
-  const known = new Set(Object.keys(card).concat('track', 'skill'));
-  for (const key of Object.keys(v)) if (!known.has(key)) problem(`${at}: unknown field "${key}"`);
+  for (const key of Object.keys(v)) {
+    if (key === 'track' || key === 'skill') problem(`${at}: "${key}" is set from the file path; remove it`);
+    else if (!(key in card)) problem(`${at}: unknown field "${key}"`);
+  }
   return card;
 }
 
@@ -105,6 +108,7 @@ export function loadCatalog(files: ContentFile[]): Catalog {
   const cards: Card[] = [];
   const problems: string[] = [];
   const seen = new Set<string>();
+  const skillTracks = new Map<string, string>();
 
   for (const file of [...files].sort((a, b) => a.path.localeCompare(b.path))) {
     const problem = (msg: string) => problems.push(`${file.path}: ${msg}`);
@@ -126,6 +130,13 @@ export function loadCatalog(files: ContentFile[]): Catalog {
     if (!isObj(d) || !isStr(d.title) || !Array.isArray(d.cards)) {
       problem('needs a "title" and a "cards" array');
       continue;
+    }
+    // Skill ids are global so a card's skill id alone finds its skill.
+    const other = skillTracks.get(skillId);
+    if (other) problem(`skill id "${skillId}" is already used in content/${other}/; pick a unique file name`);
+    skillTracks.set(skillId, track);
+    for (const key of Object.keys(d)) {
+      if (!SKILL_FIELDS.includes(key)) problem(`unknown skill field "${key}"`);
     }
     if (d.summary !== undefined && !isStr(d.summary)) problem('bad summary');
     if (d.outline !== undefined && !isStrList(d.outline)) problem('bad outline');
