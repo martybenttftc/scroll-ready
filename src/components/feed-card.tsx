@@ -155,7 +155,7 @@ export function FeedCard({
             ))}
           </View>
         )}
-        {/* The card type stays off screen, where the buttons already show it, but screen readers hear it. */}
+        {/* The card type is for screen readers only. Sighted users get it from the layout. */}
         <Text
           style={styles.trackLabel}
           numberOfLines={1}
