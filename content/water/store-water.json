@@ -1,0 +1,274 @@
+{
+  "title": "Store water",
+  "summary": "How much to keep, what to keep it in, and when to swap it out.",
+  "cards": [
+    {
+      "id": "gallon-per-person-per-day",
+      "type": "tip",
+      "headline": "Store one gallon per person per day",
+      "body": "Keep at least a 3-day supply ready to grab, and aim for 2 weeks at home. That covers drinking plus basic cooking and cleaning.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "American Red Cross: Survival kit supplies",
+          "url": "https://www.redcross.org/get-help/how-to-prepare-for-emergencies/survival-kit-supplies.html"
+        },
+        {
+          "title": "CDC: How to create and store an emergency water supply",
+          "url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        },
+        {
+          "title": "Utah Department of Health and Human Services: Emergency water safety",
+          "url": "https://dhhs.utah.gov/wp-content/uploads/Emergency-Water-Safety-Flyer.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "who-needs-more-water",
+      "type": "tip",
+      "headline": "Some people need more than a gallon",
+      "body": "Children, nursing mothers, and people who are sick need more. Very hot weather can double how much anyone needs, so store extra if you live somewhere hot.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "American Red Cross: Survival kit supplies",
+          "url": "https://www.redcross.org/get-help/how-to-prepare-for-emergencies/survival-kit-supplies.html"
+        },
+        {
+          "title": "University of Georgia Extension: Preparing an emergency food supply, storing water supplies",
+          "url": "https://www.fcs.uga.edu/extension/preparing-an-emergency-food-supply-storing-water-supplies"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        },
+        {
+          "title": "CDC: How to create and store an emergency water supply",
+          "url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    },
+    {
+      "id": "store-bought-water-best",
+      "type": "tip",
+      "headline": "Sealed store-bought water is the easiest supply",
+      "body": "Commercially bottled water is the safest choice. Keep it sealed in its original container until you need it, and watch the use-by date.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "CDC: How to create and store an emergency water supply",
+          "url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html"
+        },
+        {
+          "title": "Utah Department of Health and Human Services: Emergency water safety",
+          "url": "https://dhhs.utah.gov/wp-content/uploads/Emergency-Water-Safety-Flyer.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "container-choice",
+      "type": "myth",
+      "headline": "Any old plastic jug works for storing water",
+      "body": "Use food-grade water containers or clean 2-liter soda bottles. Skip milk and juice jugs, because leftover protein and sugar grow bacteria. Skip glass, which is heavy and breaks.",
+      "verdict": "myth",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "CDC: How to create and store an emergency water supply",
+          "url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Water: Preparing water for use in an emergency",
+          "url": "https://water.unl.edu/article/drinking-water-wells/preparing-water-use-emergency/"
+        },
+        {
+          "title": "Oregon State University Extension: Soda bottles for emergency water storage?",
+          "url": "https://extension.oregonstate.edu/ask-extension/featured/soda-bottles-emergency-water-storage"
+        },
+        {
+          "title": "Utah State University Extension: Water storage and emergency use",
+          "url": "https://extension.usu.edu/preparedness/files/uploads/Water_Storage2.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "sanitize-water-bottles",
+      "type": "step",
+      "headline": "Wash and sanitize bottles before filling them",
+      "body": "Wash with dish soap and rinse well. Swish a mix of 1 teaspoon unscented bleach per quart of water over every surface, then rinse it out with clean water.",
+      "difficulty": 1,
+      "riskTier": "caution",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "CDC: How to create and store an emergency water supply",
+          "url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Water: Preparing water for use in an emergency",
+          "url": "https://water.unl.edu/article/drinking-water-wells/preparing-water-use-emergency/"
+        },
+        {
+          "title": "Oregon State University Extension: Soda bottles for emergency water storage?",
+          "url": "https://extension.oregonstate.edu/ask-extension/featured/soda-bottles-emergency-water-storage"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "stepOrder": 1,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "fill-water-bottles",
+      "type": "step",
+      "headline": "Fill to the top with tap water",
+      "body": "City tap water treated with chlorine needs nothing added. Well water or untreated water gets 2 drops of unscented bleach per 2-liter bottle. Cap it without touching the inside of the cap.",
+      "difficulty": 1,
+      "riskTier": "caution",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "Utah State University Extension: Water storage and emergency use",
+          "url": "https://extension.usu.edu/preparedness/files/uploads/Water_Storage2.pdf"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Water: Preparing water for use in an emergency",
+          "url": "https://water.unl.edu/article/drinking-water-wells/preparing-water-use-emergency/"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "stepOrder": 2,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1"
+    },
+    {
+      "id": "label-and-rotate-water",
+      "type": "step",
+      "headline": "Date it, store it dark, swap it every 6 months",
+      "body": "Write the fill date on each bottle. Keep them somewhere cool and dark. Replace home-filled water every 6 months. Store-bought water follows its use-by date.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "CDC: How to create and store an emergency water supply",
+          "url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Water: Preparing water for use in an emergency",
+          "url": "https://water.unl.edu/article/drinking-water-wells/preparing-water-use-emergency/"
+        },
+        {
+          "title": "Utah Department of Health and Human Services: Emergency water safety",
+          "url": "https://dhhs.utah.gov/wp-content/uploads/Emergency-Water-Safety-Flyer.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "stepOrder": 3,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "water-container-quiz",
+      "type": "quiz",
+      "headline": "Which container should you NOT use for water?",
+      "body": "One of these holds onto residue that grows bacteria.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "Utah State University Extension: Water storage and emergency use",
+          "url": "https://extension.usu.edu/preparedness/files/uploads/Water_Storage2.pdf"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Water: Preparing water for use in an emergency",
+          "url": "https://water.unl.edu/article/drinking-water-wells/preparing-water-use-emergency/"
+        },
+        {
+          "title": "Oregon State University Extension: Soda bottles for emergency water storage?",
+          "url": "https://extension.oregonstate.edu/ask-extension/featured/soda-bottles-emergency-water-storage"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "quiz": {
+        "choices": [
+          "Clean 2-liter soda bottle",
+          "Old milk jug",
+          "Food-grade water jug"
+        ],
+        "answerIndex": 1
+      },
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    }
+  ]
+}

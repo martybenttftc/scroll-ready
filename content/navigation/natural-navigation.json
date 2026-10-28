@@ -4,8 +4,9 @@
     {
       "id": "moss-north-myth",
       "type": "myth",
-      "headline": "Moss grows on the north side? Unreliable.",
+      "headline": "Moss grows on the north side of trees",
       "body": "Moss grows wherever it is shady and damp, which can be any side. Use the sun, a watch, or the stars instead.",
+      "verdict": "myth",
       "difficulty": 1,
       "riskTier": "standard",
       "sources": [

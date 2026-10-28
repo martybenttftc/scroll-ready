@@ -1,22 +1,360 @@
 {
   "title": "Purify water",
+  "summary": "Make water of unknown quality safe to drink by boiling or with household bleach.",
+  "outline": [
+    "Distillation for salt or chemical water [step]",
+    "Filters versus purifiers [tip]"
+  ],
   "cards": [
     {
-      "id": "boil-water",
-      "type": "step",
-      "headline": "Boil water to make it safe",
-      "body": "Bring clear water to a rolling boil for 1 minute. Above 6,500 feet, boil for 3 minutes. Let it cool before drinking.",
+      "id": "unknown-water-treat-it",
+      "type": "myth",
+      "headline": "Clear stream water can still make you sick",
+      "body": "Water from lakes, ponds, springs, and streams can carry germs you can't see. Treat any water you aren't sure about before drinking it, cooking with it, or brushing your teeth.",
+      "verdict": "myth",
       "difficulty": 1,
-      "riskTier": "caution",
+      "riskTier": "expert",
       "sources": [
         {
-          "title": "CDC: Making water safe in an emergency",
-          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "National Park Service: Backcountry health (clean drinking water)",
+          "url": "https://www.nps.gov/subjects/healthandsafety/backcountry-health.htm"
+        },
+        {
+          "title": "University of Georgia Extension: Preparing an emergency food supply, storing water supplies",
+          "url": "https://www.fcs.uga.edu/extension/preparing-an-emergency-food-supply-storing-water-supplies"
         }
       ],
       "isFree": true,
       "offlineCore": true,
-      "draftedBy": "starter seed (Oct 27, 2026)"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "settle-and-strain-first",
+      "type": "step",
+      "headline": "Cloudy water? Let it settle, then strain it",
+      "body": "Let dirt sink to the bottom, then pour the clearer water through a clean cloth, paper towel, or coffee filter. This only clears it. You still have to boil or disinfect it.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "CDC: How to make water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "National Park Service: Backcountry health (clean drinking water)",
+          "url": "https://www.nps.gov/subjects/healthandsafety/backcountry-health.htm"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "stepOrder": 1,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "boil-water",
+      "type": "step",
+      "headline": "Boil water to make it safe",
+      "body": "Bring clear water to a rolling boil for at least 1 minute. Above 5,000 feet, boil for 3 minutes. Let it cool before drinking.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "CDC: Making water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "National Park Service: Backcountry health (clean drinking water)",
+          "url": "https://www.nps.gov/subjects/healthandsafety/backcountry-health.htm"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Extension G1494: Drinking water treatment, emergency procedures",
+          "url": "https://extensionpubs.unl.edu/publication/g1494/2026/pdf/view/g1494-2026.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "stepOrder": 2,
+      "deeper": "Boiling kills the bacteria, viruses, and parasites that cause most waterborne illness. Agencies differ on where high altitude starts: EPA says above 5,000 feet, CDC says above 6,500 feet. Using 3 minutes above 5,000 feet covers both. Boiling does not remove chemicals, salts, or heavy metals.",
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
+    },
+    {
+      "id": "bleach-drops-per-gallon",
+      "type": "step",
+      "headline": "No way to boil? Use plain bleach",
+      "body": "Add 8 drops of plain, unscented 6% bleach per gallon. Double it if the water is cloudy, colored, or very cold. Stir and wait at least 30 minutes before drinking.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "CDC: How to make water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "National Park Service: Backcountry health (clean drinking water)",
+          "url": "https://www.nps.gov/subjects/healthandsafety/backcountry-health.htm"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Extension G1494: Drinking water treatment, emergency procedures",
+          "url": "https://extensionpubs.unl.edu/publication/g1494/2026/pdf/view/g1494-2026.pdf"
+        },
+        {
+          "title": "Texas A&M AgriLife Extension ER-002: Disinfecting water after a disaster",
+          "url": "https://twon.tamu.edu/wp-content/uploads/sites/3/2021/06/disinfecting-water-after-a-disaster-1-2.pdf"
+        },
+        {
+          "title": "ATP 3-50.21 Survival, ch. 3: Water",
+          "url": "https://archive.org/download/survival-atp-3-50-21/Survival%20%28ATP%203-50-21%29.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": true,
+      "stepOrder": 3,
+      "mistakes": [
+        "Using scented, color-safe, or cleaner-added bleach",
+        "Drinking before the 30 minutes are up",
+        "Using a bottle that has sat open for over a year"
+      ],
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    },
+    {
+      "id": "bleach-smell-check",
+      "type": "tip",
+      "headline": "Treated water should smell faintly of chlorine",
+      "body": "After 30 minutes, the water should smell slightly of chlorine. If it doesn't, add the same dose again and wait 15 more minutes. Too strong? Pour it between clean containers.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Extension G1494: Drinking water treatment, emergency procedures",
+          "url": "https://extensionpubs.unl.edu/publication/g1494/2026/pdf/view/g1494-2026.pdf"
+        },
+        {
+          "title": "Texas A&M AgriLife Extension ER-002: Disinfecting water after a disaster",
+          "url": "https://twon.tamu.edu/wp-content/uploads/sites/3/2021/06/disinfecting-water-after-a-disaster-1-2.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    },
+    {
+      "id": "bleach-which-kind",
+      "type": "tip",
+      "headline": "Only plain, unscented bleach can treat water",
+      "body": "Check the label for sodium hypochlorite and a disinfection use. Skip scented and color-safe bleach, and bleach with added cleaners. Fresh bottles work best because bleach weakens over time.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "CDC: How to make water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Extension G1494: Drinking water treatment, emergency procedures",
+          "url": "https://extensionpubs.unl.edu/publication/g1494/2026/pdf/view/g1494-2026.pdf"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "iodine-drops-per-quart",
+      "type": "tip",
+      "headline": "Iodine is a backup, not a first choice",
+      "body": "Boil or use bleach first. If iodine is all you have, add 5 drops of 2% tincture per quart, 10 if cloudy, and wait 30 minutes. Skip it if pregnant or with thyroid problems.",
+      "difficulty": 2,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FM 21-76 / MCRP 3-02F Survival, ch. 6: Water procurement",
+          "url": "https://archive.org/download/milmanual-mcrp-3-02f-fm-21-76-survival/mcrp_3-02f_fm_21-76_survival.pdf"
+        },
+        {
+          "title": "CDC: How to make water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Extension G1494: Drinking water treatment, emergency procedures",
+          "url": "https://extensionpubs.unl.edu/publication/g1494/2026/pdf/view/g1494-2026.pdf"
+        },
+        {
+          "title": "Texas A&M AgriLife Extension ER-002: Disinfecting water after a disaster",
+          "url": "https://twon.tamu.edu/wp-content/uploads/sites/3/2021/06/disinfecting-water-after-a-disaster-1-2.pdf"
+        }
+      ],
+      "isFree": false,
+      "offlineCore": false,
+      "draftedBy": "content-safety, 2026-10-28 batch water-1 (rewrite)"
+    },
+    {
+      "id": "boiling-limits",
+      "type": "tip",
+      "headline": "Boiling kills germs but not chemicals",
+      "body": "Boiling and bleach kill most germs. They don't remove fuel, salts, heavy metals, or most chemicals. If you think water has fuel or chemicals in it, find another source.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "CDC: How to make water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "Washington State Department of Health 331-115: Treating drinking water for emergency use",
+          "url": "https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/331-115.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
+    },
+    {
+      "id": "flat-water-fix",
+      "type": "tip",
+      "headline": "Boiled water tastes flat. Pour it back and forth.",
+      "body": "Pour boiled, cooled water between two clean containers a few times to put air back in.",
+      "difficulty": 1,
+      "riskTier": "standard",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "CDC: How to make water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Extension G1494: Drinking water treatment, emergency procedures",
+          "url": "https://extensionpubs.unl.edu/publication/g1494/2026/pdf/view/g1494-2026.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
+    },
+    {
+      "id": "bleach-wait-quiz",
+      "type": "quiz",
+      "headline": "After adding bleach, how long before you drink?",
+      "body": "Bleach needs time to work on germs.",
+      "difficulty": 1,
+      "riskTier": "expert",
+      "sources": [
+        {
+          "title": "EPA: Emergency disinfection of drinking water",
+          "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water"
+        },
+        {
+          "title": "FEMA, Are You Ready? (IS-22), sections 1.3 and 1.4: Water",
+          "url": "https://bready.sd.gov/bReady/areyouready_full.pdf"
+        },
+        {
+          "title": "CDC: How to make water safe in an emergency",
+          "url": "https://www.cdc.gov/water-emergency/about/index.html"
+        },
+        {
+          "title": "National Park Service: Backcountry health (clean drinking water)",
+          "url": "https://www.nps.gov/subjects/healthandsafety/backcountry-health.htm"
+        },
+        {
+          "title": "University of Nebraska-Lincoln Extension G1494: Drinking water treatment, emergency procedures",
+          "url": "https://extensionpubs.unl.edu/publication/g1494/2026/pdf/view/g1494-2026.pdf"
+        }
+      ],
+      "isFree": true,
+      "offlineCore": false,
+      "quiz": {
+        "choices": [
+          "5 minutes",
+          "30 minutes",
+          "4 hours"
+        ],
+        "answerIndex": 1
+      },
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
+      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
+      "verifiedOn": "2026-10-28"
     }
   ]
 }

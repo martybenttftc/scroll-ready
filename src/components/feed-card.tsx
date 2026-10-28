@@ -208,7 +208,13 @@ export function FeedCard({
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
             ) : prompt ? (
-              <Animated.View entering={enter}>
+              <Animated.View entering={enter} style={styles.revealed}>
+                {/* Only standard myth headlines are bare claims, so only they need the answer spelled out. */}
+                {card.verdict && card.riskTier === 'standard' && (
+                  <Text style={[styles.label, { color: card.verdict === 'fact' ? Palette.sage : Palette.blaze }]}>
+                    {card.verdict === 'fact' ? 'Fact' : 'Myth'}
+                  </Text>
+                )}
                 <Text style={styles.body}>{card.body}</Text>
               </Animated.View>
             ) : (
@@ -427,6 +433,9 @@ const styles = StyleSheet.create({
   choiceMark: {
     fontFamily: Type.bodyBold,
     fontSize: 13,
+  },
+  revealed: {
+    gap: Spacing.two,
   },
   verdictBox: {
     gap: Spacing.two,

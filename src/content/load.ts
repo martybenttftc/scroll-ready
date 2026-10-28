@@ -91,6 +91,10 @@ function parseCard(v: unknown, track: TrackId, skill: string, problem: (msg: str
     if (!Array.isArray(v.seasons) || !v.seasons.every((s) => isOneOf(SEASONS, s))) return bad('seasons');
     card.seasons = v.seasons;
   }
+  if (v.verdict !== undefined) {
+    if (v.verdict !== 'myth' && v.verdict !== 'fact') return bad('verdict');
+    card.verdict = v.verdict;
+  }
   if (v.quiz !== undefined) {
     const q = v.quiz;
     if (!isObj(q) || !isStrList(q.choices) || typeof q.answerIndex !== 'number') return bad('quiz');
