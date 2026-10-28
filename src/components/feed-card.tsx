@@ -78,12 +78,17 @@ export function FeedCard({
   const [focusBody, setFocusBody] = useState(false);
   useEffect(() => {
     if (!focusBody || !revealed) return;
+    // Swiped away before the timer fired: drop the focus move rather than pull focus back.
+    if (!active) {
+      setFocusBody(false);
+      return;
+    }
     const timer = setTimeout(() => {
       setFocusBody(false);
       if (Platform.OS !== 'web' && bodyRef.current) AccessibilityInfo.sendAccessibilityEvent(bodyRef.current, 'focus');
     }, reduceMotion ? 0 : Motion.reveal + 50);
     return () => clearTimeout(timer);
-  }, [focusBody, revealed, reduceMotion]);
+  }, [focusBody, revealed, reduceMotion, active]);
 
   const trackTitle = tracks.find((t) => t.id === card.track)?.title ?? card.track;
   const skill = skills.find((s) => s.id === card.skill);
@@ -98,9 +103,10 @@ export function FeedCard({
     card.quiz ??
     (mythGuess ? { choices: ['Myth', 'Fact'], answerIndex: card.verdict === 'myth' ? 0 : 1 } : undefined);
   // Caution and expert myths state the safe answer, so don't call them "Myth or fact".
-  // Step cards already announce their position in the progress segments.
+  // Step cards in multi-card skills already announce their position in the progress segments.
+  const showSegments = skill !== undefined && step > 0 && skill.cardIds.length > 1;
   const cardTypeLabel =
-    (card.type === 'myth' && !mythGuess) || card.type === 'step' ? undefined : typeLabel[card.type];
+    (card.type === 'myth' && !mythGuess) || (card.type === 'step' && showSegments) ? undefined : typeLabel[card.type];
   const prompt = quiz || card.riskTier === 'expert' ? undefined : revealPrompt[card.type];
   const answer = quiz ? (mythGuess ? `a ${card.verdict}` : quiz.choices[quiz.answerIndex]) : '';
   const bodyHidden = (quiz && picked === null) || (prompt !== undefined && !revealed);
@@ -134,7 +140,7 @@ export function FeedCard({
         },
       ]}>
       <View style={styles.top}>
-        {skill && step > 0 && skill.cardIds.length > 1 && (
+        {showSegments && (
           <View
             style={styles.segments}
             accessible
