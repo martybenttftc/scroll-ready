@@ -162,8 +162,8 @@ export function FeedCard({
         </Text>
       </View>
 
-      {/* Media takes only the space the text leaves, so it never pushes the 911 button,
-          gear, or sources off the page. */}
+      {/* Media takes only the space the text leaves, so it never pushes the answer, gear links,
+          or sources off the page. */}
       {card.media && <CardMedia media={card.media} active={active} />}
 
       <View style={styles.bottom}>
