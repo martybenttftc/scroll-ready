@@ -82,7 +82,7 @@
       "id": "boil-water",
       "type": "step",
       "headline": "Boil water to make it safe",
-      "body": "Bring clear water to a rolling boil for at least 1 minute. At high altitude, boil for 3 minutes. Let it cool before drinking.",
+      "body": "Bring clear water to a rolling boil for at least 1 minute. Above 5,000 feet, boil for 3 minutes. Let it cool before drinking.",
       "difficulty": 1,
       "riskTier": "expert",
       "sources": [
@@ -110,10 +110,8 @@
       "isFree": true,
       "offlineCore": true,
       "stepOrder": 2,
-      "deeper": "Boiling kills the bacteria, viruses, and parasites that cause most waterborne illness. Agencies differ on where high altitude starts: EPA says above 5,000 feet, CDC says above 6,500 feet. Using 3 minutes anywhere in the mountains covers both. Boiling does not remove chemicals, salts, or heavy metals.",
-      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
-      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
-      "verifiedOn": "2026-10-28"
+      "deeper": "Boiling kills the bacteria, viruses, and parasites that cause most waterborne illness. Agencies differ on where high altitude starts: EPA says above 5,000 feet, CDC says above 6,500 feet. Using 3 minutes above 5,000 feet covers both. Boiling does not remove chemicals, salts, or heavy metals.",
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "bleach-drops-per-gallon",

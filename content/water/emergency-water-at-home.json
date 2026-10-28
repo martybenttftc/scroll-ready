@@ -6,7 +6,7 @@
       "id": "hidden-water-at-home",
       "type": "scenario",
       "headline": "The taps are dry. Where is safe water hiding?",
-      "body": "Your water heater tank, the water still in your pipes, melted ice cubes, and the liquid in canned fruit and vegetables are all usable sources.",
+      "body": "If your tap water was safe before it stopped, your water heater tank (not a heating boiler), the water in your pipes, melted ice cubes, and liquid from canned fruit and vegetables are usable.",
       "difficulty": 1,
       "riskTier": "caution",
       "sources": [
@@ -29,9 +29,7 @@
       ],
       "isFree": true,
       "offlineCore": true,
-      "draftedBy": "card-drafter, 2026-10-28 batch water-1",
-      "verifiedBy": "content-safety, 2026-10-28 batch water-1",
-      "verifiedOn": "2026-10-28"
+      "draftedBy": "card-drafter, 2026-10-28 batch water-1 (review fix)"
     },
     {
       "id": "drain-water-heater",
