@@ -5,6 +5,7 @@ A TikTok-style vertical feed that teaches survival, preparedness, gardening, and
 Read these before working:
 - `AGENTS.md`: Expo SDK rules and commands. Always check the versioned Expo docs; don't rely on memory.
 - `docs/PRODUCT.md`: what we're building and the MVP scope.
+- `docs/LAUNCH.md` and `docs/BACKLOG.md`: the path to the App Store and the prioritized work.
 - `docs/PROCESS.md`: how the agent team works (roles, stand-ups, debates, reviews).
 - `docs/CONTENT.md`: how to write, source, and verify cards. Use `/card-batch <track>` to produce a batch.
 - `docs/decisions/`: architecture decisions. Follow them unless you write a new ADR that supersedes one.
