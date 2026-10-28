@@ -119,8 +119,9 @@ export type Media = {
   sourceUrl: string; // the page that states the license
   aiGenerated?: boolean; // never on caution or expert cards
   // Who checked that it shows what the card says and that the license holds. Must differ from
-  // the card's draftedBy, and a card with unchecked media can't ship. Swapping media clears it.
+  // the card's draftedBy, and a card with unchecked media can't ship.
   verifiedBy?: string;
+  verifiedUrl?: string; // the url that was checked, so a swapped file blocks shipping on its own
 };
 
 export type Card = {
@@ -176,6 +177,7 @@ export function shipBlockers(card: Card): string[] {
   else if (card.verifiedBy === card.draftedBy) blockers.push('verified by its own drafter');
   if (card.media && !card.media.verifiedBy) blockers.push('media not verified');
   else if (card.media && card.media.verifiedBy === card.draftedBy) blockers.push('media verified by its drafter');
+  if (card.media && card.media.verifiedUrl !== card.media.url) blockers.push('media changed since verified');
   return blockers;
 }
 

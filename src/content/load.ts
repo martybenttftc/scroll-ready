@@ -43,7 +43,12 @@ function parseMedia(v: unknown): Media | null {
   if (v.poster !== undefined && (v.kind !== 'video' || !isHttps(v.poster))) return null;
   if (v.aiGenerated !== undefined && typeof v.aiGenerated !== 'boolean') return null;
   if (v.verifiedBy !== undefined && !isStr(v.verifiedBy)) return null;
-  const known = ['kind', 'url', 'alt', 'poster', 'license', 'credit', 'sourceUrl', 'aiGenerated', 'verifiedBy'];
+  if (v.verifiedUrl !== undefined && !isHttps(v.verifiedUrl)) return null;
+  // A video needs a still to show before it plays and on the cards around it.
+  if (v.kind === 'video' && v.poster === undefined) return null;
+  const known = [
+    'kind', 'url', 'alt', 'poster', 'license', 'credit', 'sourceUrl', 'aiGenerated', 'verifiedBy', 'verifiedUrl',
+  ];
   if (Object.keys(v).some((k) => !known.includes(k))) return null;
   return {
     kind: v.kind,
@@ -55,6 +60,7 @@ function parseMedia(v: unknown): Media | null {
     ...(isStr(v.poster) && { poster: v.poster }),
     ...(v.aiGenerated === true && { aiGenerated: true }),
     ...(isStr(v.verifiedBy) && { verifiedBy: v.verifiedBy }),
+    ...(isStr(v.verifiedUrl) && { verifiedUrl: v.verifiedUrl }),
   };
 }
 
